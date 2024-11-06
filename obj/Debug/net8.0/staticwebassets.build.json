@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "5nI4CdIawsS8JBVnKJ6rwB2dcvs29hp91gHucmdwIkk=",
+  "Source": "sushi_server",
+  "BasePath": "_content/sushi_server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

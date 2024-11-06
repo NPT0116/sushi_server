@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\sushi_server.props" />
+</Project>
