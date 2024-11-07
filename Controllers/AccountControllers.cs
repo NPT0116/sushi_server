@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using sushi_server.Data;
 using sushi_server.Dto.Account;
 using sushi_server.Interfaces;
 using sushi_server.Models;
@@ -16,11 +17,13 @@ namespace sushi_server.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
         private readonly SignInManager<AppUser> _signInManager;
-        public AccountControllers(UserManager <AppUser> userManager,  ITokenService tokenService, SignInManager<AppUser> signInManager)
+        private readonly ApplicationDbContext _dbContext ;
+        public AccountControllers(UserManager <AppUser> userManager,  ITokenService tokenService, SignInManager<AppUser> signInManager, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _tokenService = tokenService;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
 
@@ -33,33 +36,46 @@ namespace sushi_server.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                if (await _userManager.FindByEmailAsync(userRegisterDto.Email) != null)
+                {
+                    return BadRequest("Email has already taken");
+                }
+                // tạo user mới với email là username
                 var appUser = new AppUser
                 {
-                    UserName = userRegisterDto.UserName,
-
+                    UserName = userRegisterDto.Email,
+                    Email = userRegisterDto.Email,
                 };
-                var createdUser = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
-
-                if(createdUser.Succeeded)
+                var result = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
+                if (!result.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
-                    if(roleResult.Succeeded)
-                    {
-                        return Ok(new NewUserDto
-                        {
-                            UserName = appUser.UserName,
-                            Token = _tokenService.CreateToken(appUser)
-                        });
-                    }
-                    else
-                    {
-                        return StatusCode(500, roleResult.Errors);
-                    }
+                    return BadRequest(result.Errors);
                 }
-                else
+                // tạo customer mới
+                var newCustomer = new Customer{
+                    CustomerId = Guid.NewGuid(),
+                    Name = userRegisterDto.Name,
+                    DateOfBirth = userRegisterDto.DateOfBirth,
+                    Gender = userRegisterDto.Gender,
+                    CitizenId = userRegisterDto.CitizenId,
+                    Phone = userRegisterDto.Phone,
+                    Email = userRegisterDto.Email
+                };
+                appUser.CustomerId = newCustomer.CustomerId;
+                await  _dbContext.Customers.AddAsync(newCustomer);
+                await _dbContext.SaveChangesAsync();
+                var addRoleResult =  await _userManager.AddToRoleAsync(appUser, "User");
+                // check coi add role được chưa
+                if(!addRoleResult.Succeeded)
                 {
-                    return StatusCode(500, createdUser.Errors);
+                    return BadRequest(addRoleResult.Errors);
                 }
+                var token = _tokenService.CreateToken(appUser);
+                return Ok(new NewUserDto
+                {
+                   UserName = appUser.UserName,
+                   Token = token 
+                });
 
             }
             catch(Exception e){
