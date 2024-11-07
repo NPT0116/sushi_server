@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -48,8 +49,21 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 // Configure DBcontext 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>{
-    var connectionString = builder.Configuration.GetConnectionString("WindowsConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
+    string connectionString;
+
+    // Kiểm tra hệ điều hành
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+    {
+        // Sử dụng chuỗi kết nối dành cho Windows
+        connectionString = builder.Configuration.GetConnectionString("WindowsConnection");
+    }
+    else
+    {
+        // Sử dụng chuỗi kết nối dành cho Mac
+        connectionString = builder.Configuration.GetConnectionString("MacConnection");
+    }
+
     options.UseSqlServer(connectionString);
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
