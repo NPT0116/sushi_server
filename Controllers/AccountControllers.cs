@@ -1,3 +1,4 @@
+using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sushi_server.Data;
 using sushi_server.Dto.Account;
+using sushi_server.Helper;
 using sushi_server.Interfaces;
 using sushi_server.Models;
 
@@ -71,11 +73,12 @@ namespace sushi_server.Controllers
                     return BadRequest(addRoleResult.Errors);
                 }
                 var token = _tokenService.CreateToken(appUser);
-                return Ok(new NewUserDto
+                var newUserDto = new NewUserDto
                 {
                    UserName = appUser.UserName,
                    Token = token 
-                });
+                };
+                return Ok(new Helper.Response<NewUserDto>(newUserDto));
 
             }
             catch(Exception e){
@@ -100,12 +103,14 @@ namespace sushi_server.Controllers
             {
                 return Unauthorized("Username not found and/or password incorrect");
             }
-            return Ok(
+            
+            var newUserDto = 
                 new NewUserDto{
                     UserName = user.UserName,
                     Token = _tokenService.CreateToken(user)
-                }
-            );
+                };
+            return Ok(new Helper.Response<NewUserDto>(newUserDto, "Chúc mừng bạn đã đăng nhập thành công"));
+            
         }
         [HttpGet("test-authorize")]
         [Authorize]
