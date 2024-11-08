@@ -1,10 +1,13 @@
 using System;
+using sushi_server.Dto.Dish;
 
 namespace sushi_server.Helper;
 
  public class PagedResponse<T> : Response<T>
     {
-        public int PageNumber { get; set; }
+    private List<GetAllDishDto> dishDtoList;
+
+    public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public Uri FirstPage { get; set; }
         public Uri LastPage { get; set; }
@@ -22,4 +25,5 @@ namespace sushi_server.Helper;
             Errors = errors ?? [];
             Succeeded = succeeded ?? true;
         }
-    }
+
+}
