@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108140903_AddDishAndSection")]
+    partial class AddDishAndSection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6007636-8569-4d3a-bec7-ddb386de1a50",
+                            Id = "a0312133-5a86-46cb-b589-448f7f74f2fe",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1f0babb8-709b-4748-81b5-bbb882f3c2f7",
+                            Id = "d328656b-580e-4a2f-8ebe-cd978e542fd9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e935b6af-6203-49d1-9a8d-b908239de557",
+                            Id = "9417ca04-89eb-41a4-ab9c-30096214e787",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -286,7 +289,7 @@ namespace sushi_server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CurrentPrice")
+                    b.Property<int>("CurrentPric")
                         .HasColumnType("int");
 
                     b.Property<string>("DishName")

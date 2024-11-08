@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using sushi_server.Data;
 using sushi_server.Interfaces;
+using sushi_server.Mapper;
 using sushi_server.Models;
 using sushi_server.Services;
 
@@ -94,6 +95,7 @@ builder.Services.AddAuthentication(options =>{
     };
 });
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 

@@ -106,7 +106,7 @@ namespace sushi_server.Controllers
             
             var newUserDto = 
                 new NewUserDto{
-                    UserName = user.UserName,
+                    UserName = userLoginDto.UserName,
                     Token = _tokenService.CreateToken(user)
                 };
             return Ok(new Helper.Response<NewUserDto>(newUserDto, "Chúc mừng bạn đã đăng nhập thành công"));

@@ -13,7 +13,8 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
         
     }
     public DbSet<Customer>  Customers { get; set; }   
-
+    public DbSet<Section> Sections { get; set; }
+    public DbSet<Dish> Dishes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -32,5 +33,11 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
             }
         };
         builder.Entity<IdentityRole>().HasData(roles);
+
+        // SectionName unique
+        builder.Entity<Section>()
+        .HasIndex(s => s.SectionName)
+        .IsUnique();
+        
     }
 }
