@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109080814_BranchAndBranchDish")]
+    partial class BranchAndBranchDish
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9e9938d1-c78f-42fe-b6ea-f71ab813f728",
+                            Id = "7a4c8686-f411-4a4a-a1fd-1e4e55ae4530",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b0ee1b20-509a-4661-baa2-df421a596f87",
+                            Id = "580c0605-d836-419e-a088-9e517ab5c099",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a496f010-5123-422f-be16-93d54b142407",
+                            Id = "7f06f141-2bca-42d7-8d40-1189de6a4e83",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -245,79 +248,6 @@ namespace sushi_server.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("sushi_server.Models.Branch", b =>
-                {
-                    b.Property<Guid>("BranchId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("CarParking")
-                        .HasColumnType("bit");
-
-                    b.Property<TimeSpan>("ClosingTime")
-                        .HasColumnType("time");
-
-                    b.Property<Guid?>("ManagerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("MotorParking")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<TimeSpan>("OpeningTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Ship")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TotalTable")
-                        .HasColumnType("int");
-
-                    b.HasKey("BranchId");
-
-                    b.ToTable("Branches");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
-                {
-                    b.Property<Guid>("BranchDishId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DishId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("ShipStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("BranchDishId");
-
-                    b.HasIndex("BranchId");
-
-                    b.HasIndex("DishId");
-
-                    b.ToTable("BranchDishes");
-                });
-
             modelBuilder.Entity("sushi_server.Models.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
@@ -452,25 +382,6 @@ namespace sushi_server.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
-                {
-                    b.HasOne("sushi_server.Models.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sushi_server.Models.Dish", "Dish")
-                        .WithMany()
-                        .HasForeignKey("DishId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-
-                    b.Navigation("Dish");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Dish", b =>

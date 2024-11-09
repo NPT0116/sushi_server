@@ -15,6 +15,8 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
     public DbSet<Customer>  Customers { get; set; }   
     public DbSet<Section> Sections { get; set; }
     public DbSet<Dish> Dishes { get; set; }
+    public DbSet<Branch> Branches { get; set; }
+    public DbSet<BranchDish> BranchDishes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
