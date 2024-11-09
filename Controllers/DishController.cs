@@ -111,6 +111,26 @@ namespace sushi_server.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("available/branch:{BranchId}")]
+        public async Task<IActionResult> GetDishesAvailableWithBranchId([FromRoute] Guid BranchId)
+        {
+            try{
+                Console.WriteLine(BranchId);
+                var availableDishes = await _context.BranchDishes.Where(bd => bd.BranchId == BranchId && bd.Status == true).Select(bd => bd.Dish).ToListAsync();
+                if (availableDishes.Count == 0)
+                {
+                    return BadRequest("No available dishes to this branch");
+                }
+                Console.WriteLine(availableDishes.Count);
+
+                var availableDishesDto = _mapper.Map<List<AvailableDishesInBranchDto>>(availableDishes);
+                return Ok (new Helper.Response<List<AvailableDishesInBranchDto>> (availableDishesDto));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
     }
 }
