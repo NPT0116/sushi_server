@@ -1,0 +1,532 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ntn21\\Desktop\\sushi_server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\ranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\ranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\section.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\section.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\tabledetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\tabledetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\enum\\invoicestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\enum\\invoicestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\enum\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\enum\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\enum\\reservationstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\enum\\reservationstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\enum\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\enum\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\enum\\tablestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\enum\\tablestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\helper\\pageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:helper\\pageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\filters\\dishfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:filters\\dishfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\branchdish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\branchdish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\helper\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:helper\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\dto\\account\\newuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:dto\\account\\newuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\dto\\account\\userregisterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:dto\\account\\userregisterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\dto\\account\\userlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:dto\\account\\userlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\branch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\models\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:models\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|c:\\users\\ntn21\\desktop\\sushi_server\\controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{46671294-D7B5-4E68-BC99-0703B5906FAE}|sushi_server.csproj|solutionrelative:controllers\\accountcontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "Models\\Order.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Order.cs",
+              "RelativeToolTip": "Models\\Order.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:06:43.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dish.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Dish.cs",
+              "RelativeDocumentMoniker": "Models\\Dish.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Dish.cs",
+              "RelativeToolTip": "Models\\Dish.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAswBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:55:22.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Employee.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Employee.cs",
+              "RelativeDocumentMoniker": "Models\\Employee.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Employee.cs",
+              "RelativeToolTip": "Models\\Employee.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:58:46.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Invoice.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Invoice.cs",
+              "RelativeDocumentMoniker": "Models\\Invoice.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Invoice.cs",
+              "RelativeToolTip": "Models\\Invoice.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:07:44.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TableDetail.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\TableDetail.cs",
+              "RelativeDocumentMoniker": "Models\\TableDetail.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\TableDetail.cs",
+              "RelativeToolTip": "Models\\TableDetail.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:17:58.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Section.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Section.cs",
+              "RelativeDocumentMoniker": "Models\\Section.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Section.cs",
+              "RelativeToolTip": "Models\\Section.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:55:21.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Reservation.cs",
+              "RelativeDocumentMoniker": "Models\\Reservation.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Reservation.cs",
+              "RelativeToolTip": "Models\\Reservation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:06:56.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ranking.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Ranking.cs",
+              "RelativeDocumentMoniker": "Models\\Ranking.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Ranking.cs",
+              "RelativeToolTip": "Models\\Ranking.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:15:53.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Customer.cs",
+              "RelativeToolTip": "Models\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:55:18.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Card.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Card.cs",
+              "RelativeDocumentMoniker": "Models\\Card.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Card.cs",
+              "RelativeToolTip": "Models\\Card.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:13:44.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InvoiceStatus.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\InvoiceStatus.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\InvoiceStatus.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\InvoiceStatus.cs",
+              "RelativeToolTip": "Models\\Enum\\InvoiceStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:24:31.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OrderStatus.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\OrderStatus.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\OrderStatus.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\OrderStatus.cs",
+              "RelativeToolTip": "Models\\Enum\\OrderStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:23:30.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ReservationStatus.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\ReservationStatus.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\ReservationStatus.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\ReservationStatus.cs",
+              "RelativeToolTip": "Models\\Enum\\ReservationStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:22:18.4Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Gender.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\Gender.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\Gender.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\Gender.cs",
+              "RelativeToolTip": "Models\\Enum\\Gender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:38:30.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "TableStatus.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\TableStatus.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\TableStatus.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Enum\\TableStatus.cs",
+              "RelativeToolTip": "Models\\Enum\\TableStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T09:20:03.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DishFilter.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Filters\\DishFilter.cs",
+              "RelativeDocumentMoniker": "Filters\\DishFilter.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Filters\\DishFilter.cs",
+              "RelativeToolTip": "Filters\\DishFilter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T17:11:56.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Interfaces\\ITokenService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\ITokenService.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Interfaces\\ITokenService.cs",
+              "RelativeToolTip": "Interfaces\\ITokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:37:54.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "BranchDish.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\BranchDish.cs",
+              "RelativeDocumentMoniker": "Models\\BranchDish.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\BranchDish.cs",
+              "RelativeToolTip": "Models\\BranchDish.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:55:17.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PageResponse.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Helper\\PageResponse.cs",
+              "RelativeDocumentMoniker": "Helper\\PageResponse.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Helper\\PageResponse.cs",
+              "RelativeToolTip": "Helper\\PageResponse.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:37:58.182Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAEAAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:51:47.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Response.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Helper\\Response.cs",
+              "RelativeDocumentMoniker": "Helper\\Response.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Helper\\Response.cs",
+              "RelativeToolTip": "Helper\\Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:38:10.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Mapper\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "Mapper\\MappingProfile.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Mapper\\MappingProfile.cs",
+              "RelativeToolTip": "Mapper\\MappingProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-11T08:37:46.173Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "NewUserDto.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\NewUserDto.cs",
+              "RelativeDocumentMoniker": "Dto\\Account\\NewUserDto.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\NewUserDto.cs",
+              "RelativeToolTip": "Dto\\Account\\NewUserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T17:12:06.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T17:11:45.855Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-10T16:56:07.637Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "UserRegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\UserRegisterDto.cs",
+              "RelativeDocumentMoniker": "Dto\\Account\\UserRegisterDto.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\UserRegisterDto.cs",
+              "RelativeToolTip": "Dto\\Account\\UserRegisterDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T17:12:09.822Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-10T16:56:12.787Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "UserLoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\UserLoginDto.cs",
+              "RelativeDocumentMoniker": "Dto\\Account\\UserLoginDto.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Dto\\Account\\UserLoginDto.cs",
+              "RelativeToolTip": "Dto\\Account\\UserLoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T17:12:08.15Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Branch.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Branch.cs",
+              "RelativeDocumentMoniker": "Models\\Branch.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\Branch.cs",
+              "RelativeToolTip": "Models\\Branch.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:54:56.781Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\AppUser.cs",
+              "RelativeDocumentMoniker": "Models\\AppUser.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Models\\AppUser.cs",
+              "RelativeToolTip": "Models\\AppUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:54:51.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "AccountControllers.cs",
+              "DocumentMoniker": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Controllers\\AccountControllers.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountControllers.cs",
+              "ToolTip": "C:\\Users\\ntn21\\Desktop\\sushi_server\\Controllers\\AccountControllers.cs",
+              "RelativeToolTip": "Controllers\\AccountControllers.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T16:53:36.598Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
