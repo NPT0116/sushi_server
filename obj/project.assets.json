@@ -4730,19 +4730,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\ntn21\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
+      "projectUniqueName": "C:\\Users\\ntn21\\Desktop\\sushi_server\\sushi_server.csproj",
       "projectName": "sushi_server",
-      "projectPath": "c:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Admin\\Desktop\\sushi_server\\obj\\",
+      "projectPath": "C:\\Users\\ntn21\\Desktop\\sushi_server\\sushi_server.csproj",
+      "packagesPath": "C:\\Users\\ntn21\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ntn21\\Desktop\\sushi_server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ntn21\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4838,7 +4838,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
