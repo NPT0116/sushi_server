@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj": {}
+    "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj": {}
   },
   "projects": {
-    "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj": {
+    "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
+        "projectUniqueName": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
         "projectName": "sushi_server",
-        "projectPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
+        "projectPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
         "packagesPath": "/Users/npt/.nuget/packages/",
-        "outputPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/",
+        "outputPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/npt/.nuget/NuGet/NuGet.Config"

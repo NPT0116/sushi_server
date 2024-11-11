@@ -16,7 +16,7 @@ INSERT INTO Sections (SectionId, SectionName) VALUES ('C3F5D7B4-8F44-4BB0-ABC8-6
 INSERT INTO Sections (SectionId, SectionName) VALUES ('B2A4D6E1-1F54-4A22-9E77-789ABCDEF012', 'Kids Menu');
 
 
-go
+go;
 -- add dishes after
 
 -- Adding 50 random dishes
