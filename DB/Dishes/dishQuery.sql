@@ -62,7 +62,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT d.DishName, d.CurrentPrice, SectionId from Dishes d where SectionId = @SectionId
+	SELECT d.DishId,d.DishName, d.CurrentPrice, SectionId from Dishes d where SectionId = @SectionId
 	Order by d.DishName
 END
 

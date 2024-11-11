@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110082916_tableDetail")]
+    partial class tableDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0dda79cd-6b23-4be3-9522-bdda21965433",
+                            Id = "fd0448de-ac4c-4ac2-ac24-508fb30736b0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "72810a97-9e9f-44a3-9562-169c742dd4f6",
+                            Id = "5133e80b-fde6-4dcd-bcaf-d22600b825c9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7538076f-c72b-48ea-b091-78f86aadd9d3",
+                            Id = "702d2f8a-a71f-4677-88af-23bd5a9edcb9",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });

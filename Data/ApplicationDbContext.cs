@@ -16,6 +16,7 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
     public DbSet<Section> Sections { get; set; }
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Branch> Branches { get; set; }
+    public DbSet<TableDetail> TableDetail { get; set; }
     public DbSet<BranchDish> BranchDishes { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -40,6 +41,8 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
         builder.Entity<Section>()
         .HasIndex(s => s.SectionName)
         .IsUnique();
-        
+         builder.Entity<TableDetail>()
+                .HasIndex(t => new { t.BranchId, t.TableNumber })
+                .IsUnique(); // Tạo index duy nhất trên BranchId và
     }
 }
