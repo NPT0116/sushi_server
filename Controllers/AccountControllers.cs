@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -118,6 +119,33 @@ namespace sushi_server.Controllers
         {
             return Ok("You are authorized!");
         }
-
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetMeInformation()
+        {
+            try
+            {
+                var username = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                if( username == null) 
+                {
+                    return BadRequest("Invalid token");
+                }               
+                var user = await _userManager.Users.Include(u => u.Customer).FirstOrDefaultAsync(u => u.UserName == username);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                var UserMeDto = new UserMeDto {
+                    UserName = user.UserName,
+                    Name = user.Customer?.Name,
+                    Phone = user.Customer?.Phone
+                };
+                return Ok(new Helper.Response<UserMeDto>(UserMeDto));
+            }
+            catch(Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

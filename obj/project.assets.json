@@ -4735,11 +4735,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
       "projectName": "sushi_server",
-      "projectPath": "c:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Admin\\Desktop\\sushi_server\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\sushi_server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
