@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110083022_tableDetails")]
+    partial class tableDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9e9938d1-c78f-42fe-b6ea-f71ab813f728",
+                            Id = "0dda79cd-6b23-4be3-9522-bdda21965433",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b0ee1b20-509a-4661-baa2-df421a596f87",
+                            Id = "72810a97-9e9f-44a3-9562-169c742dd4f6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a496f010-5123-422f-be16-93d54b142407",
+                            Id = "7538076f-c72b-48ea-b091-78f86aadd9d3",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -394,6 +397,32 @@ namespace sushi_server.Migrations
                     b.ToTable("Sections");
                 });
 
+            modelBuilder.Entity("sushi_server.Models.TableDetail", b =>
+                {
+                    b.Property<Guid>("TableId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MaxPeople")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TableNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("TableId");
+
+                    b.HasIndex("BranchId", "TableNumber")
+                        .IsUnique();
+
+                    b.ToTable("TableDetail");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -482,6 +511,17 @@ namespace sushi_server.Migrations
                         .IsRequired();
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.TableDetail", b =>
+                {
+                    b.HasOne("sushi_server.Models.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Section", b =>

@@ -1,156 +1,11 @@
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/appsettings.Development.json
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/appsettings.json
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/sushi_server.exe
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/sushi_server.deps.json
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/sushi_server.runtimeconfig.json
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/sushi_server.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/sushi_server.pdb
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Azure.Core.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Azure.Identity.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Data.SqlClient.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.SqlServer.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Identity.Client.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.OpenApi.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Drawing.Common.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Memory.Data.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Runtime.Caching.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Security.Permissions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Windows.Extensions.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Data.SqlClient.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.csproj.AssemblyReference.cache
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.GeneratedMSBuildEditorConfig.editorconfig
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfoInputs.cache
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfo.cs
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.csproj.CoreCompileInputs.cache
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cs
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cache
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets.build.json
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets.development.json
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets/msbuild.sushi_server.Microsoft.AspNetCore.StaticWebAssets.props
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets/msbuild.build.sushi_server.props
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.sushi_server.props
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.sushi_server.props
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/staticwebassets.pack.json
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/scopedcss/bundle/sushi_server.styles.css
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_se.5563D22A.Up2Date
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.dll
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/refint/sushi_server.dll
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.pdb
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/sushi_server.genruntimeconfig.cache
-C:/Users/Admin/Desktop/sushi_server/obj/Debug/net8.0/ref/sushi_server.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Newtonsoft.Json.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Humanizer.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.CodeAnalysis.Workspaces.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Design.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Microsoft.Extensions.DependencyModel.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/Mono.TextTemplating.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.CodeDom.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Composition.AttributedModel.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Composition.Convention.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Composition.Hosting.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Composition.Runtime.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/System.Composition.TypedParts.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.csproj.AssemblyReference.cache
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.GeneratedMSBuildEditorConfig.editorconfig
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfoInputs.cache
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfo.cs
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.csproj.CoreCompileInputs.cache
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cs
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cache
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.sourcelink.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/appsettings.Development.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/appsettings.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/sushi_server
@@ -158,8 +13,11 @@ C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnaly
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/sushi_server.runtimeconfig.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/sushi_server.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/sushi_server.pdb
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/AutoMapper.dll
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Azure.Core.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Azure.Identity.dll
+/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Dapper.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Humanizer.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -283,14 +141,6 @@ C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnaly
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.csproj.AssemblyReference.cache
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.GeneratedMSBuildEditorConfig.editorconfig
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfoInputs.cache
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.AssemblyInfo.cs
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.csproj.CoreCompileInputs.cache
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cs
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cache
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.sourcelink.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/staticwebassets.build.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/staticwebassets.development.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/staticwebassets/msbuild.sushi_server.Microsoft.AspNetCore.StaticWebAssets.props
@@ -312,8 +162,11 @@ C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.deps.json
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.runtimeconfig.json
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.pdb
+C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Dapper.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Humanizer.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -459,163 +312,3 @@ C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\refint\sushi_server.dll
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.pdb
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.genruntimeconfig.cache
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\ref\sushi_server.dll
-C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\Dapper.dll
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.dll
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\refint\sushi_server.dll
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.pdb
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\appsettings.Development.json
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\appsettings.json
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.exe
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.deps.json
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.runtimeconfig.json
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\sushi_server.pdb
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Azure.Core.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Azure.Identity.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Dapper.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Humanizer.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Identity.Client.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.OpenApi.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Mono.TextTemplating.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Newtonsoft.Json.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.CodeDom.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Composition.AttributedModel.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Composition.Convention.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Composition.Hosting.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Composition.Runtime.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Composition.TypedParts.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Drawing.Common.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Memory.Data.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Runtime.Caching.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Security.Permissions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\System.Windows.Extensions.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\ntn21\Desktop\sushi_server\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.csproj.AssemblyReference.cache
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.AssemblyInfoInputs.cache
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.AssemblyInfo.cs
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.csproj.CoreCompileInputs.cache
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.sourcelink.json
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets\msbuild.sushi_server.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets\msbuild.build.sushi_server.props
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.sushi_server.props
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.sushi_server.props
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\scopedcss\bundle\sushi_server.styles.css
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_se.5563D22A.Up2Date
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.genruntimeconfig.cache
-C:\Users\ntn21\Desktop\sushi_server\obj\Debug\net8.0\ref\sushi_server.dll

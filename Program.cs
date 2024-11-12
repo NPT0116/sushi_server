@@ -51,21 +51,7 @@ builder.Services.AddSwaggerGen(option =>
 
 // Configure DBcontext 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
-    string connectionString;
-
-    // Kiểm tra hệ điều hành
-    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-    {
-        // Sử dụng chuỗi kết nối dành cho Windows
-        connectionString = builder.Configuration.GetConnectionString("WindowsConnection");
-    }
-    else
-    {
-        // Sử dụng chuỗi kết nối dành cho Mac
-        connectionString = builder.Configuration.GetConnectionString("MacConnection");
-    }
-
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -106,10 +92,14 @@ builder.Services.AddControllers().AddNewtonsoftJson(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction()) // Cho phép Swagger trong môi trường Production
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API V1");
+        c.RoutePrefix = string.Empty; // Để Swagger UI hiển thị tại root URL
+    });
 }
 
 app.UseHttpsRedirection();
