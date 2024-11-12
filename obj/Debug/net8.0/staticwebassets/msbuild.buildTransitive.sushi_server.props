@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 ﻿<Project>
   <Import Project="../buildMultiTargeting/sushi_server.props" />
+=======
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\sushi_server.props" />
+>>>>>>> b4c796232608dff0af0af66cbab4a3566c8fa410
 </Project>
