@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113161017_ranking")]
+    partial class ranking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "40c61aee-8179-49b6-b207-599d465f292a",
+                            Id = "cfbcde85-9a95-4b27-b1d4-19c640d99852",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "569f11a5-1136-4fea-b974-619d8aecf3af",
+                            Id = "ea3c3bae-cd36-4694-886e-0a404a110518",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "fae804d7-3b4a-443e-826a-bbdc4f19d14a",
+                            Id = "392fb7a8-a965-4233-b9d9-974d16d6ff6d",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -316,44 +319,6 @@ namespace sushi_server.Migrations
                     b.HasIndex("DishId");
 
                     b.ToTable("BranchDishes");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.Card", b =>
-                {
-                    b.Property<Guid>("CardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("AccumulatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("AccumulatedPoints")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("RankingId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Valid")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CardId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("RankingId");
-
-                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Customer", b =>
@@ -620,33 +585,6 @@ namespace sushi_server.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("Dish");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.Card", b =>
-                {
-                    b.HasOne("sushi_server.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sushi_server.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sushi_server.Models.Ranking", "Ranking")
-                        .WithMany()
-                        .HasForeignKey("RankingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Ranking");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Dish", b =>

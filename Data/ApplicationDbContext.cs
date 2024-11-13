@@ -20,6 +20,8 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
     public DbSet<BranchDish> BranchDishes { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Department> Departments { get; set; }
+    public DbSet<Ranking> Rankings { get; set; }
+    public DbSet<Card> Cards { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

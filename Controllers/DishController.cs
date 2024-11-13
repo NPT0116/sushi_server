@@ -37,26 +37,23 @@ namespace sushi_server.Controllers
                     parameters.Add("@MaxPrice", dishFilter.MaxPrice, DbType.Int32);
                     parameters.Add("@PageNumber", dishFilter.PageNumber, DbType.Int32);
                     parameters.Add("@PageSize", dishFilter.PageSize, DbType.Int32);
+                    parameters.Add("@TotalRecords", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                   var dishes = await connection.QueryAsync<Dish> (
                         "GetAllDishes",
                         parameters,
                         commandType: CommandType.StoredProcedure
                     );
-                    var totalRecords = await connection.ExecuteScalarAsync<int>(
-                        @"SELECT COUNT(1) 
-                        FROM Dishes 
-                        WHERE (@DishName IS NULL OR DishName LIKE @DishName + '%')
-                        AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
-                        AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)",
-                        parameters
-                    );
+                    var totalRecords = parameters.Get<int>("@TotalRecords");
+
 
                     var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
                     var paginatedResponse = new PagedResponse<List<GetAllDishDto>>
                     (
                         dishDtoList, dishFilter.PageNumber,dishFilter.PageSize, "Retrieved data with PageNumber:" + dishFilter.PageNumber, null, true
-                    );
+                    ){
+                    TotalRecords = totalRecords
+                };
                     return Ok(paginatedResponse);
                 }
             }
