@@ -20,7 +20,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// add cors
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+
+    });
+});
+
+
+
 // adding authentication to swagger
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
@@ -81,6 +95,8 @@ builder.Services.AddAuthentication(options =>{
     };
 });
 
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<ITokenService, TokenService>();
 
@@ -102,7 +118,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction()) // Cho ph
     });
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
