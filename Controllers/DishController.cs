@@ -44,9 +44,14 @@ namespace sushi_server.Controllers
                         commandType: CommandType.StoredProcedure
                     );
                     var totalRecords = await connection.ExecuteScalarAsync<int>(
-                         "SELECT COUNT(1) FROM Dishes ",
+                        @"SELECT COUNT(1) 
+                        FROM Dishes 
+                        WHERE (@DishName IS NULL OR DishName LIKE @DishName + '%')
+                        AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
+                        AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)",
                         parameters
                     );
+
                     var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
                     var paginatedResponse = new PagedResponse<List<GetAllDishDto>>
                     (
@@ -60,48 +65,5 @@ namespace sushi_server.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpGet("by-section:{SectionId}")]
-        public async Task<IActionResult> GetDishesBySectionId([FromRoute] Guid SectionId)
-        {
-            try
-            {
-                using(var connection = _context.Database.GetDbConnection())
-                {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@SectionId", SectionId, DbType.Guid);
-                    var dishesBySectionId = await connection.QueryAsync<GetDishesBySectionIdDto>(
-                        "GetDishesBySectionId",
-                        parameters,
-                        commandType: CommandType.StoredProcedure
-                    );
-                    return Ok(new Helper.Response<List<GetDishesBySectionIdDto>>(dishesBySectionId.ToList(), "Get dishes for sectionId: " + SectionId));
-                }
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet("/branch:{BranchId}")]
-        public async Task<IActionResult> GetDishesAvailableWithBranchId([FromRoute] Guid BranchId)
-        {
-            try{
-                Console.WriteLine(BranchId);
-                var availableDishes = await _context.BranchDishes.Where(bd => bd.BranchId == BranchId && bd.Status == true).Select(bd => bd.Dish).ToListAsync();
-                if (availableDishes.Count == 0)
-                {
-                    return BadRequest("No available dishes to this branch");
-                }
-                Console.WriteLine(availableDishes.Count);
-
-                var availableDishesDto = _mapper.Map<List<AvailableDishesInBranchDto>>(availableDishes);
-                return Ok (new Helper.Response<List<AvailableDishesInBranchDto>> (availableDishesDto));
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
     }
 }

@@ -18,6 +18,8 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
     public DbSet<Branch> Branches { get; set; }
     public DbSet<TableDetail> TableDetail { get; set; }
     public DbSet<BranchDish> BranchDishes { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Department> Departments { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
