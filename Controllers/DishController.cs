@@ -23,18 +23,24 @@ namespace sushi_server.Controllers
             _context = context;
             _mapper = mapper;
         }
-
-        [HttpGet("pagination")]
-        public async Task<IActionResult> GetAllPagination([FromQuery] int PageNumber, int PageSize)
+        [HttpGet()]
+        public async Task<IActionResult> GetAll([FromQuery] DishFilter dishFilter)
         {
             try
             {
+                
                 using (var connection = _context.Database.GetDbConnection())
                 {
                     var parameters = new DynamicParameters();
-                    parameters.Add("@PageNumber", PageNumber, DbType.Int32);
-                    parameters.Add("@PageSize", PageSize, DbType.Int32);
-                    var dishes = await connection.QueryAsync<Dish> (
+                    parameters.Add("@DishName", dishFilter.DishName, DbType.String);
+                    parameters.Add("@MinPrice", dishFilter.MinPrice, DbType.Int32);
+                    parameters.Add("@MaxPrice", dishFilter.MaxPrice, DbType.Int32);
+                    parameters.Add("@PageNumber", dishFilter.PageNumber, DbType.Int32);
+                    parameters.Add("@PageSize", dishFilter.PageSize, DbType.Int32);
+                    parameters.Add("@BranchId", dishFilter.BranchId, DbType.Guid);
+                    parameters.Add("@SectionId", dishFilter.SectionId, DbType.Guid);
+
+                  var dishes = await connection.QueryAsync<Dish> (
                         "GetAllDishes",
                         parameters,
                         commandType: CommandType.StoredProcedure
@@ -46,42 +52,9 @@ namespace sushi_server.Controllers
                     var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
                     var paginatedResponse = new PagedResponse<List<GetAllDishDto>>
                     (
-                        dishDtoList, PageNumber, PageSize, "Retrieved data with PageNumber:" + PageNumber, null, true
-                    )
-                    {
-                        TotalRecords = totalRecords,
-                        TotalPages = (int)Math.Ceiling(totalRecords / (double)PageSize),
-
-                    };
-                    return Ok(paginatedResponse);
-                }
-                
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet()]
-        public async Task<IActionResult> GetAll([FromQuery] DishFilter dishFilter)
-        {
-            try
-            {
-                using (var connection = _context.Database.GetDbConnection())
-                {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@DishName", dishFilter.DishName, DbType.String);
-                    parameters.Add("@MinPrice", dishFilter.MinPrice, DbType.Int32);
-                    parameters.Add("@MaxPrice", dishFilter.MaxPrice, DbType.Int32);
-
-                  var dishes = await connection.QueryAsync<Dish> (
-                        "GetAllDishes",
-                        parameters,
-                        commandType: CommandType.StoredProcedure
+                        dishDtoList, dishFilter.PageNumber,dishFilter.PageSize, "Retrieved data with PageNumber:" + dishFilter.PageNumber, null, true
                     );
-
-                    var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
-                    return Ok(new Response<List<GetAllDishDto>>(dishDtoList, "Data retrieved successfully"));
+                    return Ok(paginatedResponse);
                 }
             }
             catch (Exception e)
@@ -111,7 +84,7 @@ namespace sushi_server.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpGet("available/branch:{BranchId}")]
+        [HttpGet("/branch:{BranchId}")]
         public async Task<IActionResult> GetDishesAvailableWithBranchId([FromRoute] Guid BranchId)
         {
             try{
