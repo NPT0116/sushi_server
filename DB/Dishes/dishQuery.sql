@@ -1,6 +1,5 @@
 USE sushiDB;
 
-
 GO
 --Get all Procedure
 
@@ -8,45 +7,47 @@ CREATE OR ALTER PROCEDURE GetAllDishes
     @DishName NVARCHAR(50) = NULL,
     @MinPrice INT = NULL,
     @MaxPrice INT = NULL,
-    @PageNumber INT = NULL,
-    @PageSize INT = NULL
+    @PageNumber INT = 1,
+    @PageSize INT = 10,
+    @SectionId UNIQUEIDENTIFIER = NULL,
+    @BranchId UNIQUEIDENTIFIER = NULL,
+    @TotalRecords INT OUTPUT
+
 AS
 BEGIN
     SET NOCOUNT ON;
 
     -- Kiểm tra nếu PageNumber hoặc PageSize NULL, thì trả về toàn bộ kết quả
+    BEGIN
         -- Có phân trang
-        SELECT DishId, DishName, CurrentPrice, SectionId
-        FROM Dishes
-        WHERE (@DishName IS NULL OR DishName LIKE @DishName + '%')
+        SELECT distinct d.DishId, DishName, CurrentPrice, SectionId
+        FROM Dishes d join BranchDishes bd on bd.DishId = d.DishId
+        WHERE (@BranchId is null or (bd.BranchId = @BranchId and bd.[Status] = 1)) and (@SectionId is null or @SectionId = d.SectionId) and (@DishName IS NULL OR DishName LIKE @DishName + '%')
           AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
           AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)
-        ORDER BY DishName
+        ORDER BY DishName 
         OFFSET (@PageNumber - 1) * @PageSize ROWS
         FETCH NEXT @PageSize ROWS ONLY;
 
-        -- Tổng số bản ghi cho pagination
-        SELECT COUNT(1) AS TotalRecords
-        FROM Dishes
-        WHERE (@DishName IS NULL OR DishName LIKE '%' + @DishName + '%')
+        SELECT  @TotalRecords = count(distinct d.DishId) 
+        FROM Dishes d join BranchDishes bd on bd.DishId = d.DishId
+        WHERE (@BranchId is null or (bd.BranchId = @BranchId and bd.[Status] = 1)) and (@SectionId is null or @SectionId = d.SectionId) and (@DishName IS NULL OR DishName LIKE @DishName + '%')
           AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
-          AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice);
+          AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)
+    END
 END;
 
 
+DECLARE @result int;
+EXEC GetAllDishes @DishName  = a, @TotalRecords = @result OUT;
 
-Go
-
-CREATE OR ALTER PROCEDURE GetDishesBySectionId
-	@SectionId UNIQUEIDENTIFIER
-AS
-BEGIN
-	SET NOCOUNT ON;
-
-	SELECT d.DishId,d.DishName, d.CurrentPrice, SectionId from Dishes d where SectionId = @SectionId
-	Order by d.DishName
-END
-
+print(@result)
 GO
+DECLARE @DishName NVARCHAR(50);
+DECLARE @TotalRecords int;
+set @DishName = 'a';
 
-EXEC GetDishesBySectionId @SectionId = 'e518919a-5662-40c5-8468-ae4a3ce70a80';
+        SELECT  d.DishName
+        FROM Dishes d join BranchDishes bd on bd.DishId = d.DishId
+        WHERE     DishName LIKE @DishName + '%'
+print(@TotalRecords)
