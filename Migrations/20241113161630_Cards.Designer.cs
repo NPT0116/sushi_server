@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113161630_Cards")]
+    partial class Cards
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "40c61aee-8179-49b6-b207-599d465f292a",
+                            Id = "0f55e95e-cf01-490a-9832-c20a22379fd5",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "569f11a5-1136-4fea-b974-619d8aecf3af",
+                            Id = "ad416dd5-6060-4abe-a23f-a7d2ae92f31d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "fae804d7-3b4a-443e-826a-bbdc4f19d14a",
+                            Id = "38565780-3c05-47ec-9730-9bd31c36c07d",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -320,9 +323,11 @@ namespace sushi_server.Migrations
 
             modelBuilder.Entity("sushi_server.Models.Card", b =>
                 {
-                    b.Property<Guid>("CardId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("AccumulatedDate")
                         .HasColumnType("datetime2");
@@ -345,7 +350,7 @@ namespace sushi_server.Migrations
                     b.Property<bool>("Valid")
                         .HasColumnType("bit");
 
-                    b.HasKey("CardId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 

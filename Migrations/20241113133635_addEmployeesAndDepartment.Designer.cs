@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113133635_addEmployeesAndDepartment")]
+    partial class addEmployeesAndDepartment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "40c61aee-8179-49b6-b207-599d465f292a",
+                            Id = "9f20e900-fd9c-4f81-b94f-32c5f1f8502b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "569f11a5-1136-4fea-b974-619d8aecf3af",
+                            Id = "13585a1a-ed81-404c-9943-4e1caaf679e7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "fae804d7-3b4a-443e-826a-bbdc4f19d14a",
+                            Id = "d8acd0e8-c3aa-4429-ae28-64d7d87a6dc1",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -318,44 +321,6 @@ namespace sushi_server.Migrations
                     b.ToTable("BranchDishes");
                 });
 
-            modelBuilder.Entity("sushi_server.Models.Card", b =>
-                {
-                    b.Property<Guid>("CardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("AccumulatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("AccumulatedPoints")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("RankingId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Valid")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CardId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("RankingId");
-
-                    b.ToTable("Cards");
-                });
-
             modelBuilder.Entity("sushi_server.Models.Customer", b =>
                 {
                     b.Property<Guid>("CustomerId")
@@ -471,32 +436,6 @@ namespace sushi_server.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.Ranking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RequirePoint")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UpgradePoint")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rankings");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Section", b =>
@@ -620,33 +559,6 @@ namespace sushi_server.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("Dish");
-                });
-
-            modelBuilder.Entity("sushi_server.Models.Card", b =>
-                {
-                    b.HasOne("sushi_server.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sushi_server.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sushi_server.Models.Ranking", "Ranking")
-                        .WithMany()
-                        .HasForeignKey("RankingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Ranking");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Dish", b =>

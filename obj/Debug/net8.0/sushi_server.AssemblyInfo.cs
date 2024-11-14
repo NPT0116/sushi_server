@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sushi_server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abea1edf48eda252b954eefb8efc18a09d54c243")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c2b581bb2e60849f59772c02f1622bf2eb1db5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("sushi_server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sushi_server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
