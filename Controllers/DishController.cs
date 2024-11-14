@@ -33,27 +33,29 @@ namespace sushi_server.Controllers
                 {
                     var parameters = new DynamicParameters();
                     parameters.Add("@DishName", dishFilter.DishName, DbType.String);
+                    parameters.Add("@BranchId", dishFilter.BranchId, DbType.String);
+                    parameters.Add("@SectionId", dishFilter.SectionId, DbType.String);
                     parameters.Add("@MinPrice", dishFilter.MinPrice, DbType.Int32);
                     parameters.Add("@MaxPrice", dishFilter.MaxPrice, DbType.Int32);
                     parameters.Add("@PageNumber", dishFilter.PageNumber, DbType.Int32);
                     parameters.Add("@PageSize", dishFilter.PageSize, DbType.Int32);
-                    parameters.Add("@BranchId", dishFilter.BranchId, DbType.Guid);
-                    parameters.Add("@SectionId", dishFilter.SectionId, DbType.Guid);
-
+                    parameters.Add("@TotalRecords", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    
                   var dishes = await connection.QueryAsync<Dish> (
                         "GetAllDishes",
                         parameters,
                         commandType: CommandType.StoredProcedure
                     );
-                    var totalRecords = await connection.ExecuteScalarAsync<int>(
-                         "SELECT COUNT(1) FROM Dishes ",
-                        parameters
-                    );
+                    var totalRecords = parameters.Get<int>("@TotalRecords");
+
+
                     var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
                     var paginatedResponse = new PagedResponse<List<GetAllDishDto>>
                     (
                         dishDtoList, dishFilter.PageNumber,dishFilter.PageSize, "Retrieved data with PageNumber:" + dishFilter.PageNumber, null, true
-                    );
+                    ){
+                    TotalRecords = totalRecords
+                };
                     return Ok(paginatedResponse);
                 }
             }
@@ -62,48 +64,5 @@ namespace sushi_server.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpGet("by-section:{SectionId}")]
-        public async Task<IActionResult> GetDishesBySectionId([FromRoute] Guid SectionId)
-        {
-            try
-            {
-                using(var connection = _context.Database.GetDbConnection())
-                {
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@SectionId", SectionId, DbType.Guid);
-                    var dishesBySectionId = await connection.QueryAsync<GetDishesBySectionIdDto>(
-                        "GetDishesBySectionId",
-                        parameters,
-                        commandType: CommandType.StoredProcedure
-                    );
-                    return Ok(new Helper.Response<List<GetDishesBySectionIdDto>>(dishesBySectionId.ToList(), "Get dishes for sectionId: " + SectionId));
-                }
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet("/branch:{BranchId}")]
-        public async Task<IActionResult> GetDishesAvailableWithBranchId([FromRoute] Guid BranchId)
-        {
-            try{
-                Console.WriteLine(BranchId);
-                var availableDishes = await _context.BranchDishes.Where(bd => bd.BranchId == BranchId && bd.Status == true).Select(bd => bd.Dish).ToListAsync();
-                if (availableDishes.Count == 0)
-                {
-                    return BadRequest("No available dishes to this branch");
-                }
-                Console.WriteLine(availableDishes.Count);
-
-                var availableDishesDto = _mapper.Map<List<AvailableDishesInBranchDto>>(availableDishes);
-                return Ok (new Helper.Response<List<AvailableDishesInBranchDto>> (availableDishesDto));
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
     }
 }
