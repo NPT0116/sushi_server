@@ -11,5 +11,5 @@ public class Section
     [Required]
     public string SectionName { get; set; } = string.Empty;
 
-    public ICollection<Dish> Dishes { get; set; } = new List<Dish>();
+    public ICollection<Dish> Dishes { get; set; } = [];
 }
