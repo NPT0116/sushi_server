@@ -20,7 +20,7 @@ BEGIN
         SET @MaxPeople = 2 + (ABS(CHECKSUM(NEWID())) % 9)
 
         -- Insert a new TableDetail record for each table in this branch
-        INSERT INTO TableDetail (TableId, BranchId, TableNumber, MaxPeople, Status)
+        INSERT INTO TableDetail (Id, BranchId, TableNumber, MaxCapacity, Status)
         VALUES (NEWID(), @BranchId, @Counter, @MaxPeople, 0) -- Status set to false (0)
 
         -- Increment the counter for TableNumber
