@@ -37,6 +37,7 @@ BEGIN
     END
 END;
 
+EXEC GetAllDishes @DishName = 'c' , @PageNumber = 1 , @PageSize = 3, @BranchId = 'c2e09f53-ab47-4c39-88a2-010d8a5c9e97', @SectionId ='c3f5d7b4-8f44-4bb0-abc8-654321fedcba';
 
 DECLARE @result int;
 EXEC GetAllDishes @DishName  = a, @TotalRecords = @result OUT;

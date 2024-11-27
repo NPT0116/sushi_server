@@ -33,12 +33,14 @@ namespace sushi_server.Controllers
                 {
                     var parameters = new DynamicParameters();
                     parameters.Add("@DishName", dishFilter.DishName, DbType.String);
+                    parameters.Add("@BranchId", dishFilter.BranchId, DbType.Guid);
+                    parameters.Add("@SectionId", dishFilter.SectionId, DbType.Guid);
                     parameters.Add("@MinPrice", dishFilter.MinPrice, DbType.Int32);
                     parameters.Add("@MaxPrice", dishFilter.MaxPrice, DbType.Int32);
                     parameters.Add("@PageNumber", dishFilter.PageNumber, DbType.Int32);
                     parameters.Add("@PageSize", dishFilter.PageSize, DbType.Int32);
                     parameters.Add("@TotalRecords", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
+                    
                   var dishes = await connection.QueryAsync<Dish> (
                         "GetAllDishes",
                         parameters,

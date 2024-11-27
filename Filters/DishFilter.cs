@@ -9,4 +9,6 @@ public class DishFilter
     public int? MaxPrice { get; set; }
     public int PageNumber { get; set; } = 1;
     public int PageSize { get; set; } = 10;
+    public Guid? SectionId { get; set; }
+    public Guid? BranchId { get; set; }
 }
