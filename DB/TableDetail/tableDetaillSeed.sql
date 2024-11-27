@@ -17,7 +17,7 @@ BEGIN
     WHILE @Counter <= @TableCount
     BEGIN
         -- Generate a random MaxPeople between 2 and 10
-        SET @MaxPeople = 2 + (ABS(CHECKSUM(NEWID())) % 9)
+        SET @MaxPeople = 5 + (ABS(CHECKSUM(NEWID())) % 9)
 
         -- Insert a new TableDetail record for each table in this branch
         INSERT INTO TableDetail (Id, BranchId, TableNumber, MaxCapacity, Status)
@@ -34,3 +34,18 @@ END
 -- Clean up the cursor
 CLOSE BranchCursor
 DEALLOCATE BranchCursor
+
+
+DROP TABLE IF EXISTS TableDetail;
+
+select * from TableDetail
+select count(*) from TableDetail
+
+UPDATE TableDetail
+SET MaxCapacity = CASE
+                    WHEN MaxCapacity < 5 THEN 5
+                    ELSE MaxCapacity
+                 END
+
+
+select count(*) from Reservation
