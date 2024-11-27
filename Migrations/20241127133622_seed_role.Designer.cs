@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sushi_server.Data;
 
@@ -11,9 +12,11 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127133622_seed_role")]
+    partial class seed_role
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4f908d11-bc1e-4206-95fa-570c4b2a778d",
+                            Id = "b56c0bd5-777e-40f2-a50b-01dd84ba208c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "9c521b64-3987-4b15-9300-5699d3928106",
+                            Id = "e5c60ce4-77a8-4e86-8f04-91fc0d7dd143",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7a626b0c-4a95-405f-9aba-de4c18d64ae4",
+                            Id = "55b6fb40-8723-4e68-b26a-db64593bf9e1",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -634,9 +637,12 @@ namespace sushi_server.Migrations
 
                     b.Property<string>("SectionName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("SectionId");
+
+                    b.HasIndex("SectionName")
+                        .IsUnique();
 
                     b.ToTable("Sections");
                 });
@@ -660,6 +666,9 @@ namespace sushi_server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "TableNumber")
+                        .IsUnique();
 
                     b.ToTable("TableDetail");
                 });

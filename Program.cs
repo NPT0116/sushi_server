@@ -1,6 +1,14 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using sushi_server.Data;
+using sushi_server.Interfaces;
+using sushi_server.Mapper;
+using sushi_server.Models;
+using sushi_server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +48,76 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "API for Sushi Restaurant Management System"
     });
+
+    // Adding Authentication for Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
+
+// Add AutoMapper (make sure the MappingProfile is defined in your project)
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Configure Identity
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+// Configure JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SigningKey"]))
+    };
+});
+
+// Register token service for JWT token generation
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Configure JSON serialization settings
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
 var app = builder.Build();
@@ -48,7 +126,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    context.Database.EnsureCreated(); // Make sure DB is created if it's not already
 }
 
 // Configure the HTTP request pipeline.
@@ -58,16 +136,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sushi Restaurant API V1");
+        c.RoutePrefix = string.Empty; // To serve Swagger UI at the root URL
     });
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll"); // Apply the CORS policy
 
-// Use CORS
-app.UseCors("AllowAll");
-
+// Use authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+// Map controllers
+app.MapControllers();   
 
 app.Run();

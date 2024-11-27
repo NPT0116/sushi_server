@@ -1,7 +1,7 @@
 CREATE OR ALTER PROC create_dumb_data_submit_reservation
 AS
 BEGIN
-    DECLARE @record INT = 1;
+    DECLARE @record INT = 100000;
 
     WHILE @record > 0
     BEGIN
@@ -25,3 +25,9 @@ BEGIN
     END
 END;
 exec create_dumb_data_submit_reservation;
+
+select * from reservation
+
+select * from TableDetail
+
+DROP TABLE IF EXISTS reservation;
