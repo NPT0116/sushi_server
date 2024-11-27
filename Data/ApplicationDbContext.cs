@@ -22,31 +22,11 @@ public class ApplicationDbContext: IdentityDbContext<AppUser>
     public DbSet<Department> Departments { get; set; }
     public DbSet<Ranking> Rankings { get; set; }
     public DbSet<Card> Cards { get; set; }
+    public DbSet<Invoice> Invoices { get; set; } 
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<Reservation> Reservation { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        List<IdentityRole> roles = new List<IdentityRole>{
-            new IdentityRole {
-                Name = "User",
-                NormalizedName = "USER"
-            },
-            new IdentityRole{
-                Name = "Admin",
-                NormalizedName = "ADMIN"
-            },
-            new IdentityRole {
-                Name = "Emp",
-                NormalizedName = "EMP"
-            }
-        };
-        builder.Entity<IdentityRole>().HasData(roles);
-
-        // SectionName unique
-        builder.Entity<Section>()
-        .HasIndex(s => s.SectionName)
-        .IsUnique();
-         builder.Entity<TableDetail>()
-                .HasIndex(t => new { t.BranchId, t.TableNumber })
-                .IsUnique(); // Tạo index duy nhất trên BranchId và
     }
 }

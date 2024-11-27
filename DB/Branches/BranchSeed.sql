@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 use sushiDB;
 
 
@@ -49,7 +49,6 @@ VALUES (NEWID(), NULL, 'Branch 14', '1111 Redwood Blvd', '0123649857', '11:00:00
 
 INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
 VALUES (NEWID(), NULL, 'Branch 15', '1212 Sequoia Ln', '0192836457', '08:00:00', '22:00:00', 1, 1, 0, 17);
-=======
 use sushiDB;
 
 
@@ -100,4 +99,3 @@ VALUES (NEWID(), NULL, 'Branch 14', '1111 Redwood Blvd', '0123649857', '11:00:00
 
 INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
 VALUES (NEWID(), NULL, 'Branch 15', '1212 Sequoia Ln', '0192836457', '08:00:00', '22:00:00', 1, 1, 0, 17);
->>>>>>> b4c796232608dff0af0af66cbab4a3566c8fa410

@@ -5,10 +5,12 @@ namespace sushi_server.Models
     public class Order
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public long Total { get; set; }
-        public DateTime LastModified { get; set; }
-        public OrderStatus Status { get; set; }
+        public DateTime? LastModified { get; set; }
+        public required OrderStatus Status { get; set; }
+        public Reservation? Reservation { get; set; }
+        public required ICollection<OrderDetail> OrderDetails { get; set; }
 
     }
 }

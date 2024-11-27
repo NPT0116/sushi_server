@@ -12,12 +12,10 @@ namespace sushi_server.Models
 
         public Guid EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-        
-        [ForeignKey("Ranking")]  // Specify that RankingId is a foreign key to Ranking
 
         public int RankingId { get; set; }
         public Ranking? Ranking { get; set; }
         public Guid CustomerId { get; set; }
-        public Customer  Customer { get; set; }
+        public required Customer  Customer { get; set; }
     }
 }
