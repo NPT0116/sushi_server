@@ -47,7 +47,7 @@ BEGIN
     DECLARE @InsertedIds TABLE (Id UNIQUEIDENTIFIER);
 
     -- Insert reservation and capture the new reservation ID
-    INSERT INTO Reservation (Id,DatedOn, Note, "Status", OrderedBy, CustomerId, BranchId, TableId, TotalPeople)
+    INSERT INTO Reservation (Id, DatedOn, Note, "Status", OrderedBy, CustomerId, BranchId, TableId, TotalPeople)
     OUTPUT INSERTED.Id INTO @InsertedIds
     VALUES (NEWID(),@dated_on, @note, @status, @ordered_by, @customer_id, @branch_id, @table_id, @total_people);
 
@@ -62,6 +62,6 @@ GO
 create or alter proc check_out_reservation @reservation_id uniqueidentifier
 as
 begin
-    update TableDetail set Status = 0 where TableDetail.Id = (select TableId from Reservation where Id = @reservation_id)
+    update TableDetail set Status = 0 where TableDetail.Id in (select TableId from Reservation where Id = @reservation_id)
 end
 GO
