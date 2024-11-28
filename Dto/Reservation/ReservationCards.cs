@@ -17,6 +17,7 @@ namespace sushi_server.Dto.Reservation
         public DateTime DatedOn { get; set; }
         public int TableNumber { get; set; }
         public int TotalPeople { get; set; }
+        public long TotalPrice { get; set; }
         public List<OrderDetailDto>? OrderDetails { get; set; }
 
     }
