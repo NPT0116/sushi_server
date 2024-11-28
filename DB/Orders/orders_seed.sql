@@ -1,12 +1,17 @@
 create or alter procedure seed_orders
 as
 begin
-    declare @record int = 1000;
+    declare @record int = (select count(*) from reservation);
 
     while @record > 0
     begin
 		declare @reservation_id uniqueidentifier
-		set @reservation_id = ( select top 1 Id from Reservation order by NEWID())
+		WITH ReservationCTE AS(
+			SELECT Id, ROW_NUMBER() OVER (Order by ID) AS row_idx  FROM Reservation
+		)
+		SELECT @reservation_id = cte.Id  from ReservationCTE cte
+		where cte.row_idx = @record
+
 		declare @order_id uniqueidentifier = newid();
 
 		insert into orders (Id,LastModified, status, total, ReservationId)
@@ -25,5 +30,4 @@ exec seed_orders
 
 select *  from OrderDetail
 select * from Orders
-
 
