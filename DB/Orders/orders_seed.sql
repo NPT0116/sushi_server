@@ -23,5 +23,7 @@ go
 
 exec seed_orders
 
+select * from OrderDetail
+
 
 
