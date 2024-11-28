@@ -1,3 +1,4 @@
+using Dto.Dish;
 using sushi_server.Models.Enum;
 
 namespace sushi_server.Dto.Order;
@@ -8,5 +9,6 @@ public class OrderDetailResponseDTO
     public required string Status { get; set; }
     public long Price { get; set; }
     public long Quantity { get; set; }
-    public Guid DishId { get; set; }
+    public DishResponseDTO Dish { get; set; }
+
 }

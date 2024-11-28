@@ -35,6 +35,7 @@ namespace sushi_server.Controllers {
         {
             return _context.Orders
                 .Include(o => o.OrderDetails) 
+                .ThenInclude(od => od.Dish)
                 .FirstOrDefault(o => o.Id == orderId);
         }
 
@@ -47,7 +48,7 @@ namespace sushi_server.Controllers {
                 Id = Guid.NewGuid(),
                 Status = OrderStatus.Placed,
                 Quantity = od.Quantity,
-                Price = _context.Dishes.Find(od.DishId).CurrentPrice,
+                Price = _context.Dishes.Find(od.DishId)?.CurrentPrice ?? 0,
                 DishId = od.DishId,
             }).ToList();
             

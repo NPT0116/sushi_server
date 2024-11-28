@@ -51,19 +51,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4f908d11-bc1e-4206-95fa-570c4b2a778d",
+                            Id = "baffa4d9-bcc1-425d-9111-dc3063efd198",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "9c521b64-3987-4b15-9300-5699d3928106",
+                            Id = "7840cf38-8777-4205-93f2-8bc62c4a23ec",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7a626b0c-4a95-405f-9aba-de4c18d64ae4",
+                            Id = "5cee2967-7fd3-4bf8-bdb1-ddb1a10a965c",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -516,7 +516,7 @@ namespace sushi_server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ReservationId")
