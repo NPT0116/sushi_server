@@ -8,6 +8,8 @@ using System.Globalization;
 using System.Data;
 using sushi_server.Helper;
 using Sushi_server.Dto.Reservation;
+using sushi_server.Dto.OrderDetail;
+using Dapper;
 
 namespace YourNamespace.Controllers
 {
@@ -79,7 +81,7 @@ namespace YourNamespace.Controllers
             Guid newReservationId = (Guid)reservationIdParam.Value;
 
             // Create the response DTO
-            var reservationResponse = new ReservationResponseDTO
+            var reservationResponse = new ReservationResponseDto
             {
                 Id = newReservationId,
                 DatedOn = datedOn,
@@ -132,25 +134,43 @@ public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuer
 }
 
 
-        private async Task<Reservation> GetReservationByIdAsync(Guid id) {
-            var reservation = await _context.Reservation.FindAsync(id);
-            if (reservation == null) {
-                return null;
-            }
-            return reservation;
-        }
-    }
-
-    internal class ReservationResponseDTO
+    [HttpGet("getDetailReservationCards")]
+    public async Task<IActionResult> getDetailReservationCards([FromQuery] GetReservationsQuery query)
     {
-        public Guid Id { get; set; }
-        public DateTime DatedOn { get; set; }
-        public object Note { get; set; }
-        public object Status { get; set; }
-        public object TotalPeople { get; set; }
-        public object OrderedBy { get; set; }
-        public Guid CustomerId { get; set; }
-        public Guid BranchId { get; set; }
-        public Guid TableId { get; set; }
+        if (!query.BranchId.HasValue || !query.DatedOn.HasValue)
+        {
+            return BadRequest("BranchId and DatedOn are required.");
+        }
+        try
+        {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+                    var reservations = await connection.QueryAsync<ReservationCards>(
+                        "getDetailReservationCards",
+                        new { branchId = query.BranchId.Value, dateOn = query.DatedOn.Value },
+                        commandType: CommandType.StoredProcedure
+                    );
+                    foreach (var reservation in reservations)
+                    {
+                        var orderDetails = await connection.QueryAsync<OrderDetailDto>(
+                            "getOrderDetailsByReservationId",
+                            new { reservationId = reservation.ReservationId },
+                            commandType: CommandType.StoredProcedure
+                        );
+
+                        reservation.OrderDetails = orderDetails.ToList();
+                    }
+
+                    return Ok(new Response<List<ReservationCards>>(reservations.ToList(), "Retrieved reservation cards successfully"));
+                }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }   
+
     }
+}
 }
