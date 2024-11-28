@@ -62,5 +62,25 @@ namespace sushi_server.Controllers {
             await _context.SaveChangesAsync();
              return Ok(new { orderId = orderId });
         }
+
+        [HttpPost("{id}/payment")]
+        public async Task<IActionResult> payOrder(string id, [FromQuery] string paymentMethod) {
+            Guid invoiceId = Guid.NewGuid();
+            Invoice invoice = new Invoice {
+                Id = invoiceId,
+                PaymentMethod = paymentMethod,
+                OrderId = Guid.Parse(id),
+                DatedOn = DateTime.Now,
+                Paid = false,
+            };
+            _context.Invoices.Add(invoice);
+            _context.SaveChanges();
+            Invoice newInvoice = await _context.Invoices
+                .Include(i => i.Order) 
+                .ThenInclude(o => o.OrderDetails)
+                .ThenInclude(od => od.Dish)
+                .FirstOrDefaultAsync(i => i.Id == invoiceId);
+            return Ok(newInvoice.toInvoiceResponseDTO());
+        }
     }
 }
