@@ -13,8 +13,8 @@ begin
         values (@order_id, getdate(), 0, 0, @reservation_id);
         
         insert into OrderDetail(Id,OrderId, DishId, Price, Quantity, Status)
-        select newid(), @order_id, d.DishId, 10000, 2,0
-        from (select top(5) DishId from dishes ORDER BY NEWID()) as d;
+        select newid(), @order_id, d.DishId, d.CurrentPrice , 2,0
+        from (select top(5) DishId, Dishes.CurrentPrice from dishes ORDER BY NEWID()) as d;
 
         set @record = @record - 1;
     end
@@ -23,6 +23,6 @@ go
 
 exec seed_orders
 
-
-
+select *  from OrderDetail
+select * from Orders
 

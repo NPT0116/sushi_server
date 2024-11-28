@@ -12,6 +12,7 @@ namespace sushi_server.Models
         public long Price { get; set; }
         public long Quantity { get; set; }
         public Guid DishId { get; set; }
+        public Dish Dish { get; set; }
         [JsonIgnore]
         public Guid OrderId { get; set; }
         public Order Order { get; set; }
@@ -23,7 +24,7 @@ namespace sushi_server.Models
                 Status = this.Status.ToString(),
                 Price = this.Price,
                 Quantity = this.Quantity,
-                DishId = this.DishId
+                Dish = this.Dish.toResponseDTO()
             };
         }
     }
