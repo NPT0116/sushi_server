@@ -161,7 +161,6 @@ public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuer
 
                         reservation.OrderDetails = orderDetails.ToList();
                     }
-
                     return Ok(new Response<List<ReservationCards>>(reservations.ToList(), "Retrieved reservation cards successfully"));
                 }
         }
