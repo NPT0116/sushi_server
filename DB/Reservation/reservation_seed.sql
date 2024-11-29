@@ -1,7 +1,7 @@
 CREATE OR ALTER PROC create_dumb_data_submit_reservation
 AS
 BEGIN
-    DECLARE @recordPerBranch INT = 2;
+    DECLARE @recordPerBranch INT = 200;
     DECLARE @totalOfBranch INT = (SELECT COUNT(*) FROM Branches);
     DECLARE @branchIndex INT = 1;
 
