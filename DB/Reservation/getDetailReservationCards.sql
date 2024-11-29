@@ -19,7 +19,8 @@ BEGIN
     r.DatedOn as DatedOn,
     td.TableNumber as TableNumber,
     r.TotalPeople as TotalPeople ,
-    o.Total as TotalPrice
+    o.Total as TotalPrice,
+    o.Id as OrderID
     from Reservation r join Customers c on c.CustomerId = r.CustomerId 
     join branches b on b.BranchId = r.BranchId
     join TableDetail td on td.Id = r.TableId
@@ -71,3 +72,8 @@ select d.DishName from Reservation r join Orders o on o.ReservationId = r.Id joi
 
 select * from Reservation
 select count(*) from Orders
+select top 10 * from Customers
+
+SELECT *
+from Cards
+where CustomerId = '9f3c1145-9556-4ae2-976e-006f010232fe'

@@ -78,3 +78,5 @@ insert into invoices (id, PaymentMethod, OrderId, DatedOn, paid) values (
     0)
 
 delete from invoices;
+
+DROP TRIGGER IF EXISTS create_invoice;

@@ -151,6 +151,7 @@ public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuer
                         new { branchId = query.BranchId.Value, dateOn = query.DatedOn.Value },
                         commandType: CommandType.StoredProcedure
                     );
+                    Console.WriteLine(reservations.ToList()[0].OrderId);
                     foreach (var reservation in reservations)
                     {
                         var orderDetails = await connection.QueryAsync<OrderDetailDto>(
@@ -169,7 +170,10 @@ public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuer
             Console.WriteLine($"Error: {ex.Message}");
             return StatusCode(500, "Internal server error");
         }   
-
     }
+
+
+
+    
 }
 }
