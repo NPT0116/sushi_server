@@ -18,6 +18,7 @@ namespace sushi_server.Dto.Reservation
         public int TableNumber { get; set; }
         public int TotalPeople { get; set; }
         public long TotalPrice { get; set; }
+        public Guid OrderId { get; set; }
         public List<OrderDetailDto>? OrderDetails { get; set; }
 
     }
