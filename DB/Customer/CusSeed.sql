@@ -1000,4 +1000,4 @@ insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, Custo
 insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, CustomerId) values ('Gunther Terne', '11/9/2024', 3, '5662914041', '454-351-8629', 'gternerr@stumbleupon.com', 'd619935d-0c9c-49b8-8036-208e33d35531');
 
 
-select count(*) from Customers
+select * from Customers

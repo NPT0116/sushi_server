@@ -9,7 +9,6 @@ using sushi_server.Data;
 using sushi_server.Dto.Employee;
 using sushi_server.Filters;
 using sushi_server.Helper;
-using sushi_server.Migrations;
 
 namespace sushi_server.Controllers;
 

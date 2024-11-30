@@ -52,7 +52,8 @@ VALUES (NEWID(), NULL, 'Branch 15', '1212 Sequoia Ln', '0192836457', '08:00:00',
 use sushiDB;
 
 
-go;
+
+go
 
 -- Insert 15 branches
 INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
