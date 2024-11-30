@@ -16,3 +16,11 @@ CREATE NONCLUSTERED INDEX [IX_Reservation_BranchId_DatedOn]
 ON [dbo].[Reservation] ([BranchId], [DatedOn]);
 
 
+CREATE NONCLUSTERED INDEX IX_Reservations_BranchId
+ON Reservation (BranchId);
+
+SELECT * 
+FROM sys.indexes
+WHERE object_id = OBJECT_ID('Reservation');
+CREATE NONCLUSTERED INDEX IX_Reservations_BranchId_DatedOn
+ON Reservation (BranchId, DatedOn);

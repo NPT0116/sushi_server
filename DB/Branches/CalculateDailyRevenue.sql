@@ -48,4 +48,3 @@ exec GetDailyRevenueByBranch @BranchId = 'd1cc887e-7bb0-48e4-8874-2d6a7aa7f6b8',
 
 select * from Invoices
 
-exec UpdatePaidInvoice @InvoiceId = '8d9f04c9-79c3-4dda-8a9b-0c41e41e5ebd'
