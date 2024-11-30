@@ -5,7 +5,7 @@ DECLARE @OrderId1 UNIQUEIDENTIFIER;
 
 -- Lấy tất cả OrderId từ bảng Orders
 DECLARE OrderCursor CURSOR FOR 
-SELECT Id FROM Orders WHERE Status = 2;  -- Chỉ lấy các Order chưa có hóa đơn (Status = 1)
+SELECT o.Id FROM Orders o  WHERE Status = 2  ;  -- Chỉ lấy các Order chưa có hóa đơn (Status = 1)
 
 OPEN OrderCursor;
 

@@ -25,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         }
     ));
 
-// Configure CORS
+// Configure CORS to allow any origin (or modify based on your needs)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -122,7 +122,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 var app = builder.Build();
 
-// auto_ddl = update
+// Ensure the database is created on startup (if not already)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -135,21 +135,20 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        // Đảm bảo swagger.json luôn ở đúng endpoint
+        // Swagger UI endpoint
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sushi Restaurant API V1");
         
-        // Khi ở môi trường Production, phục vụ Swagger UI tại trang chủ (root URL)
+        // Swagger UI route prefix depending on environment
         if (app.Environment.IsProduction())
         {
-            c.RoutePrefix = string.Empty; // Swagger UI sẽ phục vụ tại http://localhost:5201/index.html
+            c.RoutePrefix = string.Empty; // Swagger UI will be served at http://localhost:5201/index.html
         }
         else
         {
-            c.RoutePrefix = "swagger"; // Swagger UI sẽ phục vụ tại http://localhost:5201/swagger
+            c.RoutePrefix = "swagger"; // Swagger UI will be served at http://localhost:5201/swagger
         }
     });
 }
-
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Apply the CORS policy

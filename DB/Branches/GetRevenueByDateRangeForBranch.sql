@@ -48,5 +48,5 @@ END;
 
 
 
-exec GetRevenueByDateRangeForBranch @BranchId = '94520723-5108-48f1-9336-5e37379912bb', @StartDate = '2024-11-1', @EndDate = '2024-11-30'
+exec GetRevenueByDateRangeForBranch @BranchId = '94520723-5108-48f1-9336-5e37379912bb', @StartDate = '2024-1-1', @EndDate = '2024-1-30'
 

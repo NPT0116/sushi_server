@@ -89,3 +89,5 @@ EXEC CreateInvoiceAndUpdateCustomerCard @OrderId ='fc9e1562-2755-4e2e-8da1-128f1
 
 select  count(*) from Orders  o   join Invoices i  on i.OrderId = o.Id join Reservation r on r.Id = o.ReservationId
 select count(*) from Invoices
+
+-- Chuyển chuỗi '2024-30-10' thành kiểu DATETIME

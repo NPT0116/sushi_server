@@ -30,8 +30,9 @@ END
 
 go
 
-EXEC getDetailReservationCards @branchId = 'f93abcea-3ecc-4133-98b5-a5dcbd8b9938', @dateOn = '2023-12-12 00:00:00.0000000'
-
+EXEC getDetailReservationCards @branchId = 'e69eff34-6b46-4036-9db9-0b66ed24339e', @dateOn = '2024-9-30'
+ 
+ select * from Branches
 GO
 CREATE OR ALTER PROCEDURE getOrderDetailsByReservationId
     @reservationId UNIQUEIDENTIFIER

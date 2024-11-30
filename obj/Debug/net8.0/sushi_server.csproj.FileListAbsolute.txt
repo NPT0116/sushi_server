@@ -629,3 +629,4 @@ C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\refint\sushi_server.dll
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.pdb
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\sushi_server.genruntimeconfig.cache
 C:\Users\Admin\Desktop\sushi_server\obj\Debug\net8.0\ref\sushi_server.dll
+C:\Users\Admin\Desktop\sushi_server\bin\Debug\net8.0\appsettings.Production.json
