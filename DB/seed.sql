@@ -1,3 +1,1345 @@
+use sushiDB;
+go
+
+
+
+
+go
+-- INSERT BRANCH
+-- Insert 15 branches
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 1', '123 Main St', '0123456789', '08:00:00', '22:00:00', 1, 1, 1, 20);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 2', '456 Maple Ave', '0987654321', '09:00:00', '21:00:00', 1, 1, 0, 15);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 3', '789 Oak St', '0165432198', '10:00:00', '20:00:00', 0, 1, 1, 25);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 4', '101 Pine Rd', '0192837465', '08:30:00', '22:30:00', 1, 1, 0, 30);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 5', '202 Birch Blvd', '0147852369', '09:30:00', '23:00:00', 0, 1, 1, 12);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 6', '303 Cedar Dr', '0172639485', '07:00:00', '19:00:00', 1, 1, 1, 18);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 7', '404 Elm St', '0132748596', '11:00:00', '23:00:00', 0, 1, 1, 22);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 8', '505 Poplar St', '0183649572', '08:00:00', '22:00:00', 1, 0, 1, 16);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 9', '606 Walnut Ave', '0123948576', '09:00:00', '21:00:00', 1, 1, 0, 24);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 10', '707 Chestnut Ln', '0194857362', '10:00:00', '20:00:00', 0, 1, 1, 26);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 11', '808 Spruce Ct', '0172846395', '08:30:00', '22:30:00', 1, 1, 1, 19);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 12', '909 Fir Ave', '0183749562', '09:30:00', '23:00:00', 1, 1, 0, 14);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 13', '1010 Ash St', '0162938475', '07:00:00', '19:00:00', 1, 1, 1, 28);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 14', '1111 Redwood Blvd', '0123649857', '11:00:00', '23:00:00', 0, 0, 1, 20);
+
+INSERT INTO Branches (BranchId, ManagerId, Name, Address, Phone, OpeningTime, ClosingTime, CarParking, MotorParking, Ship, TotalTable)
+VALUES (NEWID(), NULL, 'Branch 15', '1212 Sequoia Ln', '0192836457', '08:00:00', '22:00:00', 1, 1, 0, 17);
+use sushiDB;
+
+GO
+--table detail
+DECLARE @BranchId UNIQUEIDENTIFIER
+DECLARE @TableCount INT = 10 -- Number of tables per branch
+DECLARE @Counter INT
+DECLARE @MaxPeople INT
+
+-- Cursor to loop through each branch
+DECLARE BranchCursor CURSOR FOR
+SELECT BranchId FROM Branches
+
+OPEN BranchCursor
+FETCH NEXT FROM BranchCursor INTO @BranchId
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    SET @Counter = 1 -- Reset the counter for each branch
+
+    WHILE @Counter <= @TableCount
+    BEGIN
+        -- Generate a random MaxPeople between 2 and 10
+        SET @MaxPeople = 5 + (ABS(CHECKSUM(NEWID())) % 9)
+
+        -- Insert a new TableDetail record for each table in this branch
+        INSERT INTO TableDetail (Id, BranchId, TableNumber, MaxCapacity, Status)
+        VALUES (NEWID(), @BranchId, @Counter, @MaxPeople, 0) -- Status set to false (0)
+
+        -- Increment the counter for TableNumber
+        SET @Counter = @Counter + 1
+    END
+
+    -- Move to the next branch
+    FETCH NEXT FROM BranchCursor INTO @BranchId
+END
+
+-- Clean up the cursor
+CLOSE BranchCursor
+DEALLOCATE BranchCursor
+
+GO
+
+
+
+
+
+-- Existing sections
+INSERT INTO Sections (SectionId, SectionName) VALUES ('E518919A-5662-40C5-8468-AE4A3CE70A80', 'Appetizers');
+INSERT INTO Sections (SectionId, SectionName) VALUES ('1991D314-DB2B-47EB-88DC-0F1CD8A60B45', 'Beverages');
+INSERT INTO Sections (SectionId, SectionName) VALUES ('242DC005-A807-40E2-BAEF-CAF01F3CCD24', 'Desserts');
+INSERT INTO Sections (SectionId, SectionName) VALUES ('9BD51261-8C72-4976-8F7E-6C16772A6001', 'Main Course');
+
+-- Additional sections
+INSERT INTO Sections (SectionId, SectionName) VALUES ('A5D6A781-3D0A-4B89-93A3-123456789ABC', 'Salads');
+INSERT INTO Sections (SectionId, SectionName) VALUES ('C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA', 'Specials');
+INSERT INTO Sections (SectionId, SectionName) VALUES ('B2A4D6E1-1F54-4A22-9E77-789ABCDEF012', 'Kids Menu');
+
+
+go
+-- add dishes after
+
+-- Adding 50 random dishes
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Spicy Tuna Roll', 120000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Caesar Salad', 80000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'French Fries', 50000, '1991D314-DB2B-47EB-88DC-0F1CD8A60B45');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'BBQ Ribs', 200000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Margherita Pizza', 150000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Kids Cheese Burger', 70000, 'B2A4D6E1-1F54-4A22-9E77-789ABCDEF012');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Spring Rolls', 60000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lemonade', 40000, '1991D314-DB2B-47EB-88DC-0F1CD8A60B45');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Apple Pie', 50000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Sushi Platter', 250000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+
+-- Add more random dishes with varying SectionId and prices
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Chicken Wings', 100000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Steak', 300000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lobster Bisque', 180000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Chocolate Cake', 60000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Margarita', 80000, '1991D314-DB2B-47EB-88DC-0F1CD8A60B45');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Vegetable Stir Fry', 110000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Bacon Burger', 140000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Kids Chicken Nuggets', 60000, 'B2A4D6E1-1F54-4A22-9E77-789ABCDEF012');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Ice Cream Sundae', 50000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Greek Salad', 90000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+
+-- Continue adding more dishes
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Spaghetti Bolognese', 120000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Orange Juice', 30000, '1991D314-DB2B-47EB-88DC-0F1CD8A60B45');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Shrimp Cocktail', 150000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Nachos', 70000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Vanilla Milkshake', 40000, 'B2A4D6E1-1F54-4A22-9E77-789ABCDEF012');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Chicken Caesar Wrap', 110000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Crab Cakes', 160000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Stuffed Mushrooms', 90000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Fried Shrimp', 130000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Cauliflower Bites', 70000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+
+-- Continue with more dishes
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Mac and Cheese', 80000, 'B2A4D6E1-1F54-4A22-9E77-789ABCDEF012');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Sashimi Platter', 180000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pasta Alfredo', 140000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Coke', 30000, '1991D314-DB2B-47EB-88DC-0F1CD8A60B45');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Brownie', 50000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Tuna Tartare', 140000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Beef Tacos', 100000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Fried Rice', 80000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pancakes', 60000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Kids Chicken Tenders', 60000, 'B2A4D6E1-1F54-4A22-9E77-789ABCDEF012');
+
+-- Adding more random dishes (from 41 to 80)
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Chicken Alfredo', 160000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Peking Duck', 220000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lamb Chops', 280000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Grilled Shrimp', 180000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Fried Calamari', 140000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Cheesecake', 80000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Tiramisu', 90000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pasta Primavera', 130000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Eggplant Parmesan', 140000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'BBQ Chicken Pizza', 170000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+
+-- Add more random dishes with varying SectionId and prices
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Duck Confit', 250000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Prawn Tempura', 150000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Beef Wellington', 350000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Ravioli', 130000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Garlic Bread', 50000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Mushroom Soup', 70000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lobster Roll', 250000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Beef Burritos', 100000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Chicken Biryani', 120000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Grilled Vegetables', 80000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+
+-- Continue adding more dishes
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pork Schnitzel', 150000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Sautéed Mushrooms', 60000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pineapple Fried Rice', 90000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lobster Tail', 350000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Risotto', 130000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Clam Chowder', 100000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Bangers and Mash', 150000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Cheese Plate', 120000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Duck Breast', 250000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Maki Rolls', 140000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+
+-- Final dishes to complete the list
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Vegetarian Lasagna', 150000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Salmon Fillet', 180000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Marinated Olives', 70000, 'A5D6A781-3D0A-4B89-93A3-123456789ABC');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Pork Belly', 190000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Vegetable Samosas', 80000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Oysters', 200000, 'E518919A-5662-40C5-8468-AE4A3CE70A80');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Waffle', 90000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Vegetable Tacos', 110000, 'C3F5D7B4-8F44-4BB0-ABC8-654321FEDCBA');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Lamb Kofta', 160000, '9BD51261-8C72-4976-8F7E-6C16772A6001');
+INSERT INTO Dishes (DishId, DishName, CurrentPrice, SectionId) VALUES (NEWID(), 'Baked Alaska', 120000, '242DC005-A807-40E2-BAEF-CAF01F3CCD24');
+
+
+go
+
+
+-- branch dishes
+
+INSERT INTO BranchDishes (BranchDishId, BranchId, DishId, Status, ShipStatus)
+SELECT NEWID(), -- Tạo BranchDishId mới với kiểu uniqueidentifier
+       Branches.BranchId,
+       Dishes.DishId,
+       CAST((ABS(CHECKSUM(NEWID())) % 2) AS BIT) AS Status, -- Tạo ngẫu nhiên giá trị Status (0 hoặc 1)
+       CAST((ABS(CHECKSUM(NEWID())) % 2) AS BIT) AS ShipStatus -- Tạo ngẫu nhiên giá trị ShipStatus (0 hoặc 1)
+FROM Branches
+CROSS JOIN Dishes;
+
+go
+
+
+--department
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Lao công', 3000000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Bảo vệ', 4000000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Nhân viên', 5000000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Quản lý', 7000000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Kế toán', 6000000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Nhân sự', 5500000);
+
+INSERT INTO Departments (DepartmentId, DepartmentName, BaseSalary)
+VALUES (NEWID(), N'Thu ngân', 4500000);
+
+GO
+
+
+
+
+
+create table employeesName 
+(
+    id UNIQUEIDENTIFIER PRIMARY KEY,
+    name NVARCHAR(50)
+)
+
+insert into employeesName( id , Name ) values ( NEWID() , 'Sheelagh Hlavecek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alexa Brocklehurst');
+insert into employeesName( id , Name ) values ( NEWID() , 'Frieda Sherme');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wake Bartholomieu');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marcia Jarritt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wandis Boustred');
+insert into employeesName( id , Name ) values ( NEWID() , 'Andy Arnli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sarge Ca');
+insert into employeesName( id , Name ) values ( NEWID() , 'Barnaby Jenney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kimmi Murtagh');
+insert into employeesName( id , Name ) values ( NEWID() , 'Julissa Hartshorne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fredelia Lidyard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dean Litterick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cesya Butteris');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lazarus Izacenko');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antonietta Asple');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lindsey Labroue');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rozanne Rylatt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Orin Abelovitz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christabel Buzek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gwendolyn Penke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gilbert Menel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dorene Narducci');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laurie Bratley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jacquelynn Taye');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marleah Andreone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lana Stading');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chalmers Batter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Simonne Andrick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Papagena Souttar');
+insert into employeesName( id , Name ) values ( NEWID() , 'Decca Coo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Trueman Mikalski');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tildi Peterkin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fan Crozier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Winfred Duck');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hatti Gallgher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Priscella Giampietro');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ruby Jex');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lyndsey Rist');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sidoney Cardenosa');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rudolf Gladebeck');
+insert into employeesName( id , Name ) values ( NEWID() , 'Pauli Tome');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robbie Brierly');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fawnia Dinneen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dniren Rowlinson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wayne Garrow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jammal Holbarrow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ermentrude Lyall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mordecai Cockerham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Briant Gaylard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dania Fransemai');
+insert into employeesName( id , Name ) values ( NEWID() , 'Persis Bostick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Simeon Pointer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Torrance Tomasutti');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dorotea Lindbergh');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sara-ann Russam');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gusty Doncaster');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berti Krol');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eal Sincock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amble Dudden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gearalt Archdeacon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wilburt Fiennes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alyda Scott');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vincenty Robison');
+insert into employeesName( id , Name ) values ( NEWID() , 'Yank Haill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maximilien Povele');
+insert into employeesName( id , Name ) values ( NEWID() , 'Henrie Gigg');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karly Poltone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amargo Willard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Harley Cubbit');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dante Cheel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Delila Brignall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Loralie Wikey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elladine Gittoes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nial Winson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rosamond Danzelman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Haskell Wass');
+insert into employeesName( id , Name ) values ( NEWID() , 'Juana Queree');
+insert into employeesName( id , Name ) values ( NEWID() , 'Millicent Haywood');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tamarra Skynner');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sarina MacLaverty');
+insert into employeesName( id , Name ) values ( NEWID() , 'Theda Hale');
+insert into employeesName( id , Name ) values ( NEWID() , 'Griffy Koubek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cullie Matteoni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corty Hathaway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sharl Eisikowitz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hermie Gatman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Della Moses');
+insert into employeesName( id , Name ) values ( NEWID() , 'Domenic Whitelock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alejandro Easum');
+insert into employeesName( id , Name ) values ( NEWID() , 'Julieta Duny');
+insert into employeesName( id , Name ) values ( NEWID() , 'Constantine Trengrove');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mathian Garner');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hillery Saiens');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dorine Schwartz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hollyanne Kestian');
+insert into employeesName( id , Name ) values ( NEWID() , 'Basile Brigden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cyril Hanburry');
+insert into employeesName( id , Name ) values ( NEWID() , 'Irvine Mulholland');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nathanil Crummey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Taylor Ducarne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sallie Frayne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kermit Clemo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tonye McGeachie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ameline Dowzell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laurena McGilben');
+insert into employeesName( id , Name ) values ( NEWID() , 'Scotty Thornber');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kathlin Papworth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jeana Novacek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karmen Aldcorne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nicola Hotton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Prudi Edinburough');
+insert into employeesName( id , Name ) values ( NEWID() , 'Valentijn Le Fleming');
+insert into employeesName( id , Name ) values ( NEWID() , 'Keefer Guinan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eal Reynalds');
+insert into employeesName( id , Name ) values ( NEWID() , 'Julianna Pickover');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bryanty Lippo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kass Saffle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Deerdre McGraw');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miller Dumbellow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ivie Dimmick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angelica MacKibbon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Batsheva Taverner');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nonna Fulleylove');
+insert into employeesName( id , Name ) values ( NEWID() , 'Thomasine Fleming');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ado Huffey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tome Inchbald');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sharona Inskipp');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ursula Meaton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angela Dykins');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meredith Axe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Harrietta Mulqueen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Carroll Abdee');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ivar Aveson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Crissy Gregor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Colet Macbeth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Roch Grimsditch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berrie Thys');
+insert into employeesName( id , Name ) values ( NEWID() , 'Giorgi Dearth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sofia Aherne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marylin Sargint');
+insert into employeesName( id , Name ) values ( NEWID() , 'Emanuel Garrett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Duncan Blaine');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eldredge Holligan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Catarina Petyakov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Erina Gallone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kaitlyn Akester');
+insert into employeesName( id , Name ) values ( NEWID() , 'Galen Noyes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jermayne Krienke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marni Freschi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Riordan Doberer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Frederico Willett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alvis Housegoe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Thoma Bamell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Pembroke Goodband');
+insert into employeesName( id , Name ) values ( NEWID() , 'Erina Guittet');
+insert into employeesName( id , Name ) values ( NEWID() , 'Agnese Sedgemore');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lebbie Matthessen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amelina Marl');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alanna Boni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hilarius Pickin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Estel Humphris');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jaynell Alker');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christi Liveing');
+insert into employeesName( id , Name ) values ( NEWID() , 'Barclay Saffen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Haslett Cinavas');
+insert into employeesName( id , Name ) values ( NEWID() , 'Yvette Maun');
+insert into employeesName( id , Name ) values ( NEWID() , 'Xever Isoldi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Celestia Caulcutt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Georgeanne Honeyghan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maiga Noni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lannie Duker');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dulcine Rumbelow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tierney Stroud');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lanie Bernholt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cody M''Quhan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Diena McKane');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meryl Iacobassi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Haroun Legate');
+insert into employeesName( id , Name ) values ( NEWID() , 'Charmian Aherne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rasla McVrone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Debor McIlraith');
+insert into employeesName( id , Name ) values ( NEWID() , 'Roberta Takos');
+insert into employeesName( id , Name ) values ( NEWID() , 'Van Libbey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jobye Messier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Foss Clynter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Richard Mea');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tamma Grut');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jule Grosier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Renaud Allkins');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marillin Salvadori');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hanson Emmines');
+insert into employeesName( id , Name ) values ( NEWID() , 'Devina Rawnsley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Melissa Wrighton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jamesy Shitliffe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ogdon Eade');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kenny Cowdery');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berte Minogue');
+insert into employeesName( id , Name ) values ( NEWID() , 'Davey Astlett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rosalie Bootes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amii Dunley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Quintina Harnott');
+insert into employeesName( id , Name ) values ( NEWID() , 'Joellen Pentecust');
+insert into employeesName( id , Name ) values ( NEWID() , 'Archambault Mackin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Baxy Condon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Adrianna Copnell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corry Stubley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rhett Dilleway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sherye Baudoux');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alisander Sibbons');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robbert Ferro');
+insert into employeesName( id , Name ) values ( NEWID() , 'Renato Tresise');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nertie Ashcroft');
+insert into employeesName( id , Name ) values ( NEWID() , 'Albina Merfin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jillie Maitland');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elliott Lapsley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marcellus Duffett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Onfre Timmons');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fianna Jouannisson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Catlee Olding');
+insert into employeesName( id , Name ) values ( NEWID() , 'Linette Stalf');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dom Mackrell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Parrnell Pedler');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mandie Muscat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jillana Ovett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angy McIlwraith');
+insert into employeesName( id , Name ) values ( NEWID() , 'Martynne Cecchi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Raquela Clougher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wynn Lippiatt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sig Shailer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gonzalo Tulip');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eirena Rosten');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jasmina Ace');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eduino Lethbridge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lucius Causey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alley Lipmann');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sybyl Wayt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Austine Beever');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nydia Dorsey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Frieda Leaning');
+insert into employeesName( id , Name ) values ( NEWID() , 'Augustine Bransden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lombard Andrysek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berke Rotter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reggi Barus');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karlene Grocock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miquela Jirusek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sigismundo Ibberson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Irene Coll');
+insert into employeesName( id , Name ) values ( NEWID() , 'Catherina MacVicar');
+insert into employeesName( id , Name ) values ( NEWID() , 'Claudian Espinel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Linda Sanderson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Denny Dashkovich');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hendrick Al Hirsi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dorene Hayman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jobie Rice');
+insert into employeesName( id , Name ) values ( NEWID() , 'Pooh Bee');
+insert into employeesName( id , Name ) values ( NEWID() , 'Darby Trudgian');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reggis Teulier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Neddie Lippiett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Thacher Stackbridge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Onfroi Wiggall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nannie Leyfield');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alvinia Woodage');
+insert into employeesName( id , Name ) values ( NEWID() , 'Krystyna Baumann');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lissa Estcourt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kerry Dunbobin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Abram Farragher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Adolph Nicklinson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Melany Galvin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corabel Pavlenkov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nerte Coverley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fina Woolens');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eberto Nassey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Zed Heaton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Malinda Gendricke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Patrice Dandy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aimil Clair');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lelia Urey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hadrian O''Corr');
+insert into employeesName( id , Name ) values ( NEWID() , 'Phyllis Lampens');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meryl Baguley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kendall Mutch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Barbaraanne Christophersen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dani Riedel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Zack Wilce');
+insert into employeesName( id , Name ) values ( NEWID() , 'Darya Sponer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hebert Reinert');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marley Fiddiman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Noe Stracey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gabi Duffil');
+insert into employeesName( id , Name ) values ( NEWID() , 'Danette Gallier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laverna Laybourn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gavin Giraldon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Beniamino Lockhead');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rafaello Jacqueme');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gregoor MacMillan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Giorgio Rackam');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gabbie Domoni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hartley Barroux');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ty Dutteridge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cassandra Carriage');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cathi Dobrovolny');
+insert into employeesName( id , Name ) values ( NEWID() , 'Benedict Munnis');
+insert into employeesName( id , Name ) values ( NEWID() , 'Anya Kienzle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mufinella Clowney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christoph Ouldcott');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amalle Tilston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Thornton Henlon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ranice Gerardi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Yolanthe Hinkes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sula Scowen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Constancy Clarabut');
+insert into employeesName( id , Name ) values ( NEWID() , 'Blythe Pedrick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corliss Byrch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Windy Bollin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lewie Snashall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Helenelizabeth Ida');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gussy Devote');
+insert into employeesName( id , Name ) values ( NEWID() , 'Piggy Callender');
+insert into employeesName( id , Name ) values ( NEWID() , 'Candida Tambling');
+insert into employeesName( id , Name ) values ( NEWID() , 'Guillema Pharaoh');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jody Duffell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Beatrix Cornes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shantee Merkel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Silvio Coling');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ginger Crownshaw');
+insert into employeesName( id , Name ) values ( NEWID() , 'Erl Mathieu');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sybille Lashley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alvinia Knibb');
+insert into employeesName( id , Name ) values ( NEWID() , 'Zacharia Chadwen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sherie Goldie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marty McCaig');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dolph Isacoff');
+insert into employeesName( id , Name ) values ( NEWID() , 'Drusie Toolan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Philippine Moxon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marlo Shernock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marne Wharton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kalie Glendza');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christean Stonebanks');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rey Scotchforth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Phyllys Leary');
+insert into employeesName( id , Name ) values ( NEWID() , 'Desiri Raspin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gretta Jobbins');
+insert into employeesName( id , Name ) values ( NEWID() , 'Patrizio Coverly');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leontine Stanlock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hewet Pampling');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bartel Greder');
+insert into employeesName( id , Name ) values ( NEWID() , 'Phyllys Ellard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Modesty Warsap');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hogan Rolfi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cherey Sherwen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robinson McInnes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bonnie Matskiv');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aeriell Housby');
+insert into employeesName( id , Name ) values ( NEWID() , 'Conny Fitzmaurice');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corissa Bartolomeazzi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shannan Waters');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alyse Beynon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jaye Odo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cleon Margram');
+insert into employeesName( id , Name ) values ( NEWID() , 'Danyette Shipton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Beverly Cleife');
+insert into employeesName( id , Name ) values ( NEWID() , 'Durward D''Alesio');
+insert into employeesName( id , Name ) values ( NEWID() , 'Catha Andrey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maureene Boyle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Inna Beels');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jan Godsil');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kelly Bissiker');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angie Musla');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angelia Pentycross');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leah Wooffitt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Florette Spoor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hayyim Stonhewer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rutger Samter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Heall Hutchison');
+insert into employeesName( id , Name ) values ( NEWID() , 'Carree Dowbekin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Opalina Sawfoot');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ashely Olligan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ruthe McCleod');
+insert into employeesName( id , Name ) values ( NEWID() , 'Konrad Lorenzo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Pepe Mesnard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Biddy Adcock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Persis Kryzhov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Babs Labat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Killy Geertje');
+insert into employeesName( id , Name ) values ( NEWID() , 'Odelle Prudham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Norman Castan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lynett Yaakov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kelcey Patley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Linnea Trevett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vaughn Pendock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wyatt Teodori');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kerstin Creaney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leanora Ungaretti');
+insert into employeesName( id , Name ) values ( NEWID() , 'Augusto Grayshan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Collen Mea');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kathi Sleight');
+insert into employeesName( id , Name ) values ( NEWID() , 'Charmine Havers');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mirelle Micheu');
+insert into employeesName( id , Name ) values ( NEWID() , 'Josee Hain');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hetty Porter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Oswald Barson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leroi King');
+insert into employeesName( id , Name ) values ( NEWID() , 'Andie Leyton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kathie Bangham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antonius MacKnockiter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sadie Rodrigo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lauri Thirlwell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Justus Galero');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jimmie Conaboy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margery Shepton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amara Pehrsson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tabb De Benedictis');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ajay Offill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ossie Archanbault');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marcelline Gorman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elsie Bellanger');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aurilia Yokel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leslie Matyashev');
+insert into employeesName( id , Name ) values ( NEWID() , 'Erica Slowgrove');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ambros Mallord');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aeriel Kann');
+insert into employeesName( id , Name ) values ( NEWID() , 'Stefania Rampling');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ambrosius Grayshon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shelley Birtwistle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reine MacLachlan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Stavros Targetter');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jonathan Juszczyk');
+insert into employeesName( id , Name ) values ( NEWID() , 'Abigail Sawley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Helenka Sims');
+insert into employeesName( id , Name ) values ( NEWID() , 'Regina Olkowicz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alexandra Fluger');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chickie Pheazey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cloe Egel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Silvie McInnerny');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chet Hardaway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Winona Kefford');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chelsea Momford');
+insert into employeesName( id , Name ) values ( NEWID() , 'Evey Gonzalo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Isidore Cruwys');
+insert into employeesName( id , Name ) values ( NEWID() , 'Panchito Buckston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Skell Beddingham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Clifford Pethick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rayna Padson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amalea Beveredge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gae Jesson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Monty Turtle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Preston Roz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wilbert Balshaw');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elita Drewe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cecile Gardner');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alexa Doram');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bronny Storie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Don Tinson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Demetre Clapton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dido Benzi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jayson Casado');
+insert into employeesName( id , Name ) values ( NEWID() , 'Thaddeus McIlwain');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jaclin Emor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Camel Peschka');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dalenna Lebourn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doreen Germann');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gerard Brok');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sharyl Blesli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gav Gwillim');
+insert into employeesName( id , Name ) values ( NEWID() , 'Simonette MacKellen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Abbi Medford');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aeriell Wolpert');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elly Tschiersch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ario Daviot');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bartholemy Keyzman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Emlynn Sargant');
+insert into employeesName( id , Name ) values ( NEWID() , 'Toby Askin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gratiana Westbury');
+insert into employeesName( id , Name ) values ( NEWID() , 'Neall Franz-Schoninger');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kaye Lundbeck');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chiquita Stanyard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Emili Brewers');
+insert into employeesName( id , Name ) values ( NEWID() , 'Yale Doleman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alberik Mizen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Janice MacClure');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dominic Foulks');
+insert into employeesName( id , Name ) values ( NEWID() , 'Casper Gaffey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lanny Sankey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Natalie Eplett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tobias Bilby');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eugenio MacIver');
+insert into employeesName( id , Name ) values ( NEWID() , 'Noam Van Velden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sharona McAlester');
+insert into employeesName( id , Name ) values ( NEWID() , 'Estel Boc');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robinia Houseman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alden Conant');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lilith Duck');
+insert into employeesName( id , Name ) values ( NEWID() , 'Winnah Schettini');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gates Tregenza');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aridatha Sangwin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bradney Broske');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shel Waddam');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jemima Samwyse');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reinaldo Crawcour');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fifine Easlea');
+insert into employeesName( id , Name ) values ( NEWID() , 'Raff Rowbrey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cleavland Goldthorp');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gwendolyn Kees');
+insert into employeesName( id , Name ) values ( NEWID() , 'Roarke Edrich');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hannie Hail');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robbi Duro');
+insert into employeesName( id , Name ) values ( NEWID() , 'Porty Leber');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ingram Cardenoza');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mira McGeneay');
+insert into employeesName( id , Name ) values ( NEWID() , 'Homer Kensington');
+insert into employeesName( id , Name ) values ( NEWID() , 'Veradis Stonard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alicea Clifforth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hannah Bellward');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chrisy Peirpoint');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angil Sturgess');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kristine Membry');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corliss Fonquernie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rhona Leney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doy Ivanets');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miller Hegden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kaile Whanstall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kellina Kingcote');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tish Chasmer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rheba Smeaton');
+insert into employeesName( id , Name ) values ( NEWID() , 'El Hillyatt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Carlynne Merit');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antonietta Candelin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Patty Carlow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sigismund Prettyman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Artemis Greenroad');
+insert into employeesName( id , Name ) values ( NEWID() , 'Florance Brewett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sherri Jojic');
+insert into employeesName( id , Name ) values ( NEWID() , 'Freddie Vedstra');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gregoor Beeson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elwood Donati');
+insert into employeesName( id , Name ) values ( NEWID() , 'Paquito Jarratt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aguie Willbourne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rochell Bithell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Zondra Hargess');
+insert into employeesName( id , Name ) values ( NEWID() , 'Palm Huncoot');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ellette Slevin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Renelle Tibald');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robinson Clohissy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karlan Plomer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sonya Oene');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margie Dungate');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karee Godfree');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jared Pestor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Martina Dudson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miran Edmed');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kareem Winley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eleonora Marlen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Silvana Snarie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hal Deinhardt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ella Rizzello');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lotti Dudbridge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Purcell Pledger');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berton Burkhill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sigfried Peeke-Vout');
+insert into employeesName( id , Name ) values ( NEWID() , 'Merilee Mc Combe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maxy Haggis');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ruben Tohill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Conroy Coverdill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Belinda Hatzar');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lacee Tear');
+insert into employeesName( id , Name ) values ( NEWID() , 'Heddie Hooban');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chan Farquharson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Morse Dmitr');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eve Dark');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mallorie Treacy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Matty Stroder');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nedi Hamlington');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ludovico Bloomfield');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tanny Weymouth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jessalin Cornelius');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mata Dungey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lorne Kellar');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nikolas Martinello');
+insert into employeesName( id , Name ) values ( NEWID() , 'Claretta McIndrew');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lane Klebes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Johannes Mangeney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Brocky Mum');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margarette Piatto');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christopher Struttman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Murvyn Bedding');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cthrine Collingworth');
+insert into employeesName( id , Name ) values ( NEWID() , 'Natalie Laingmaid');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kattie Bromby');
+insert into employeesName( id , Name ) values ( NEWID() , 'Honey Kilmister');
+insert into employeesName( id , Name ) values ( NEWID() , 'Salomo Pelchat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alika Claypoole');
+insert into employeesName( id , Name ) values ( NEWID() , 'Purcell Dunkersley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Isac Henken');
+insert into employeesName( id , Name ) values ( NEWID() , 'Felic Baldelli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hashim Abdon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kory Anderton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Milzie Ledgister');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tom Garrish');
+insert into employeesName( id , Name ) values ( NEWID() , 'Barbra Berresford');
+insert into employeesName( id , Name ) values ( NEWID() , 'Steven Reddyhoff');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kay Barde');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miguelita Jubert');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bellanca Saddington');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miquela Goatcher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ortensia Alben');
+insert into employeesName( id , Name ) values ( NEWID() , 'Delmar Grocock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laina Bulch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dwight Caghy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Remington Gallagher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ida Johnston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fernanda Francais');
+insert into employeesName( id , Name ) values ( NEWID() , 'Krista Bytheway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maurizia Dinesen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sinclare Tackle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Adriaens McNirlan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kerrie Whodcoat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Andres Durston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Missie Klimes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sammy Lambden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rourke Honeywood');
+insert into employeesName( id , Name ) values ( NEWID() , 'Brana Gook');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jocelyne Rohlfs');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lonee Gregorio');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mayor Placidi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Casi Letertre');
+insert into employeesName( id , Name ) values ( NEWID() , 'Moyna Caswall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tarrah Branscombe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sher Coppins');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wilton Knox');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hamlen Fields');
+insert into employeesName( id , Name ) values ( NEWID() , 'Purcell Gullane');
+insert into employeesName( id , Name ) values ( NEWID() , 'Benedicta Clemmey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hali Bartosinski');
+insert into employeesName( id , Name ) values ( NEWID() , 'Brade Castanho');
+insert into employeesName( id , Name ) values ( NEWID() , 'De witt Hancell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bax Doget');
+insert into employeesName( id , Name ) values ( NEWID() , 'Arlen Grund');
+insert into employeesName( id , Name ) values ( NEWID() , 'Malvin Dayes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hew Cantopher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nicolis Castillou');
+insert into employeesName( id , Name ) values ( NEWID() , 'Orran Pettie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mickey Denton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sergei Garstang');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lars Finnes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Carce Gherardi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berton Watkiss');
+insert into employeesName( id , Name ) values ( NEWID() , 'Regan Loeber');
+insert into employeesName( id , Name ) values ( NEWID() , 'Torrence Ellwand');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lay Yosevitz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vivyanne Frentz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Glynda Valentetti');
+insert into employeesName( id , Name ) values ( NEWID() , 'Henri Fenkel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cob Abelovitz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Desiree Rayment');
+insert into employeesName( id , Name ) values ( NEWID() , 'Iain Rennicks');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kate Bussen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Geri Dionisii');
+insert into employeesName( id , Name ) values ( NEWID() , 'Morten Attenborough');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chickie Leftley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nanice Yerrall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rollin Cockburn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wittie Grimm');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eleonora Hully');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bethanne Rebeiro');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sigvard Lints');
+insert into employeesName( id , Name ) values ( NEWID() , 'Estel Ligoe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Barth Randle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Randa Chippendale');
+insert into employeesName( id , Name ) values ( NEWID() , 'Clint Karsh');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rad De Filippo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bernardina Howes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nicole Fincher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Caron Blaes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Xavier Ruxton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hunfredo Larman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cazzie Torricella');
+insert into employeesName( id , Name ) values ( NEWID() , 'Archaimbaud O''Hoolahan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leopold Twinborough');
+insert into employeesName( id , Name ) values ( NEWID() , 'Merwyn Twelvetrees');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hort Lilliman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miller McGrotty');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maddy McBay');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antonie Belle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Roslyn Hulbert');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gian Rault');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cora Bailles');
+insert into employeesName( id , Name ) values ( NEWID() , 'Catherina Saltsberger');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dinny Pietz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Trixie Spender');
+insert into employeesName( id , Name ) values ( NEWID() , 'Randolf Galway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tara Warrener');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lela Murdoch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Zitella Pankethman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chip Rosberg');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antin Hefforde');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vassily Du Hamel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kassi Buntain');
+insert into employeesName( id , Name ) values ( NEWID() , 'Evyn Noddings');
+insert into employeesName( id , Name ) values ( NEWID() , 'Glenda Laste');
+insert into employeesName( id , Name ) values ( NEWID() , 'Casey Tonge');
+insert into employeesName( id , Name ) values ( NEWID() , 'Orella McGeachy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kellie Trenfield');
+insert into employeesName( id , Name ) values ( NEWID() , 'Salvatore Shipley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laurie Christofides');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dion Tregien');
+insert into employeesName( id , Name ) values ( NEWID() , 'Abelard Esslement');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lyndy Goeff');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hazel Loody');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gerhard Ryton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Garret Rowntree');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nester Hamlen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Stephannie Grumble');
+insert into employeesName( id , Name ) values ( NEWID() , 'Martha Mottinelli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Niles Albone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bert Delaney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shalne Tejada');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vinnie Demke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Byrann Franseco');
+insert into employeesName( id , Name ) values ( NEWID() , 'Neddie Runham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hildegarde Upson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alvie Finnis');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hillary Dacres');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jade Jowling');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bret Hounsham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bowie McGavin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meridith Howbrook');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hyacinthie Ussher');
+insert into employeesName( id , Name ) values ( NEWID() , 'Link Figgures');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sander Morrant');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vernice Kettlestring');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gary Crollman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Glenna Darley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Goran McMains');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ashley Shefton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Keven Camolli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Corene Tubridy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hephzibah McKintosh');
+insert into employeesName( id , Name ) values ( NEWID() , 'Damian Girvan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tamqrah Isgar');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rosanna Skyme');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meredith Badder');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margret Kynaston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maddalena Whittock');
+insert into employeesName( id , Name ) values ( NEWID() , 'Larina Woltman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Si O''Mullally');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ninetta Savatier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Aube Pessel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Whitby Bontine');
+insert into employeesName( id , Name ) values ( NEWID() , 'Joyous Guerreru');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jermaine Berzen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nert Mussettini');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tandy Brambell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tomkin Crathern');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rina Hiers');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gussi Frantz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kelley Braferton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Antonetta Dalton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chery Tomasz');
+insert into employeesName( id , Name ) values ( NEWID() , 'Veronique Hurcombe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hanna Cahani');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tynan Toffolo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Johna Uzelli');
+insert into employeesName( id , Name ) values ( NEWID() , 'Monte Danelut');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margot Kilbey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wenonah Tiptaft');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dewie Tibbles');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kalvin Maggorini');
+insert into employeesName( id , Name ) values ( NEWID() , 'Milly Spitaro');
+insert into employeesName( id , Name ) values ( NEWID() , 'Katerina Whinray');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dominique Bowller');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doti Soulsby');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berkly Bachmann');
+insert into employeesName( id , Name ) values ( NEWID() , 'Milly Macci');
+insert into employeesName( id , Name ) values ( NEWID() , 'Amanda Wiltshaw');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kermit Skarman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shelby Backes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bernardine Scholey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cecilia Gonnelly');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jerrylee Baudasso');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fleurette Medhurst');
+insert into employeesName( id , Name ) values ( NEWID() , 'Edita Rimer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dawn Deadman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Maximilien Djordjevic');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laurice Pacht');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tally Eliesco');
+insert into employeesName( id , Name ) values ( NEWID() , 'Livvyy Biernat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doy Milesap');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jodi Juan');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hastings Farrand');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ulla Whight');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kamilah Paolotto');
+insert into employeesName( id , Name ) values ( NEWID() , 'Matthus Allington');
+insert into employeesName( id , Name ) values ( NEWID() , 'Herc Reynard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mychal O''Day');
+insert into employeesName( id , Name ) values ( NEWID() , 'Robinetta Ofield');
+insert into employeesName( id , Name ) values ( NEWID() , 'Melloney Kay');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fred Betke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Blondie Jeggo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Penrod Flippen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kassandra Fines');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cherye Larkkem');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lorianna Doige');
+insert into employeesName( id , Name ) values ( NEWID() , 'Fowler Vispo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sileas Getcliffe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cate Craighead');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hugo Cattellion');
+insert into employeesName( id , Name ) values ( NEWID() , 'Toiboid McNaughton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ralph Lagden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meggi Briat');
+insert into employeesName( id , Name ) values ( NEWID() , 'Janith Ferenczi');
+insert into employeesName( id , Name ) values ( NEWID() , 'Farly Phil');
+insert into employeesName( id , Name ) values ( NEWID() , 'Olav Skures');
+insert into employeesName( id , Name ) values ( NEWID() , 'Izzy Whitby');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chet Radbourn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eden Fox');
+insert into employeesName( id , Name ) values ( NEWID() , 'Olivero Lawty');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jenni MacCartney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tuck Lonsdale');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lolita Benoey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Neill Percival');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dalia Purshouse');
+insert into employeesName( id , Name ) values ( NEWID() , 'Olivier Perrigo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Traver Gabbitus');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jojo Dallow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Francyne Rauprich');
+insert into employeesName( id , Name ) values ( NEWID() , 'Derk Darree');
+insert into employeesName( id , Name ) values ( NEWID() , 'Beatrice Lanceley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nancy Pinfold');
+insert into employeesName( id , Name ) values ( NEWID() , 'Trescha Samet');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wiley Stut');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gasparo D''Antuoni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kordula Dullard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Shalna Loughman');
+insert into employeesName( id , Name ) values ( NEWID() , 'Launce Corrado');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kennie Gockeler');
+insert into employeesName( id , Name ) values ( NEWID() , 'Harmonie Strugnell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Melly Walles');
+insert into employeesName( id , Name ) values ( NEWID() , 'Donnamarie Spiteri');
+insert into employeesName( id , Name ) values ( NEWID() , 'Prescott Fratczak');
+insert into employeesName( id , Name ) values ( NEWID() , 'Briney Irvin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ainslie Robelow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Oralla Gobeaux');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sig De Roos');
+insert into employeesName( id , Name ) values ( NEWID() , 'Keven Featherston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Douglas Margetts');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hali Douglas');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nathaniel Ciciura');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eada Wimes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Allina Austick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eugenie McGiffie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Stevana Gatley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cyndy Boutellier');
+insert into employeesName( id , Name ) values ( NEWID() , 'Petronille Croal');
+insert into employeesName( id , Name ) values ( NEWID() , 'Madel Dymond');
+insert into employeesName( id , Name ) values ( NEWID() , 'Obediah Flanne');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ailyn Longfellow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ronnie Fretson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Georgeta Lemarie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kay Cartmel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jori Newlyn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Leif Gumb');
+insert into employeesName( id , Name ) values ( NEWID() , 'Inglebert Pert');
+insert into employeesName( id , Name ) values ( NEWID() , 'Judas Haville');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kelly Shellum');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rad Sansam');
+insert into employeesName( id , Name ) values ( NEWID() , 'Richardo Hamlyn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Annmarie Vasilkov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rey De Carteret');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mariam Eykel');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ramonda Baggallay');
+insert into employeesName( id , Name ) values ( NEWID() , 'Teressa Rissom');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ennis Iannitti');
+insert into employeesName( id , Name ) values ( NEWID() , 'Karleen Willoughway');
+insert into employeesName( id , Name ) values ( NEWID() , 'Anselm Carncross');
+insert into employeesName( id , Name ) values ( NEWID() , 'Abey Crame');
+insert into employeesName( id , Name ) values ( NEWID() , 'Faydra Timoney');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gabie Molyneaux');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ulrika Braden');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gui Holleran');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reginauld Measor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Johnathan Sandyford');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ernesto Broxup');
+insert into employeesName( id , Name ) values ( NEWID() , 'Meg Sinyard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Papageno Glison');
+insert into employeesName( id , Name ) values ( NEWID() , 'Miguela Berrey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Annie Nuzzti');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wallie Sopp');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jemima Belloch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kathleen Rembaud');
+insert into employeesName( id , Name ) values ( NEWID() , 'Husain Haldon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tyrus Bednell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laverne Steenson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jo-ann Paulet');
+insert into employeesName( id , Name ) values ( NEWID() , 'Reggie Agg');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gran McNiff');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ludovika Bispham');
+insert into employeesName( id , Name ) values ( NEWID() , 'Inga Hensmans');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kristofor Moorwood');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lilyan Dyett');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rivy Harpur');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elly Eliot');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laina Pinnick');
+insert into employeesName( id , Name ) values ( NEWID() , 'Swen Davisson');
+insert into employeesName( id , Name ) values ( NEWID() , 'Foster Lynnitt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Milissent Franceschino');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eben Regler');
+insert into employeesName( id , Name ) values ( NEWID() , 'Genevra Ponton');
+insert into employeesName( id , Name ) values ( NEWID() , 'Charley Mathet');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tito Andor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angie Piken');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mack Bloodworthe');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jaymie Fairlamb');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alexis Almey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tedda Skalls');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ambur Gyrgorwicx');
+insert into employeesName( id , Name ) values ( NEWID() , 'Madonna MacDougal');
+insert into employeesName( id , Name ) values ( NEWID() , 'Mureil Vynall');
+insert into employeesName( id , Name ) values ( NEWID() , 'Edmund Udie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Chlo Mantram');
+insert into employeesName( id , Name ) values ( NEWID() , 'Clim Goldspink');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jerrilee Ainslee');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ginger Rowell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marlyn Ackrill');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vilma Gawler');
+insert into employeesName( id , Name ) values ( NEWID() , 'Oralee Pimm');
+insert into employeesName( id , Name ) values ( NEWID() , 'Sharl Schreurs');
+insert into employeesName( id , Name ) values ( NEWID() , 'Madalyn Hawes');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jinny Eskriet');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jeremie MacMoyer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Clementine Columbine');
+insert into employeesName( id , Name ) values ( NEWID() , 'Andromache Lyttle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jocko Callum');
+insert into employeesName( id , Name ) values ( NEWID() , 'Asia Gristhwaite');
+insert into employeesName( id , Name ) values ( NEWID() , 'Marlo Fenimore');
+insert into employeesName( id , Name ) values ( NEWID() , 'Harriett Penniell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ric Segot');
+insert into employeesName( id , Name ) values ( NEWID() , 'Romy Oldmeadow');
+insert into employeesName( id , Name ) values ( NEWID() , 'Bailey McDarmid');
+insert into employeesName( id , Name ) values ( NEWID() , 'Baxie Nicklin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Christan Alexsandrovich');
+insert into employeesName( id , Name ) values ( NEWID() , 'Creigh Beagin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hieronymus Riccard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Helena Royste');
+insert into employeesName( id , Name ) values ( NEWID() , 'Allison Stading');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vale Attreed');
+insert into employeesName( id , Name ) values ( NEWID() , 'Anthia Urrey');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wendy Firebrace');
+insert into employeesName( id , Name ) values ( NEWID() , 'Neill Quartermain');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lev Karczinski');
+insert into employeesName( id , Name ) values ( NEWID() , 'Pryce Bartalucci');
+insert into employeesName( id , Name ) values ( NEWID() , 'Staffard Bogie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Franklin Carlon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Laurianne Barenskie');
+insert into employeesName( id , Name ) values ( NEWID() , 'Audrie Pelerin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Nicoline Corzon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gert Harmstone');
+insert into employeesName( id , Name ) values ( NEWID() , 'Darbee Oblein');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doria Cianni');
+insert into employeesName( id , Name ) values ( NEWID() , 'Raffaello Durston');
+insert into employeesName( id , Name ) values ( NEWID() , 'Simone Brotherhood');
+insert into employeesName( id , Name ) values ( NEWID() , 'Kellen Johanning');
+insert into employeesName( id , Name ) values ( NEWID() , 'Jourdan Nail');
+insert into employeesName( id , Name ) values ( NEWID() , 'Far Withur');
+insert into employeesName( id , Name ) values ( NEWID() , 'Emelen Linn');
+insert into employeesName( id , Name ) values ( NEWID() , 'Rani Iowarch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Doria Bigadike');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gilburt Dugald');
+insert into employeesName( id , Name ) values ( NEWID() , 'Florida Jansen');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ellette Trays');
+insert into employeesName( id , Name ) values ( NEWID() , 'Margit Storek');
+insert into employeesName( id , Name ) values ( NEWID() , 'Alecia Meeron');
+insert into employeesName( id , Name ) values ( NEWID() , 'Gilligan Kenvin');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lelah Oakenfield');
+insert into employeesName( id , Name ) values ( NEWID() , 'Celie Waddicor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Ardelia Stanley');
+insert into employeesName( id , Name ) values ( NEWID() , 'Stacy Pocknoll');
+insert into employeesName( id , Name ) values ( NEWID() , 'Angelica O''Neil');
+insert into employeesName( id , Name ) values ( NEWID() , 'Webb Saich');
+insert into employeesName( id , Name ) values ( NEWID() , 'Micah Bonnor');
+insert into employeesName( id , Name ) values ( NEWID() , 'Olav Crimp');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hymie Tomashov');
+insert into employeesName( id , Name ) values ( NEWID() , 'Klaus Cordle');
+insert into employeesName( id , Name ) values ( NEWID() , 'Cairistiona Prudence');
+insert into employeesName( id , Name ) values ( NEWID() , 'Saunder Beecraft');
+insert into employeesName( id , Name ) values ( NEWID() , 'Agustin Rickeard');
+insert into employeesName( id , Name ) values ( NEWID() , 'Darren Bachs');
+insert into employeesName( id , Name ) values ( NEWID() , 'Wendel Bawdon');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lacie Kennedy');
+insert into employeesName( id , Name ) values ( NEWID() , 'Dru Pollitt');
+insert into employeesName( id , Name ) values ( NEWID() , 'Saxon Purtell');
+insert into employeesName( id , Name ) values ( NEWID() , 'Hollis Frunks');
+insert into employeesName( id , Name ) values ( NEWID() , 'Vic Jerschke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Tabbatha Birch');
+insert into employeesName( id , Name ) values ( NEWID() , 'Elga Eschalotte');
+insert into employeesName( id , Name ) values ( NEWID() , 'Lona Byer');
+insert into employeesName( id , Name ) values ( NEWID() , 'Geri Palumbo');
+insert into employeesName( id , Name ) values ( NEWID() , 'Eleni Stanbrooke');
+insert into employeesName( id , Name ) values ( NEWID() , 'Augustin Fairhead');
+insert into employeesName( id , Name ) values ( NEWID() , 'Berkie McIlveen');
+
+go
+
+
+
+
+    DECLARE @BranchId UNIQUEIDENTIFIER;
+    DECLARE @DepartmentId UNIQUEIDENTIFIER;
+    DECLARE @EmployeeName NVARCHAR(50);  -- Tên đầy đủ của nhân viên
+    DECLARE @Salary INT;
+    DECLARE @Dob DATE;
+    DECLARE @StartDate DATE;
+    DECLARE @DepartmentCount INT;
+    DECLARE @DepartmentIndex INT;
+
+    -- Get the number of departments (giả sử có 7 phòng ban trong hệ thống)
+    SELECT @DepartmentCount = COUNT(*) FROM Departments;
+    
+    -- Ensure there are exactly 7 departments
+    IF @DepartmentCount <> 7
+    BEGIN
+        RAISERROR('There must be exactly 7 departments', 16, 1);
+        RETURN;
+    END
+
+    -- Loop through each Branch
+    DECLARE BranchCursor CURSOR FOR SELECT BranchId FROM Branches;
+    OPEN BranchCursor;
+
+    FETCH NEXT FROM BranchCursor INTO @BranchId;
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SET @DepartmentIndex = 0;  -- Start with the first department for each branch
+
+        -- Insert 50 employees for the current branch, evenly distributing across departments
+        DECLARE @EmployeeCounter INT = 1;
+        WHILE @EmployeeCounter <= 50
+        BEGIN
+            -- Select Department in a round-robin fashion
+            SELECT @DepartmentId = DepartmentId 
+            FROM (SELECT DepartmentId, ROW_NUMBER() OVER (ORDER BY DepartmentId) AS RowNum 
+                  FROM Departments) AS Dept
+            WHERE Dept.RowNum = ((@DepartmentIndex % @DepartmentCount) + 1);
+
+            -- Get the BaseSalary for the selected department
+            SELECT @Salary = BaseSalary FROM Departments WHERE DepartmentId = @DepartmentId;
+
+            -- Select a random employee name from the employeesName table
+            SELECT TOP 1 @EmployeeName = name
+            FROM employeesName
+            ORDER BY NEWID();  -- Randomly select a name
+
+            -- Generate random DOB and StartDate for the new employee
+            SET @Dob = DATEADD(YEAR, -20 - (ABS(CHECKSUM(NEWID())) % 20), GETDATE()); -- Random DOB between 20 and 40 years ago
+            SET @StartDate = DATEADD(YEAR, -ABS(CHECKSUM(NEWID()) % 5), GETDATE()); -- Random start date within last 5 years
+
+            -- Insert the employee with the same salary for the same department
+            INSERT INTO Employees (Id, Name, Dob, Gender, Salary, StartDate, DepartmentId, BranchId)
+            VALUES (NEWID(), @EmployeeName, @Dob, N'Nam', @Salary, @StartDate, @DepartmentId, @BranchId);
+
+            -- Move to the next department in round-robin
+            SET @DepartmentIndex = @DepartmentIndex + 1;
+            SET @EmployeeCounter = @EmployeeCounter + 1;
+        END
+
+        FETCH NEXT FROM BranchCursor INTO @BranchId;
+    END
+
+    CLOSE BranchCursor;
+    DEALLOCATE BranchCursor;
+
+
+
+
+
+
+go
+
+--customer 
 insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, CustomerId) values ('Julissa Esh', '2/18/2024', 2, '2383341366', '151-371-5492', 'jesh0@buzzfeed.com', '42552a82-6496-4cab-ab61-6a125f75152d');
 insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, CustomerId) values ('Dore Skune', '5/22/2024', 1, '0932361546', '356-645-7866', 'dskune1@netscape.com', '36378328-2db0-4c98-b44a-f7542021045f');
 insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, CustomerId) values ('Tades Orchart', '6/6/2024', 3, '7575127787', '804-879-2618', 'torchart2@ycombinator.com', '1883ac47-0372-4d38-9f41-146aadc06602');
@@ -1000,4 +2342,568 @@ insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, Custo
 insert into Customers (name, DateOfBirth, Gender, CitizenId, Phone, Email, CustomerId) values ('Gunther Terne', '11/9/2024', 3, '5662914041', '454-351-8629', 'gternerr@stumbleupon.com', 'd619935d-0c9c-49b8-8036-208e33d35531');
 
 
-select * from Customers
+GO 
+--ranking
+
+-- Bật IDENTITY_INSERT cho bảng Rankings
+SET IDENTITY_INSERT Rankings ON;
+
+-- Chèn giá trị vào bảng Rankings
+INSERT INTO Rankings (id, Name, RequirePoint, Discount, UpgradePoint) 
+VALUES
+    (1, 'Membership', 0, 5, 100),
+    (2, 'Silver', 50, 10, 100),
+    (3, 'Gold', 100, 15, 2147483647);
+
+-- Tắt IDENTITY_INSERT sau khi chèn xong
+SET IDENTITY_INSERT Rankings OFF;
+
+-- Kiểm tra kết quả
+
+GO
+-- card
+
+
+
+DECLARE @CustomerId UNIQUEIDENTIFIER;
+DECLARE @EmployeeId UNIQUEIDENTIFIER;
+DECLARE @RankingId INT;
+DECLARE @StartDate DATETIME;
+DECLARE @AccumulatedPoints REAL;
+DECLARE @AccumulatedDate DATETIME;
+DECLARE @CardId UNIQUEIDENTIFIER;  -- Thêm biến để lưu CardId GUID
+
+-- Tạo thẻ cho 1,000 khách hàng
+DECLARE @Counter INT = 1;
+WHILE @Counter <= 1000
+BEGIN
+    -- Lấy CustomerId ngẫu nhiên từ bảng Customers
+    SELECT @CustomerId = CustomerId FROM Customers ORDER BY NEWID() OFFSET @Counter-1 ROWS FETCH NEXT 1 ROWS ONLY;
+
+    -- Lấy EmployeeId ngẫu nhiên từ bảng Employees
+    SELECT @EmployeeId = Id FROM Employees ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+
+    -- Phân bổ RankingId (10% Gold, 20% Silver, 70% Membership)
+    IF (@Counter <= 100) -- 10% Gold
+    BEGIN
+        SET @RankingId = 3;  -- Gold
+    END
+    ELSE IF (@Counter <= 300) -- 20% Silver
+    BEGIN
+        SET @RankingId = 2;  -- Silver
+    END
+    ELSE -- 70% Membership
+    BEGIN
+        SET @RankingId = 1;  -- Membership
+    END
+
+    -- Cài đặt các thông số khác cho Card
+    SET @StartDate = GETDATE();  -- Thẻ bắt đầu từ ngày hiện tại
+    SET @AccumulatedPoints = 0;  -- Điểm tích lũy ban đầu là 0
+    SET @AccumulatedDate = GETDATE();  -- Ngày tích lũy tính từ ngày bắt đầu
+
+    -- Tạo GUID mới cho mỗi thẻ
+    SET @CardId = NEWID();  -- Tạo GUID mới
+
+    -- Insert vào bảng Cards
+    INSERT INTO Cards (CardId, StartDate, AccumulatedPoints, Valid, AccumulatedDate, EmployeeId, RankingId, CustomerId)
+    VALUES (@CardId, @StartDate, @AccumulatedPoints, 1, @AccumulatedDate, @EmployeeId, @RankingId, @CustomerId);
+
+    SET @Counter = @Counter + 1;
+END;
+
+
+
+GO
+
+--reservation seed
+
+
+DECLARE @BranchId UNIQUEIDENTIFIER;
+DECLARE @CustomerId UNIQUEIDENTIFIER;
+DECLARE @EmployeeId UNIQUEIDENTIFIER;
+DECLARE @TableId UNIQUEIDENTIFIER;
+DECLARE @DatedOn DATETIME;
+DECLARE @TotalPeople INT;
+DECLARE @ReservationStatus INT = 2;  -- "2" là status Done
+
+DECLARE @Counter INT = 1;
+DECLARE @BranchCounter INT = 1;
+DECLARE @RowsPerBranch INT = 6666;  -- Chia đều cho mỗi chi nhánh (100k dòng chia 15 chi nhánh)
+DECLARE @MaxBranches INT = 15;  -- 15 chi nhánh
+
+-- Lặp qua các chi nhánh
+WHILE @BranchCounter <= @MaxBranches
+BEGIN
+    -- Lặp qua các bản ghi cho chi nhánh hiện tại
+    WHILE @Counter <= @RowsPerBranch * @BranchCounter
+    BEGIN
+        -- Lấy một BranchId ngẫu nhiên
+        SELECT @BranchId = BranchId FROM Branches WHERE BranchId = (SELECT TOP 1 BranchId FROM Branches ORDER BY NEWID());
+
+        -- Lấy CustomerId ngẫu nhiên từ bảng Customers
+        SELECT @CustomerId = CustomerId FROM Customers ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+
+        -- Lấy EmployeeId ngẫu nhiên từ Employees của chi nhánh này
+        SELECT @EmployeeId = Id FROM Employees WHERE BranchId = @BranchId ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+
+        -- Lấy TableId ngẫu nhiên thuộc chi nhánh này
+        SELECT @TableId = Id FROM TableDetail WHERE BranchId = @BranchId ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+
+        -- Chọn ngày rải rác trong năm 2024 (trừ tháng 11)
+        SET @DatedOn = DATEADD(DAY, (ABS(CHECKSUM(NEWID())) % 300), '2024-01-01'); -- Random ngày từ tháng 1 đến tháng 10
+
+        -- Chọn số người random từ 1 đến 5
+        SET @TotalPeople = (ABS(CHECKSUM(NEWID())) % 5) + 1;
+
+        -- Chèn bản ghi vào bảng Reservation
+        INSERT INTO Reservation (Id, DatedOn, Note, Status, OrderedBy, CustomerId, BranchId, TableId, TotalPeople)
+        VALUES (NEWID(), @DatedOn, 'Random reservation', @ReservationStatus, @EmployeeId, @CustomerId, @BranchId, @TableId, @TotalPeople);
+
+        SET @Counter = @Counter + 1;  -- Tăng số lượng bản ghi đã chèn
+    END
+
+    SET @BranchCounter = @BranchCounter + 1;  -- Tăng số lượng chi nhánh đã chèn
+END
+
+
+GO
+
+DECLARE @ReservationId UNIQUEIDENTIFIER;
+DECLARE @Total BIGINT = 0;  -- Total = 0
+DECLARE @Status INT = 2;  -- Status = 2 (Done)
+DECLARE @LastModified DATETIME = GETDATE();
+
+-- Lặp qua tất cả các Reservation để tạo Order
+DECLARE ReservationCursor CURSOR FOR 
+SELECT Id FROM Reservation;
+
+OPEN ReservationCursor;
+
+FETCH NEXT FROM ReservationCursor INTO @ReservationId;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Tạo mới Order cho từng Reservation
+    INSERT INTO Orders (Id, Total, LastModified, Status, ReservationId)
+    VALUES (NEWID(), @Total, @LastModified, @Status, @ReservationId);
+
+    FETCH NEXT FROM ReservationCursor INTO @ReservationId;
+END
+
+CLOSE ReservationCursor;
+DEALLOCATE ReservationCursor;
+
+
+
+GO
+USE sushiDB;
+GO
+
+DECLARE @OrderId UNIQUEIDENTIFIER;
+DECLARE @ReservationId UNIQUEIDENTIFIER;
+DECLARE @BranchId UNIQUEIDENTIFIER;
+DECLARE @DishId UNIQUEIDENTIFIER;
+DECLARE @Quantity INT;
+DECLARE @Price INT;
+DECLARE @Total BIGINT;
+DECLARE @Counter INT = 1;
+
+-- Lặp qua tất cả các Order
+DECLARE OrderCursor CURSOR FOR
+SELECT Id, ReservationId FROM Orders;
+
+OPEN OrderCursor;
+
+FETCH NEXT FROM OrderCursor INTO @OrderId, @ReservationId;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Lấy BranchId từ Reservation
+    SELECT @BranchId = BranchId
+    FROM Reservation
+    WHERE Id = @ReservationId;
+
+    -- Đặt lại tổng cho Order
+    SET @Total = 0;
+
+    -- Chọn ngẫu nhiên từ 4 đến 5 món ăn phục vụ tại chi nhánh này
+    DECLARE @OrderDetailCounter INT = 1;
+    WHILE @OrderDetailCounter <= (FLOOR(RAND() * 2) + 4)  -- Chọn ngẫu nhiên 4-5 món
+    BEGIN
+        -- Chọn DishId ngẫu nhiên từ Dishes có sẵn ở chi nhánh này
+        SELECT @DishId = DishId
+        FROM Dishes
+        WHERE SectionId IN (SELECT SectionId FROM BranchDishes WHERE BranchId = @BranchId)
+        ORDER BY NEWID()
+        OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+
+        -- Chọn Quantity ngẫu nhiên từ 1-3
+        SET @Quantity = (ABS(CHECKSUM(NEWID())) % 3) + 1;
+
+        -- Lấy giá món ăn
+        SELECT @Price = CurrentPrice
+        FROM Dishes
+        WHERE DishId = @DishId;
+
+        -- Tính tổng cho OrderDetails và cập nhật vào Order
+        INSERT INTO OrderDetail (Id, Status, Price, Quantity, DishId, OrderId)
+        VALUES (NEWID(), 2, @Price, @Quantity, @DishId, @OrderId);
+
+        -- Cập nhật lại tổng tiền cho Order
+        SET @Total = @Total + (@Price * @Quantity);
+
+        SET @OrderDetailCounter = @OrderDetailCounter + 1;
+    END
+
+    -- Cập nhật lại tổng tiền cho Order
+    UPDATE Orders
+    SET Total = @Total
+    WHERE Id = @OrderId;
+
+    FETCH NEXT FROM OrderCursor INTO @OrderId, @ReservationId;
+END
+
+CLOSE OrderCursor;
+DEALLOCATE OrderCursor;
+
+GO
+
+
+select count (*) as Branches from Branches
+select count (*) as BranchDishes from BranchDishes
+select count (*) as Dishes from Dishes
+select count (*) as Sections from Sections
+select count (*) as Departments from Departments
+select count (*) as Employees from Employees
+select count (*) as Customers from Customers
+select count (*) as Rankings from Rankings
+select count (*) as Cards from Cards
+select count (*) as Reservation from Reservation
+select count (*) as Orders from Orders
+select count (*) as OrderDetail from OrderDetail
+
+
+-- proc and index
+
+go
+CREATE OR ALTER PROCEDURE GetDailyRevenueByBranch
+    @BranchId UNIQUEIDENTIFIER,
+    @Date DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
+        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
+        BEGIN
+            RAISERROR('BranchId does not exist.', 16, 1);
+            RETURN;
+        END
+
+        -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
+        SELECT 
+            SUM(i.AfterDiscount) AS TotalRevenue
+        FROM 
+            Invoices i
+        JOIN 
+            Orders o ON o.Id = i.OrderId
+        JOIN 
+            Reservation r ON r.Id = o.ReservationId -- Thêm join với Reservation
+        WHERE 
+            i.Paid = 1  -- Hóa đơn đã thanh toán
+            AND r.BranchId = @BranchId  -- Kiểm tra BranchId từ Reservation
+            AND CAST(i.DatedOn AS DATE) = @Date  -- Lọc theo ngày
+        GROUP BY 
+            r.BranchId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+
+GO
+
+
+use sushiDB;
+go
+CREATE OR ALTER PROCEDURE GetRevenueByDateRangeForBranch
+    @BranchId UNIQUEIDENTIFIER,
+    @StartDate DATE,
+    @EndDate DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
+        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
+        BEGIN
+            RAISERROR('BranchId does not exist.', 16, 1);
+            RETURN;
+        END
+
+        -- Truy vấn doanh thu theo ngày cho BranchId trong khoảng thời gian từ @StartDate đến @EndDate
+        SELECT 
+            CAST(i.DatedOn AS DATE) AS RevenueDate,  -- Chỉ lấy ngày
+            SUM(i.AfterDiscount) AS TotalRevenue
+        FROM 
+            Invoices i
+        JOIN 
+            Orders o ON o.Id = i.OrderId
+        JOIN 
+            Reservation r ON r.Id = o.ReservationId
+        WHERE 
+            i.Paid = 1  -- Hóa đơn đã thanh toán
+            AND r.BranchId = @BranchId  -- Lọc theo BranchId
+            AND CAST(i.DatedOn AS DATE) >= @StartDate  -- Lọc từ ngày bắt đầu
+            AND CAST(i.DatedOn AS DATE) <= @EndDate  -- L
+        GROUP BY 
+            CAST(i.DatedOn AS DATE)  -- Nhóm theo ngày
+        ORDER BY 
+            RevenueDate;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+
+GO
+
+
+
+CREATE OR ALTER PROCEDURE GetAllDishes
+    @DishName NVARCHAR(50) = NULL,
+    @MinPrice INT = NULL,
+    @MaxPrice INT = NULL,
+    @PageNumber INT = 1,
+    @PageSize INT = 10,
+    @SectionId UNIQUEIDENTIFIER = NULL,
+    @BranchId UNIQUEIDENTIFIER = NULL,
+    @TotalRecords INT OUTPUT
+
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Kiểm tra nếu PageNumber hoặc PageSize NULL, thì trả về toàn bộ kết quả
+    BEGIN
+        -- Có phân trang
+        SELECT distinct d.DishId, DishName, CurrentPrice, SectionId
+        FROM Dishes d join BranchDishes bd on bd.DishId = d.DishId
+        WHERE (@BranchId is null or (bd.BranchId = @BranchId and bd.[Status] = 1)) and (@SectionId is null or @SectionId = d.SectionId) and (@DishName IS NULL OR DishName LIKE @DishName + '%')
+          AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
+          AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)
+        ORDER BY DishName 
+        OFFSET (@PageNumber - 1) * @PageSize ROWS
+        FETCH NEXT @PageSize ROWS ONLY;
+
+        SELECT  @TotalRecords = count(distinct d.DishId) 
+        FROM Dishes d join BranchDishes bd on bd.DishId = d.DishId
+        WHERE (@BranchId is null or (bd.BranchId = @BranchId and bd.[Status] = 1)) and (@SectionId is null or @SectionId = d.SectionId) and (@DishName IS NULL OR DishName LIKE @DishName + '%')
+          AND (@MinPrice IS NULL OR CurrentPrice >= @MinPrice)
+          AND (@MaxPrice IS NULL OR CurrentPrice <= @MaxPrice)
+    END
+END;
+
+
+go
+
+
+
+GO
+create or alter PROCEDURE getallemployees
+    @BranchId UNIQUEIDENTIFIER = NULL, 
+    @DepartmentId UNIQUEIDENTIFIER = NULL, 
+    @Name NVARCHAR(50) = NULL,
+  @PageNumber INT = 1,
+    @PageSize INT = 10,
+    @TotalRecord INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    Select e.Id, e.Name, e.Dob, e.Gender, e.Salary
+    from Employees e 
+    where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
+    (@Name is NULL or e.Name LIKE @Name + '%' )
+    Order by Name
+    OFFSET (@PageNumber - 1) * @PageSize ROWS
+    FETCH NEXT @PageSize ROWS ONLY;
+
+    SELECT @TotalRecord = count(1) 
+    from Employees e 
+    where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
+    (@Name is NULL or e.Name LIKE @Name + '%' )
+    
+END 
+
+go
+
+CREATE OR ALTER PROCEDURE CreateInvoiceAndUpdateCustomerCard
+    @OrderId UNIQUEIDENTIFIER,
+    @paymentMethod NVARCHAR(50)
+AS
+BEGIN
+    if exists ( select 1 from Orders o join Invoices i on i.OrderId = o.Id where o.Id = @OrderId)
+    BEGIN
+    RAISERROR('Invoices for this order already exists',16,1);
+    RETURN;
+    END
+    -- Khai báo biến
+    DECLARE @CustomerId UNIQUEIDENTIFIER;
+    DECLARE @Total DECIMAL(18, 2);
+    DECLARE @AfterDiscount DECIMAL(18, 2);
+    DECLARE @InvoiceId UNIQUEIDENTIFIER;
+    DECLARE @bonusPoint INT;
+    DECLARE @Discount INT;
+
+    -- 1. Lấy thông tin từ bảng Orders và Reservation
+    SELECT 
+        @CustomerId = r.CustomerId,
+        @Total = o.Total
+    FROM Orders o
+    JOIN Reservation r ON r.Id = o.ReservationId
+    WHERE o.Id = @OrderId;
+
+    -- Kiểm tra nếu không tìm thấy đơn hàng
+    IF @CustomerId IS NULL
+    BEGIN
+        RAISERROR('OrderId không tồn tại hoặc không tìm thấy khách hàng', 16, 1);
+        RETURN;
+    END
+
+    -- 2. Lấy thông tin giảm giá từ bảng Cards và Rankings
+    SELECT @Discount = r.Discount
+    FROM Cards c
+    JOIN Rankings r ON c.RankingId = r.Id
+    WHERE c.CustomerId = @CustomerId;
+
+    -- 3. Tính toán giá trị AfterDiscount
+    SET @AfterDiscount = (100 - @Discount) / 100.0 * @Total;
+
+    -- 4. Tính điểm thưởng
+    SET @bonusPoint = FLOOR(@AfterDiscount / 100);
+
+    -- 5. Tạo hóa đơn mới trong bảng Invoices
+    SET @InvoiceId = NEWID();  -- Tạo InvoiceId mới
+
+    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint)
+    VALUES (@InvoiceId, @OrderId, GETDATE(), @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint);
+
+    -- 6. Cập nhật điểm số cho thẻ khách hàng
+    -- Kiểm tra xem khách hàng đã có thẻ chưa
+    IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
+    BEGIN
+        -- Cập nhật thẻ khách hàng
+        UPDATE Cards
+        SET AccumulatedPoints = AccumulatedPoints + @bonusPoint
+        WHERE CustomerId = @CustomerId;
+    END
+
+    -- 7. Cập nhật trạng thái đơn hàng thành "Invoiced"
+    UPDATE Orders
+    SET Status = 2
+    WHERE Id = @OrderId;
+
+    -- 8. Trả về thông tin hóa đơn mới tạo
+    SELECT * FROM Invoices WHERE Id = @InvoiceId;
+END;
+
+
+GO
+
+
+
+CREATE OR ALTER PROCEDURE UpdatePaidInvoice
+    @InvoiceId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Kiểm tra xem hóa đơn có tồn tại không
+        IF NOT EXISTS (SELECT 1 FROM Invoices WHERE Id = @InvoiceId)
+        BEGIN
+            RAISERROR('Invoice not found.', 16, 1);
+            RETURN;
+        END
+
+        -- Cập nhật trường Paid thành 1 (đã thanh toán)
+        UPDATE Invoices
+        SET Paid = 1
+        WHERE Id = @InvoiceId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+
+GO
+
+
+GO
+create or alter PROCEDURE getDetailReservationCards
+@branchId UNIQUEIDENTIFIER,
+@dateOn DATE
+AS
+BEGIN
+    select  
+    r.Id as ReservationId,
+    r.CustomerId as CustomerId,
+    c.Name as CustomerName,
+    r.BranchId as BranchId,
+    b.Name as BranchName,
+    r.[Status] as Status,
+    r.DatedOn as DatedOn,
+    td.TableNumber as TableNumber,
+    r.TotalPeople as TotalPeople ,
+    o.Total as TotalPrice,
+    o.Id as OrderID
+    from Reservation r join Customers c on c.CustomerId = r.CustomerId 
+    join branches b on b.BranchId = r.BranchId
+    join TableDetail td on td.Id = r.TableId
+    join ORDERs o on o.ReservationId = r.Id
+    where r.BranchId = @branchId and r.DatedOn = @dateOn 
+END
+
+
+GO
+
+
+CREATE OR ALTER PROCEDURE getOrderDetailsByReservationId
+    @reservationId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SELECT 
+        od.Id AS OrderDishId,
+        od.Price AS Price,
+        od.Quantity AS Quantity,
+        od.DishId AS DishId,
+        d.DishName AS DishName
+    FROM OrderDetail od
+    JOIN Orders o ON o.Id = od.OrderId  
+    JOIN Dishes d ON d.DishId = od.DishId
+    WHERE o.ReservationId = @reservationId;
+END
+
+-- index reservation
+
+CREATE NONCLUSTERED INDEX [IX_Reservation_BranchId_DatedOn]
+ON [dbo].[Reservation] ([BranchId], [DatedOn]);
+-- index order detail
