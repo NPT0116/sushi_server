@@ -130,15 +130,26 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction() )
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
+        // Đảm bảo swagger.json luôn ở đúng endpoint
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sushi Restaurant API V1");
-        c.RoutePrefix = string.Empty; // To serve Swagger UI at the root URL
+        
+        // Khi ở môi trường Production, phục vụ Swagger UI tại trang chủ (root URL)
+        if (app.Environment.IsProduction())
+        {
+            c.RoutePrefix = string.Empty; // Swagger UI sẽ phục vụ tại http://localhost:5201/index.html
+        }
+        else
+        {
+            c.RoutePrefix = "swagger"; // Swagger UI sẽ phục vụ tại http://localhost:5201/swagger
+        }
     });
 }
+
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Apply the CORS policy
