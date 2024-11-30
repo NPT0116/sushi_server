@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
+using sushi_server.Helper;
 
 namespace sushi_server.Controllers;
 
@@ -16,25 +17,25 @@ public class InvoiceController : ControllerBase {
     public InvoiceController(ApplicationDbContext context) {
         _context = context;
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> getInvoice(string id) {
-        Invoice newInvoice = await _context.Invoices
-                .Include(i => i.Order)
-                .ThenInclude(o => o.OrderDetails)
-                .ThenInclude(od => od.Dish)
-                .FirstOrDefaultAsync(i => i.Id == Guid.Parse(id));
-        if (newInvoice == null) {
-            return NotFound();
-        }
-        return Ok(newInvoice.toInvoiceResponseDTO());
-    }
-    [HttpPatch("{id}/paid")]
-    public async Task<IActionResult> setPaid(string id) {
-        Invoice invoice = await _context.Invoices.FindAsync(Guid.Parse(id));
-        invoice.Paid = true;
-        _context.SaveChanges();
-        return Ok();
-    }
+    // [HttpGet("{id}")]
+    // public async Task<IActionResult> getInvoice(string id) {
+    //     Invoice newInvoice = await _context.Invoices
+    //             .Include(i => i.Order)
+    //             .ThenInclude(o => o.OrderDetails)
+    //             .ThenInclude(od => od.Dish)
+    //             .FirstOrDefaultAsync(i => i.Id == Guid.Parse(id));
+    //     if (newInvoice == null) {
+    //         return NotFound();
+    //     }
+    //     return Ok(newInvoice.toInvoiceResponseDTO());
+    // }
+    // [HttpPatch("{id}/paid")]
+    // public async Task<IActionResult> setPaid(string id) {
+    //     Invoice invoice = await _context.Invoices.FindAsync(Guid.Parse(id));
+    //     invoice.Paid = true;
+    //     _context.SaveChanges();
+    //     return Ok();
+    // }
 
 
     [HttpPost("createInvoice")]
@@ -69,7 +70,47 @@ public class InvoiceController : ControllerBase {
                     }
 
                     // Trả về thông tin hóa đơn mới tạo
-                    return Ok(invoice);
+                    return Ok(new Response<Invoice>(invoice, "Invoice created successfully."));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+            [HttpPatch("updatePaidInvoice/{invoiceId}")]
+        public async Task<IActionResult> UpdatePaidInvoice(Guid invoiceId)
+        {
+            if (invoiceId == Guid.Empty)
+            {
+                return BadRequest("InvoiceId is required.");
+            }
+
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@InvoiceId", invoiceId, System.Data.DbType.Guid);
+
+                    // Gọi stored procedure để cập nhật trạng thái Paid của hóa đơn
+                    var result = await connection.ExecuteAsync(
+                        "UpdatePaidInvoice", // Tên stored procedure
+                        parameters,
+                        commandType: System.Data.CommandType.StoredProcedure
+                    );
+
+                    // Kiểm tra kết quả và trả về thông báo thành công
+                    if (result == 0)
+                    {
+                        return NotFound("Invoice not found.");
+                    }
+
+                    return Ok(new { Message = "Invoice updated successfully." });
                 }
             }
             catch (Exception ex)
