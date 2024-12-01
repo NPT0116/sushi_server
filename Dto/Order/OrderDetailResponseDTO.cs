@@ -3,7 +3,7 @@ using sushi_server.Models.Enum;
 
 namespace sushi_server.Dto.Order;
 
-public class OrderDetailResponseDTO 
+public class OrderDetailResponseDTO
 {
     public Guid Id { get; set; }
     public required string Status { get; set; }

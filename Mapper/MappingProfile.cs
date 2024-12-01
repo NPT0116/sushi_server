@@ -8,7 +8,7 @@ using sushi_server.Models;
 
 namespace sushi_server.Mapper;
 
-public class MappingProfile: Profile
+public class MappingProfile : Profile
 {
     public MappingProfile()
     {

@@ -17,7 +17,8 @@ namespace sushi_server.Models
         public Guid OrderId { get; set; }
         public Order Order { get; set; }
 
-        public OrderDetailResponseDTO toResponseDTO() {
+        public OrderDetailResponseDTO toResponseDTO()
+        {
             return new OrderDetailResponseDTO
             {
                 Id = this.Id,
