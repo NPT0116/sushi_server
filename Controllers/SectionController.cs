@@ -26,10 +26,10 @@ namespace sushi_server.Controllers
         {
             try
             {
-                var sections = await _context.Sections.ProjectTo<SectionGetAll>(_mapper.ConfigurationProvider).ToListAsync() ;
-                return Ok(new Response<List<SectionGetAll>>(sections, "Retrieved full section successfully")); 
+                var sections = await _context.Sections.ProjectTo<SectionGetAll>(_mapper.ConfigurationProvider).ToListAsync();
+                return Ok(new Response<List<SectionGetAll>>(sections, "Retrieved full section successfully"));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }

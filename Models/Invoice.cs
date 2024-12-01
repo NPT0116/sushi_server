@@ -16,8 +16,10 @@ namespace sushi_server.Models
         public DateTime DatedOn { get; set; }
         public Guid OrderId { get; set; }
         public Order Order { get; set; }
-        public InvoiceResponseDTO toInvoiceResponseDTO() {
-            return new InvoiceResponseDTO {
+        public InvoiceResponseDTO toInvoiceResponseDTO()
+        {
+            return new InvoiceResponseDTO
+            {
                 Id = this.Id,
                 Total = this.Total,
                 PaymentMethod = this.PaymentMethod,

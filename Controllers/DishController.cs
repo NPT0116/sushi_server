@@ -28,7 +28,7 @@ namespace sushi_server.Controllers
         {
             try
             {
-                
+
                 using (var connection = _context.Database.GetDbConnection())
                 {
                     var parameters = new DynamicParameters();
@@ -40,22 +40,23 @@ namespace sushi_server.Controllers
                     parameters.Add("@PageNumber", dishFilter.PageNumber, DbType.Int32);
                     parameters.Add("@PageSize", dishFilter.PageSize, DbType.Int32);
                     parameters.Add("@TotalRecords", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    
-                  var dishes = await connection.QueryAsync<Dish> (
-                        "GetAllDishes",
-                        parameters,
-                        commandType: CommandType.StoredProcedure
-                    );
+
+                    var dishes = await connection.QueryAsync<Dish>(
+                          "GetAllDishes",
+                          parameters,
+                          commandType: CommandType.StoredProcedure
+                      );
                     var totalRecords = parameters.Get<int>("@TotalRecords");
 
 
                     var dishDtoList = _mapper.Map<List<GetAllDishDto>>(dishes);
                     var paginatedResponse = new PagedResponse<List<GetAllDishDto>>
                     (
-                        dishDtoList, dishFilter.PageNumber,dishFilter.PageSize, "Retrieved data with PageNumber:" + dishFilter.PageNumber, null, true
-                    ){
-                    TotalRecords = totalRecords
-                };
+                        dishDtoList, dishFilter.PageNumber, dishFilter.PageSize, "Retrieved data with PageNumber:" + dishFilter.PageNumber, null, true
+                    )
+                    {
+                        TotalRecords = totalRecords
+                    };
                     return Ok(paginatedResponse);
                 }
             }
