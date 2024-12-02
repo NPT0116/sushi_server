@@ -110,7 +110,7 @@ public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto
             return BadRequest("Employee not found");
         }
 
-        // Generate a username by concatenating employee name and branch name, and removing non-alphanumeric characters
+        // Generate a username by concatenating employee name and branch name, and removing spaces
         var username = Regex.Replace(employee.Name + employee.Branch.Name, @"\s+", "");
         var email = username + "@example.com";
 
@@ -135,7 +135,7 @@ public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto
         }
 
         // Assign the "Employee" role to the user
-        var addRoleResult = await _userManager.AddToRoleAsync(appUser, "Employee");
+        var addRoleResult = await _userManager.AddToRoleAsync(appUser, "EMP");
         if (!addRoleResult.Succeeded)
         {
             return BadRequest(addRoleResult.Errors);
@@ -152,7 +152,7 @@ public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto
     }
     catch (Exception e)
     {
-        return StatusCode(500, e);
+        return StatusCode(500, new { message = e.Message });
     }
 }
         [HttpPost("login")]

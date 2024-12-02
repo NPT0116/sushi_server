@@ -293,7 +293,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("BranchId");
 
-                    b.ToTable("Branches");
+                    b.ToTable("Branches", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
@@ -320,7 +320,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("DishId");
 
-                    b.ToTable("BranchDishes");
+                    b.ToTable("BranchDishes", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Card", b =>
@@ -358,7 +358,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("RankingId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Customer", b =>
@@ -393,7 +393,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Department", b =>
@@ -411,7 +411,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Dish", b =>
@@ -434,7 +434,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Dishes");
+                    b.ToTable("Dishes", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Employee", b =>
@@ -475,7 +475,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Invoice", b =>
@@ -510,7 +510,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Order", b =>
@@ -535,7 +535,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("ReservationId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.OrderDetail", b =>
@@ -565,7 +565,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("OrderDetail", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Ranking", b =>
@@ -591,7 +591,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rankings");
+                    b.ToTable("Rankings", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Reservation", b =>
@@ -628,7 +628,7 @@ namespace sushi_server.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservation", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.Section", b =>
@@ -643,7 +643,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("SectionId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", (string)null);
                 });
 
             modelBuilder.Entity("sushi_server.Models.TableDetail", b =>
@@ -666,7 +666,7 @@ namespace sushi_server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TableDetail");
+                    b.ToTable("TableDetail", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
