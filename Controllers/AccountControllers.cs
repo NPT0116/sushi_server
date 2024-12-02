@@ -136,6 +136,7 @@ namespace sushi_server.Controllers
                     return BadRequest("User not found");
                 }
                 var UserMeDto = new UserMeDto {
+                    CustomerId = user.CustomerId ?? Guid.Empty,
                     UserName = user.UserName,
                     Name = user.Customer?.Name,
                     Phone = user.Customer?.Phone
