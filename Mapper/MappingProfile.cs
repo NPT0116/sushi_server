@@ -4,6 +4,7 @@ using sushi_server.Dto.Branch;
 using sushi_server.Dto.BranchDishes;
 using sushi_server.Dto.Dish;
 using sushi_server.Dto.Section;
+using sushi_server.Dto.TableDetail;
 using sushi_server.Models;
 
 namespace sushi_server.Mapper;
@@ -19,5 +20,7 @@ public class MappingProfile : Profile
         CreateMap<Branch, BranchName>();
         CreateMap<Branch, BranchDetail>();
         CreateMap<BranchDish, BranchDishesDto>();
+        CreateMap<TableDetail, TableDetailDto>();
+
     }
 }

@@ -25,6 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Reservation> Reservation { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

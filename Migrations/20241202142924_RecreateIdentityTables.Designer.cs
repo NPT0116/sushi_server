@@ -12,8 +12,8 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241201072258_orderByCanBeNull")]
-    partial class orderByCanBeNull
+    [Migration("20241202142924_RecreateIdentityTables")]
+    partial class RecreateIdentityTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,19 +54,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15c44789-6442-4f51-b0e1-67cf29e0edd5",
+                            Id = "aa9dc0aa-3eb9-446c-8911-38d25468e337",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "05aeb2de-0cbb-4a6e-973c-d192ed960c1b",
+                            Id = "6fe92f92-0487-4bb6-bf12-52f513968663",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "af75ec2a-78e5-4b67-98ff-392ae541008f",
+                            Id = "0267e1ca-f6a1-48cf-9d9d-cdda0733680b",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -200,6 +200,9 @@ namespace sushi_server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -236,6 +239,8 @@ namespace sushi_server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -724,7 +729,13 @@ namespace sushi_server.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>

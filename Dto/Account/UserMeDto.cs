@@ -5,12 +5,13 @@ namespace sushi_server.Dto.Account;
 
 public class UserMeDto
 {
-    public Guid AccountId { get; set; }
     public Guid CustomerId { get; set; }
-    [Required]
-    public string UserName { get; set; } = string.Empty;
-    [Required]
-    public string Name { get; set; } = string.Empty;
-    [Phone]
-    public string Phone { get; set; } = string.Empty;
+    public string UserName { get; set; }
+    public string Name { get; set; }
+    public string Phone { get; set; }
+
+    // Employee-specific properties
+    public Guid? EmployeeId { get; set; }
+    public Guid? BranchId { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }

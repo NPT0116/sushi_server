@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sushi_server.Migrations
 {
     /// <inheritdoc />
-    public partial class orderByCanBeNull : Migration
+    public partial class RecreateIdentityTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,34 +36,64 @@ namespace sushi_server.Migrations
                 oldClrType: typeof(Guid),
                 oldType: "uniqueidentifier");
 
+            migrationBuilder.AddColumn<Guid>(
+                name: "EmployeeId",
+                table: "AspNetUsers",
+                type: "uniqueidentifier",
+                nullable: true);
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "05aeb2de-0cbb-4a6e-973c-d192ed960c1b", null, "Admin", "ADMIN" },
-                    { "15c44789-6442-4f51-b0e1-67cf29e0edd5", null, "User", "USER" },
-                    { "af75ec2a-78e5-4b67-98ff-392ae541008f", null, "Emp", "EMP" }
+                    { "0267e1ca-f6a1-48cf-9d9d-cdda0733680b", null, "Emp", "EMP" },
+                    { "6fe92f92-0487-4bb6-bf12-52f513968663", null, "Admin", "ADMIN" },
+                    { "aa9dc0aa-3eb9-446c-8911-38d25468e337", null, "User", "USER" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_EmployeeId",
+                table: "AspNetUsers",
+                column: "EmployeeId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Employees_EmployeeId",
+                table: "AspNetUsers",
+                column: "EmployeeId",
+                principalTable: "Employees",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "05aeb2de-0cbb-4a6e-973c-d192ed960c1b");
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUsers_Employees_EmployeeId",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUsers_EmployeeId",
+                table: "AspNetUsers");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "15c44789-6442-4f51-b0e1-67cf29e0edd5");
+                keyValue: "0267e1ca-f6a1-48cf-9d9d-cdda0733680b");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "af75ec2a-78e5-4b67-98ff-392ae541008f");
+                keyValue: "6fe92f92-0487-4bb6-bf12-52f513968663");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "aa9dc0aa-3eb9-446c-8911-38d25468e337");
+
+            migrationBuilder.DropColumn(
+                name: "EmployeeId",
+                table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<Guid>(
                 name: "OrderedBy",
