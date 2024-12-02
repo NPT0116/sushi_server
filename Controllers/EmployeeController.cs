@@ -47,17 +47,18 @@ public class EmployeeController : ControllerBase
                       commandType: CommandType.StoredProcedure
                 );
                 var employeeDtoList = employeeDto.ToList();
-                var totalRecords = parameters.Get<int> ("@TotalRecord");
-                var paginatedResponse = new PagedResponse<List<EmployeeGetAllDto>>(employeeDtoList, employeeFilter.PageNumber, 
+                var totalRecords = parameters.Get<int>("@TotalRecord");
+                var paginatedResponse = new PagedResponse<List<EmployeeGetAllDto>>(employeeDtoList, employeeFilter.PageNumber,
                 employeeFilter.PageSize,
                 "Retrieved data with PageNumber:" + employeeFilter.PageNumber, null, true
-                ){
+                )
+                {
                     TotalRecords = totalRecords
                 };
                 return Ok(paginatedResponse);
             };
         }
-        catch( Exception e )
+        catch (Exception e)
         {
             return BadRequest(e.Message);
         }
