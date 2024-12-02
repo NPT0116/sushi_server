@@ -51,19 +51,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15c44789-6442-4f51-b0e1-67cf29e0edd5",
+                            Id = "09720374-cf90-4b38-83f3-feb9a2bd555b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "05aeb2de-0cbb-4a6e-973c-d192ed960c1b",
+                            Id = "c46c1b64-bda0-4241-8115-774586751a81",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "af75ec2a-78e5-4b67-98ff-392ae541008f",
+                            Id = "fce46e9e-e0f7-4a6e-8940-51010de96d06",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -197,6 +197,9 @@ namespace sushi_server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -233,6 +236,8 @@ namespace sushi_server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -721,7 +726,13 @@ namespace sushi_server.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>

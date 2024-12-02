@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sushi_server.Data;
 using sushi_server.Dto.Account;
+using sushi_server.Dto.Employee;
 using sushi_server.Helper;
 using sushi_server.Interfaces;
 using sushi_server.Models;
+using System.Text.RegularExpressions;
 
 namespace sushi_server.Controllers
 {
@@ -88,6 +90,71 @@ namespace sushi_server.Controllers
                 return StatusCode(500, e);
             }
         }
+
+[HttpPost("register-employee")]
+public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto employeeRegisterDto)
+{
+    try
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Find the employee by EmployeeId
+        var employee = await _dbContext.Employees
+            .Include(e => e.Branch)
+            .FirstOrDefaultAsync(e => e.Id == employeeRegisterDto.EmployeeId);
+        if (employee == null)
+        {
+            return BadRequest("Employee not found");
+        }
+
+        // Generate a username by concatenating employee name and branch name, and removing non-alphanumeric characters
+        var username = Regex.Replace(employee.Name + employee.Branch.Name, @"\s+", "");
+        var email = username + "@example.com";
+
+        // Check if the email is already taken
+        if (await _userManager.FindByEmailAsync(email) != null)
+        {
+            return BadRequest("Email has already taken");
+        }
+
+        // Create a new user with the generated username and email
+        var appUser = new AppUser
+        {
+            UserName = username,
+            Email = email,
+            EmployeeId = employeeRegisterDto.EmployeeId
+        };
+
+        var result = await _userManager.CreateAsync(appUser, employeeRegisterDto.Password);
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        // Assign the "Employee" role to the user
+        var addRoleResult = await _userManager.AddToRoleAsync(appUser, "Employee");
+        if (!addRoleResult.Succeeded)
+        {
+            return BadRequest(addRoleResult.Errors);
+        }
+
+        var token = _tokenService.CreateToken(appUser);
+        var newUserDto = new NewUserDto
+        {
+            UserName = appUser.UserName,
+            Token = token
+        };
+
+        return Ok(new Helper.Response<NewUserDto>(newUserDto));
+    }
+    catch (Exception e)
+    {
+        return StatusCode(500, e);
+    }
+}
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
@@ -124,32 +191,44 @@ namespace sushi_server.Controllers
         }
         [HttpGet("me")]
         [Authorize]
-        public async Task<IActionResult> GetMeInformation()
+public async Task<IActionResult> GetMeInformation()
+{
+    try
+    {
+        var username = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+        if (username == null)
         {
-            try
-            {
-                var username = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
-                if (username == null)
-                {
-                    return BadRequest("Invalid token");
-                }
-                var user = await _userManager.Users.Include(u => u.Customer).FirstOrDefaultAsync(u => u.UserName == username);
-                if (user == null)
-                {
-                    return BadRequest("User not found");
-                }
-                var UserMeDto = new UserMeDto {
-                    CustomerId = user.CustomerId ?? Guid.Empty,
-                    UserName = user.UserName,
-                    Name = user.Customer?.Name,
-                    Phone = user.Customer?.Phone
-                };
-                return Ok(new Helper.Response<UserMeDto>(UserMeDto));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return BadRequest("Invalid token");
         }
+
+        var user = await _userManager.Users
+            .Include(u => u.Customer)
+            .Include(u => u.Employee)
+            .ThenInclude(e => e.Branch)
+            .FirstOrDefaultAsync(u => u.UserName == username);
+
+        if (user == null)
+        {
+            return BadRequest("User not found");
+        }
+
+        var userMeDto = new UserMeDto
+        {
+            UserName = user.UserName,
+            Name = user.Customer?.Name ?? user.Employee?.Name,
+            Phone = user.Customer?.Phone,
+            CustomerId = user.CustomerId ?? Guid.Empty,
+            EmployeeId = user.EmployeeId,
+            BranchId = user.Employee?.BranchId,
+            DateOfBirth = user.Employee?.Dob
+        };
+
+        return Ok(new Helper.Response<UserMeDto>(userMeDto));
+    }
+    catch (Exception e)
+    {
+        return BadRequest(e.Message);
+    }
+}
     }
 }
