@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Data;
 using sushi_server.Helper;
-using Sushi_server.Dto.Reservation;
 using sushi_server.Dto.OrderDetail;
 using Dapper;
 
@@ -23,126 +22,16 @@ namespace YourNamespace.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SubmitReservation([FromBody] ReservationSubmitRequest request)
-    {
-        if (!ModelState.IsValid)
+
+        [HttpGet("getDetailReservationCards")]
+        public async Task<IActionResult> getDetailReservationCards([FromQuery] GetReservationsQuery query)
         {
-            return BadRequest(ModelState);
-        }
-
-        // Parse string IDs to Guid
-        if (!Guid.TryParse(request.CustomerId, out Guid customerId))
-        {
-            return BadRequest("Invalid CustomerId format.");
-        }
-
-        if (!Guid.TryParse(request.BranchId, out Guid branchId))
-        {
-            return BadRequest("Invalid BranchId format.");
-        }
-
-        if (!Guid.TryParse(request.TableId, out Guid tableId))
-        {
-            return BadRequest("Invalid TableId format.");
-        }
-
-        // Parse the DatedOn string into DateTime
-        if (!DateTime.TryParseExact(request.DatedOn, "dd/MM/yyyy", 
-            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime datedOn))
-        {
-            return BadRequest("Invalid DatedOn format. Please use dd/MM/yyyy.");
-        }
-
-        var reservationIdParam = new SqlParameter("@reservation_id", System.Data.SqlDbType.UniqueIdentifier)
-        {
-            Direction = System.Data.ParameterDirection.Output
-        };
-
-        try
-        {
-            // Call the stored procedure with the parsed DatedOn
-            var result = await _context.Database.ExecuteSqlRawAsync(
-                "EXEC submit_reservation @p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @reservation_id OUT",
-                datedOn, // Pass the DateTime here
-                request.Note,
-                request.Status,
-                request.TotalPeople,
-                request.OrderedBy,
-                customerId,
-                branchId,
-                tableId,
-                reservationIdParam
-            );
-
-            Console.WriteLine($"SQL Result: {result}");
-
-            // Retrieve the reservation ID from the output parameter
-            Guid newReservationId = (Guid)reservationIdParam.Value;
-
-            // Create the response DTO
-            var reservationResponse = new ReservationResponseDto
+            if (!query.BranchId.HasValue || !query.DatedOn.HasValue)
             {
-                Id = newReservationId,
-                DatedOn = datedOn,
-                Note = request.Note,
-                Status = request.Status,
-                TotalPeople = request.TotalPeople,
-                OrderedBy = request.OrderedBy,
-                CustomerId = customerId,
-                BranchId = branchId,
-                TableId = tableId
-            };
-
-            // Return the reservation details as part of the response
-            return Ok(new { Reservation = reservationResponse });
-        }
-        catch (SqlException ex)
-        {
-            // Log the exception details
-            Console.WriteLine($"SQL Error: {ex.Message}");
-            return StatusCode(500, "Internal server error");
-        }
-    }
-        [HttpGet("getReservations")]
-public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuery query)
-{
-    if (!query.BranchId.HasValue || !query.DatedOn.HasValue)
-    {
-        return BadRequest("BranchId and DatedOn are required.");
-    }
-
-    var branchIdParam = new SqlParameter("@BranchId", SqlDbType.UniqueIdentifier) { Value = query.BranchId.Value };
-    var datedOnParam = new SqlParameter("@DatedOn", SqlDbType.Date) { Value = query.DatedOn.Value.Date };
-
-    try
-    {
-        // Execute the stored procedure to get the reservations
-        var reservations = await _context.Reservation
-            .FromSqlRaw("EXEC dbo.GetReservationsByBranchAndDate @BranchId, @DatedOn", branchIdParam, datedOnParam)
-            .ToListAsync();
-
-        // Return the list of reservations
-        return Ok(new Response<List<Reservation>> (reservations, "retrieved reservations successfully"));
-    }
-    catch (Exception ex)
-    {
-        // Handle errors
-        Console.WriteLine($"Error: {ex.Message}");
-        return StatusCode(500, "Internal server error");
-    }
-}
-
-
-    [HttpGet("getDetailReservationCards")]
-    public async Task<IActionResult> getDetailReservationCards([FromQuery] GetReservationsQuery query)
-    {
-        if (!query.BranchId.HasValue || !query.DatedOn.HasValue)
-        {
-            return BadRequest("BranchId and DatedOn are required.");
-        }
-        try
-        {
+                return BadRequest("BranchId and DatedOn are required.");
+            }
+            try
+            {
                 using (var connection = _context.Database.GetDbConnection())
                 {
                     await connection.OpenAsync();
@@ -163,16 +52,131 @@ public async Task<IActionResult> GetReservations([FromQuery] GetReservationsQuer
                     }
                     return Ok(new Response<List<ReservationCards>>(reservations.ToList(), "Retrieved reservation cards successfully"));
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
-        catch (Exception ex)
+
+
+        [HttpPost("submit")]
+        public async Task<IActionResult> SubmitReservationWithOrder([FromBody] ReservationOrderRequest request)
         {
-            Console.WriteLine($"Error: {ex.Message}");
-            return StatusCode(500, "Internal server error");
-        }   
+            // Khai báo các biến
+            Guid reservationId = Guid.Empty;
+            Guid orderId = Guid.Empty;
+
+            try
+            {
+                // Kết nối đến cơ sở dữ liệu
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+
+                    // Thực thi stored procedure customerSubmitReservation để tạo Reservation
+                    var reservationParameters = new DynamicParameters();
+                    reservationParameters.Add("@note", request.Note);
+                    reservationParameters.Add("@datedOn", request.DatedOn);
+                    reservationParameters.Add("@customerId", request.CustomerId);
+                    reservationParameters.Add("@branchId", request.BranchId);
+                    reservationParameters.Add("@totalPeople", request.TotalPeople);
+                    reservationParameters.Add("@id", dbType: DbType.Guid, direction: ParameterDirection.Output); // OUT parameter
+
+                    // Gọi stored procedure để tạo Reservation
+                    await connection.ExecuteAsync("customerSubmitReservation", reservationParameters, commandType: CommandType.StoredProcedure);
+
+                    // Lấy ReservationId sau khi tạo xong
+                    reservationId = reservationParameters.Get<Guid>("@id");
+                    Console.WriteLine("ReservationId: " + reservationId);
+
+                    // Kiểm tra nếu ReservationId không hợp lệ
+                    if (reservationId == Guid.Empty)
+                    {
+                        return BadRequest("Failed to create reservation.");
+                    }
+
+                    // Thực thi stored procedure createOrderFromReservation để tạo Order từ Reservation
+                    var orderParameters = new DynamicParameters();
+                    orderParameters.Add("@reservationId", reservationId);
+                    orderParameters.Add("@orderId", dbType: DbType.Guid, direction: ParameterDirection.Output); // OUT parameter
+
+                    // Gọi stored procedure để tạo Order từ Reservation
+                    await connection.ExecuteAsync("createOrderFromReservation", orderParameters, commandType: CommandType.StoredProcedure);
+
+                    // Lấy OrderId từ OUT parameter
+                    orderId = orderParameters.Get<Guid>("@orderId");
+
+                    // Kiểm tra nếu OrderId không hợp lệ
+                    if (orderId == Guid.Empty)
+                    {
+                        return BadRequest("Failed to create order.");
+                    }
+
+                    // Thêm OrderDetails cho món ăn trong Order
+                    foreach (var orderDetail in request.OrderDetails)
+                    {
+                        var orderDetailParams = new DynamicParameters();
+                        orderDetailParams.Add("@orderId", orderId);
+                        orderDetailParams.Add("@dishId", orderDetail.DishId);
+                        orderDetailParams.Add("@branchId", request.BranchId);
+                        orderDetailParams.Add("@quantity", orderDetail.Quantity);
+
+                        // Gọi stored procedure để tạo OrderDetail cho mỗi món ăn
+                        await connection.ExecuteAsync("createOrderDetailFromOrder", orderDetailParams, commandType: CommandType.StoredProcedure);
+                    }
+
+                    // Trả về thông tin đơn đặt chỗ, đơn hàng và chi tiết đơn hàng
+                    var response = new
+                    {
+                        ReservationId = reservationId,
+                        OrderId = orderId,
+                        OrderDetails = request.OrderDetails
+                    };
+
+                    return Ok(new Response<object>(response, "Reservation and order created successfully."));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Trả về thông báo lỗi nếu có exception
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
+        }
+
+
+        [HttpPost("updateReservationStatus")]
+        public async Task<IActionResult> UpdateReservationStatus([FromBody] UpdateReservationRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+            Console.WriteLine("tableId: " + request.TableId);
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@ReservationId", request.ReservationId, DbType.Guid);
+                    parameters.Add("@EmployeeId", request.EmployeeId, DbType.Guid);
+                    parameters.Add("@TableId", request.TableId, DbType.Guid);
+
+                    var result = await connection.ExecuteScalarAsync<string>("UpdateReservationStatusAndDetails", parameters, commandType: CommandType.StoredProcedure);
+
+                    return Ok(new Response<string>(result, "Updated reservation status successfully."));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
+        }
+
+
+
     }
-
-
-
-    
-}
 }

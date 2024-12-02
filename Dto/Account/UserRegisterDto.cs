@@ -14,14 +14,14 @@ namespace sushi_server.Dto.Account
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
-        public DateTime? DateOfBirth { get; set; } 
-        public Gender Gender { get; set; } 
+        public DateTime? DateOfBirth { get; set; }
+        public Gender Gender { get; set; }
         [Required]
         [MaxLength(20)]
         public string CitizenId { get; set; } = string.Empty;
         [Required]
         [Phone]
-        public string Phone { get; set; } = string.Empty; 
+        public string Phone { get; set; } = string.Empty;
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;

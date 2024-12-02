@@ -9,5 +9,5 @@ public class GetAllDishDto
     [Required]
     public string DishName { get; set; } = string.Empty;
     [Required]
-    public int CurrentPrice { get; set; } 
+    public int CurrentPrice { get; set; }
 }

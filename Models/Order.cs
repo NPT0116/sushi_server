@@ -6,18 +6,17 @@ namespace sushi_server.Models
 {
     public class Order
     {
-       [Key]
+        [Key]
         public Guid Id { get; set; }
         public long Total { get; set; }
         public DateTime LastModified { get; set; }
-        [JsonIgnore]
         public required OrderStatus Status { get; set; }
-        [JsonIgnore]
         public Reservation? Reservation { get; set; }
 
         public required List<OrderDetail> OrderDetails { get; set; }
 
-        public OrderResponseDTO ToResponseDTO() {
+        public OrderResponseDTO ToResponseDTO()
+        {
             OrderResponseDTO response =
             new OrderResponseDTO
             {

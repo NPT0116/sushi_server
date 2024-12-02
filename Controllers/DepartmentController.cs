@@ -12,7 +12,7 @@ namespace sushi_server.Controllers
 {
     [Route("api/department")]
     [ApiController]
-    public class DepartmentController: ControllerBase
+    public class DepartmentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -27,13 +27,13 @@ namespace sushi_server.Controllers
         {
             try
             {
-            var departments = await _context.Departments.ToListAsync();
-            return Ok(departments);
+                var departments = await _context.Departments.ToListAsync();
+                return Ok(departments);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }     
+        }
     }
 }
