@@ -12,7 +12,7 @@ public class TokenService : ITokenService
 {
     private readonly IConfiguration _config;
     private readonly SymmetricSecurityKey _key;
-    public TokenService(IConfiguration config )
+    public TokenService(IConfiguration config)
     {
         _config = config;
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:SigningKey"]));
@@ -24,8 +24,9 @@ public class TokenService : ITokenService
             new Claim(JwtRegisteredClaimNames.UniqueName, appUser.UserName),
         };
         // hashed sigining key
-        var creds = new SigningCredentials(_key , SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptor = new SecurityTokenDescriptor{
+        var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
             Subject = new ClaimsIdentity(claims),
             // expires sau 2 tieng
             Expires = DateTime.Now.AddHours(2),

@@ -20,12 +20,16 @@ BEGIN
     DECLARE @bonusPoint INT;
     DECLARE @Discount INT;
     DECLARE @ReservationDate DATE;  -- Biến lưu trữ ngày đặt chỗ (DatedOn từ Reservation)
+    DECLARE @ReservationId UNIQUEIDENTIFIER;  -- Biến lưu trữ ReservationId
+    DECLARE @TableId UNIQUEIDENTIFIER;  -- Biến lưu trữ TableId từ Reservation
 
     -- 1. Lấy thông tin từ bảng Orders và Reservation
     SELECT 
         @CustomerId = r.CustomerId,
         @Total = o.Total,
-        @ReservationDate = r.DatedOn  -- Lấy ngày đặt chỗ từ Reservation
+        @ReservationDate = r.DatedOn,  -- Lấy ngày đặt chỗ từ Reservation
+        @ReservationId = r.Id,         -- Lấy ReservationId
+        @TableId = r.TableId           -- Lấy TableId từ Reservation
     FROM Orders o
     JOIN Reservation r ON r.Id = o.ReservationId
     WHERE o.Id = @OrderId;
@@ -78,7 +82,17 @@ BEGIN
     SET Status = 2
     WHERE Id = @OrderId;
 
-    -- 8. Trả về thông tin hóa đơn mới tạo
+    -- 8. Cập nhật lại Reservation, đặt TableId thành NULL
+    UPDATE Reservation
+    SET  Status = 2  -- Cập nhật trạng thái thành "In Progress" và TableId thành NULL
+    WHERE Id = @ReservationId;
+
+    -- 9. Cập nhật lại TableDetail, đặt trạng thái của bàn về trạng thái "available" hoặc "vacant"
+    UPDATE TableDetail
+    SET Status = 0  -- Giả sử '1' là trạng thái "available" hoặc "vacant"
+    WHERE Id = @TableId;
+
+    -- 10. Trả về thông tin hóa đơn mới tạo
     SELECT * FROM Invoices WHERE Id = @InvoiceId;
 END;
 

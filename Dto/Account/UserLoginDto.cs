@@ -5,7 +5,7 @@ namespace sushi_server.Dto.Account;
 
 public class UserLoginDto
 {
-        [Required]
+    [Required]
     public string UserName { get; set; }
     [Required]
     public string Password { get; set; }

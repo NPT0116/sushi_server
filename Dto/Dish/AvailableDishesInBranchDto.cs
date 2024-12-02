@@ -10,7 +10,7 @@ public class AvailableDishesInBranchDto
     [Required]
     public string DishName { get; set; } = string.Empty;
     [Required]
-    public int CurrentPrice { get; set; } 
+    public int CurrentPrice { get; set; }
     public Guid SectionId { get; set; }
 
 }
