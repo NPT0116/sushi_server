@@ -2,35 +2,42 @@
 
 
 
-
 GO
-create or alter PROCEDURE getDetailReservationCards
+CREATE OR ALTER PROCEDURE getDetailReservationCards
 @branchId UNIQUEIDENTIFIER,
 @dateOn DATE
 AS
 BEGIN
-    select  
-    r.Id as ReservationId,
-    r.CustomerId as CustomerId,
-    c.Name as CustomerName,
-    r.BranchId as BranchId,
-    b.Name as BranchName,
-    r.[Status] as Status,
-    r.DatedOn as DatedOn,
-    td.TableNumber as TableNumber,
-    r.TotalPeople as TotalPeople ,
-    o.Total as TotalPrice,
-    o.Id as OrderID
-    from Reservation r join Customers c on c.CustomerId = r.CustomerId 
-    join branches b on b.BranchId = r.BranchId
-    join TableDetail td on td.Id = r.TableId
-    join ORDERs o on o.ReservationId = r.Id
-    where r.BranchId = @branchId and r.DatedOn = @dateOn 
+    SELECT  
+        r.Id AS ReservationId,
+        r.CustomerId AS CustomerId,
+        c.Name AS CustomerName,
+        r.BranchId AS BranchId,
+        b.Name AS BranchName,
+        r.[Status] AS Status,
+        CAST(r.DatedOn AS DATE) AS DatedOn,  -- Ép kiểu DatedOn thành DATE
+        td.TableNumber AS TableNumber,  -- TableNumber chỉ trả về khi có TableId
+        r.TotalPeople AS TotalPeople,
+        o.Total AS TotalPrice,
+        o.Id AS OrderID,
+        r.OrderedBy AS OrderBy,  -- Trả về OrderBy nếu có (có thể NULL)
+        r.TableId AS TableId  -- Trả về TableId nếu có (có thể NULL)
+    FROM Reservation r
+    LEFT JOIN Customers c ON c.CustomerId = r.CustomerId 
+    LEFT JOIN Branches b ON b.BranchId = r.BranchId
+    LEFT JOIN TableDetail td ON td.Id = r.TableId  -- Sử dụng LEFT JOIN để tránh việc TableNumber không tồn tại khi TableId là NULL
+    LEFT JOIN Orders o ON o.ReservationId = r.Id  -- Liên kết với bảng Orders
+    WHERE r.BranchId = @branchId 
+    AND CAST(r.DatedOn AS DATE) = @dateOn  -- So sánh DatedOn đã được ép kiểu với @dateOn
+    -- Có thể lọc thêm status nếu cần, ví dụ:
+    -- AND (r.Status = 0 OR r.Status = 1)  -- Cho phép cả trạng thái đã được xử lý (1) và chưa xử lý (0)
 END
+
+
 
 go
 
-EXEC getDetailReservationCards @branchId = 'e69eff34-6b46-4036-9db9-0b66ed24339e', @dateOn = '2024-9-30'
+EXEC getDetailReservationCards @branchId = '9f3142df-065d-4ca9-bf07-1017fd4eff43', @dateOn = '2024-12-01'
  
  select * from Branches
 GO
@@ -53,28 +60,3 @@ END
 
 EXEC getOrderDetailsByReservationId @reservationId = 'f17aa3e7-af29-4c23-b066-a39217f7eab6';
 
-
-SELECT TOP 5 * 
-FROM Reservation
-ORDER BY NEWID();
-
-    SELECT 
-        od.Id AS OrderDishId,
-        od.Price AS Price,
-        od.Quantity AS Quantity,
-        od.DishId AS DishId,
-        d.DishName AS DishName
-    FROM OrderDetail od
-    JOIN Orders o ON o.Id = od.OrderId  
-    JOIN Dishes d ON d.DishId = od.DishId
-    WHERE o.ReservationId = @reservationId;
-
-select d.DishName from Reservation r join Orders o on o.ReservationId = r.Id join OrderDetail od on od.OrderId = o.Id JOIN Dishes d ON d.DishId = od.DishId   where r.Id = 'f17aa3e7-af29-4c23-b066-a39217f7eab6'
-
-select * from Reservation
-select count(*) from Orders
-select top 10 * from Customers
-
-SELECT *
-from Cards
-where CustomerId = '9f3c1145-9556-4ae2-976e-006f010232fe'

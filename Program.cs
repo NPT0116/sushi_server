@@ -9,42 +9,46 @@ using sushi_server.Interfaces;
 using sushi_server.Mapper;
 using sushi_server.Models;
 using sushi_server.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+// Determine if the environment is macOS or Windows
+string connectionString;
+if (OperatingSystem.IsMacOS())
+{
+    connectionString = builder.Configuration.GetConnectionString("MacConnection");
+}
+else
+{
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+}
 
-// Configure DbContext
+// Add DbContext using the determined connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString, // Use the appropriate connection string
         sqlServerOptionsAction: sqlOptions =>
         {
             sqlOptions.EnableRetryOnFailure();
         }
     ));
 
-// Configure CORS to allow any origin (or modify based on your needs)
+// Add other services to the container
+builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
 });
 
 // Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Sushi Restaurant API", 
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Sushi Restaurant API",
         Version = "v1",
         Description = "API for Sushi Restaurant Management System"
     });
@@ -59,7 +63,7 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
-    
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -76,10 +80,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add AutoMapper (make sure the MappingProfile is defined in your project)
+// Add AutoMapper, Identity, JWT, etc. (Rest of your services)
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-// Configure Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 8;
@@ -87,9 +89,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireDigit = false;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+}).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -111,22 +111,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Register token service for JWT token generation
-builder.Services.AddScoped<ITokenService, TokenService>();
-
-// Configure JSON serialization settings
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-});
-
 var app = builder.Build();
 
 // Ensure the database is created on startup (if not already)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated(); // Make sure DB is created if it's not already
+    context.Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.
@@ -135,29 +126,23 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        // Swagger UI endpoint
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sushi Restaurant API V1");
-        
-        // Swagger UI route prefix depending on environment
         if (app.Environment.IsProduction())
         {
-            c.RoutePrefix = string.Empty; // Swagger UI will be served at http://localhost:5201/index.html
+            c.RoutePrefix = string.Empty;
         }
         else
         {
-            c.RoutePrefix = "swagger"; // Swagger UI will be served at http://localhost:5201/swagger
+            c.RoutePrefix = "swagger";
         }
     });
 }
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Apply the CORS policy
-
-// Use authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Map controllers
-app.MapControllers();   
+app.MapControllers();
 
 app.Run();
