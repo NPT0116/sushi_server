@@ -24,13 +24,8 @@ else
 
 // Add DbContext using the determined connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
-        connectionString, // Use the appropriate connection string
-        sqlServerOptionsAction: sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure();
-        }
-    ));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add other services to the container
 builder.Services.AddControllers();
