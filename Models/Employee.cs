@@ -16,6 +16,7 @@ namespace sushi_server.Models
         public Department? Department { get; set; }
         public Guid BranchId { get; set; }
         public Branch? Branch { get; set; }
+    public ICollection<WorkHistory> WorkHistories { get; set; }
 
     }
 }

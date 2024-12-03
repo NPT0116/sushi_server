@@ -15,7 +15,8 @@ namespace sushi_server.Models
         public bool Paid { get; set; }
         public DateTime DatedOn { get; set; }
         public Guid OrderId { get; set; }
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
+        public Survey? Survey { get; set; }
         public InvoiceResponseDTO toInvoiceResponseDTO()
         {
             return new InvoiceResponseDTO
