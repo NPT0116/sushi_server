@@ -19,6 +19,28 @@ BEGIN
         RAISERROR('Table not found or not available', 16, 1);
         RETURN;
     END
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM Employees e 
+        JOIN Reservation r ON r.BranchId = e.BranchId 
+        WHERE e.Id = @EmployeeId 
+        AND r.Id = @ReservationId
+    )
+    BEGIN
+        RAISERROR('Employee not found or does not belong to the branch of the reservation.', 16, 1);
+        RETURN;
+    END
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM TableDetail td 
+        JOIN Reservation r ON r.BranchId = td.BranchId 
+        WHERE td.Id = @TableId 
+        AND r.Id = @ReservationId
+    )
+    BEGIN
+        RAISERROR('Table not found or does not belong to the branch of the reservation.', 16, 1);
+        RETURN;
+    END
     update TableDetail
     set [Status] = 1
     where Id = @TableId
