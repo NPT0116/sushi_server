@@ -16,17 +16,17 @@ namespace sushi_server.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "1a962d4b-633d-4628-9513-1f5c32144260");
+                keyValue: "09720374-cf90-4b38-83f3-feb9a2bd555b");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "9eec629b-4508-483b-adf5-183dac836f4b");
+                keyValue: "c46c1b64-bda0-4241-8115-774586751a81");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "d4983c5e-2b90-466b-bc5c-55c20de89ca3");
+                keyValue: "fce46e9e-e0f7-4a6e-8940-51010de96d06");
 
             migrationBuilder.CreateTable(
                 name: "Surveys",
