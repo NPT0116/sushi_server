@@ -1,4 +1,4 @@
-
+GO
 
 CREATE OR ALTER PROCEDURE UpdatePaidInvoice
     @InvoiceId UNIQUEIDENTIFIER
