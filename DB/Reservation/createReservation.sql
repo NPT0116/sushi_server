@@ -1,7 +1,7 @@
 
 
 -- ALTER TABLE [dbo].[Reservation]
--- ALTER COLUMN [OrderedBy] UNIQUEIDENTIFIER NULL;
+-- -- ALTER COLUMN [OrderedBy] UNIQUEIDENTIFIER NULL;
 -- ALTER COLUMN [TableId] UNIQUEIDENTIFIER NULL;
 
 
@@ -34,7 +34,7 @@ BEGIN
 END
 
 
-select top 1 * from Orders
+
 
 go
 create or alter PROC createOrderFromReservation
