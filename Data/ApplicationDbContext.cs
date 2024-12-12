@@ -25,6 +25,10 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Reservation> Reservation { get; set; }
+    public DbSet<WorkHistory> WorkHistories { get; set; }
+    public DbSet<WorkHistory> WorkHistory { get; set; }
+    public DbSet<Survey> Surveys { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -43,5 +47,19 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
             }
         };
         builder.Entity<IdentityRole>().HasData(roles);
+    builder.Entity<Invoice>()
+            .HasOne(i => i.Survey)
+            .WithOne(s => s.Invoice)
+            .HasForeignKey<Survey>(s => s.InvoiceId)
+            .OnDelete(DeleteBehavior.Restrict); // Specify OnDelete behavior
+
+        // Configure the WorkHistory-Employee relationship
+        builder.Entity<WorkHistory>()
+            .HasOne(w => w.Employee)
+            .WithMany(e => e.WorkHistories)
+            .HasForeignKey(w => w.EmployeeId)
+            .OnDelete(DeleteBehavior.NoAction); // Specify OnDelete behavior
+
+
     }
 }

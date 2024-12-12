@@ -10,5 +10,10 @@ namespace sushi_server.Models
 
         // Thuộc tính liên kết với Customer
         public Customer? Customer { get; set; }
+
+        public Guid? EmployeeId { get; set; }
+
+        // Thuộc tính liên kết với Customer
+        public Employee? Employee { get; set; }
     }
 }

@@ -60,3 +60,16 @@ END
 
 EXEC getOrderDetailsByReservationId @reservationId = 'f17aa3e7-af29-4c23-b066-a39217f7eab6';
 
+
+
+select GETDATE() as  today
+
+select top 1 * from customers
+
+select top 1 * from Reservation ORDER by DatedOn desc
+
+select top 1 * from Employees where BranchId = '04ef2e1d-aa27-4194-b2e5-c87cfd84cd4e'
+
+select   * from TableDetail tb join Branches b on b.BranchId = tb.BranchId where b.BranchId = '04ef2e1d-aa27-4194-b2e5-c87cfd84cd4e' and status = 0
+
+select top 1 * from Orders where ReservationId = '1a7b42c8-209a-4c0d-af3f-10388a9e3322'

@@ -51,19 +51,19 @@ namespace sushi_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15c44789-6442-4f51-b0e1-67cf29e0edd5",
+                            Id = "81171e6f-9d17-49da-b22f-678485bdf810",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "05aeb2de-0cbb-4a6e-973c-d192ed960c1b",
+                            Id = "25fe407d-d033-4811-882e-12481f211111",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "af75ec2a-78e5-4b67-98ff-392ae541008f",
+                            Id = "ecb587c4-5c56-4693-b5e1-b5570e124ff3",
                             Name = "Emp",
                             NormalizedName = "EMP"
                         });
@@ -197,6 +197,9 @@ namespace sushi_server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -233,6 +236,8 @@ namespace sushi_server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -641,6 +646,30 @@ namespace sushi_server.Migrations
                     b.ToTable("Sections");
                 });
 
+            modelBuilder.Entity("sushi_server.Models.Survey", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("Surveys");
+                });
+
             modelBuilder.Entity("sushi_server.Models.TableDetail", b =>
                 {
                     b.Property<Guid>("Id")
@@ -662,6 +691,38 @@ namespace sushi_server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TableDetail");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.WorkHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ResignDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("WorkHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -721,7 +782,13 @@ namespace sushi_server.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
@@ -850,9 +917,57 @@ namespace sushi_server.Migrations
                     b.Navigation("Table");
                 });
 
+            modelBuilder.Entity("sushi_server.Models.Survey", b =>
+                {
+                    b.HasOne("sushi_server.Models.Invoice", "Invoice")
+                        .WithOne("Survey")
+                        .HasForeignKey("sushi_server.Models.Survey", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.WorkHistory", b =>
+                {
+                    b.HasOne("sushi_server.Models.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sushi_server.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany("WorkHistories")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("sushi_server.Models.Dish", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Employee", b =>
+                {
+                    b.Navigation("WorkHistories");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Invoice", b =>
+                {
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Order", b =>
