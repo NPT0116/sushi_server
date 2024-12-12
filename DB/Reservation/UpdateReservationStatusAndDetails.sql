@@ -62,8 +62,8 @@ select top 1 * from Invoices order by DatedOn desc
 select top 1 o.Id, o.[Status] from Reservation r join orders o on r.Id = o.ReservationId order by r.DatedOn desc
 
 select  tb.Id, tb.[Status] from TableDetail tb join Branches b on b.BranchId = tb.BranchId join Reservation r on r.BranchId = b.BranchId 
-where r.Id = '0be776c4-a5c8-40be-a82c-454d9e0cfd48' 
+where r.Id = '1efdbdae-bb75-4fc1-b5ff-7fa4cc87992b' 
 
 
 select  tb.Id , tb.Name from Employees tb join Branches b on b.BranchId = tb.BranchId join Reservation r on r.BranchId = b.BranchId 
-where r.Id = '0be776c4-a5c8-40be-a82c-454d9e0cfd48' 
+where r.Id = '1efdbdae-bb75-4fc1-b5ff-7fa4cc87992b' 
