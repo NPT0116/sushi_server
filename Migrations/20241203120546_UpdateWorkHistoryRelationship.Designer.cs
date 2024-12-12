@@ -12,8 +12,8 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241127134040_AddIdentityRoles")]
-    partial class AddIdentityRoles
+    [Migration("20241203120546_UpdateWorkHistoryRelationship")]
+    partial class UpdateWorkHistoryRelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,27 +49,27 @@ namespace sushi_server.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles", (string)null);
 
-b.HasData(
-    new
-    {
-        Id = "5696c690-61c2-4ce7-83e2-da2e03cc49ff",
-        Name = "User",
-        NormalizedName = "USER"
-    },
-    new
-    {
-        Id = "9f7594c4-6315-4277-a07e-2b2a7a60f9f9",
-        Name = "Admin",
-        NormalizedName = "ADMIN"
-    },
-    new
-    {
-        Id = "6eaddb63-1825-45cc-aed4-c7af1057c70d",
-        Name = "Employee",
-        NormalizedName = "EMPLOYEE"
-    });
+                    b.HasData(
+                        new
+                        {
+                            Id = "81171e6f-9d17-49da-b22f-678485bdf810",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "25fe407d-d033-4811-882e-12481f211111",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "ecb587c4-5c56-4693-b5e1-b5570e124ff3",
+                            Name = "Emp",
+                            NormalizedName = "EMP"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -200,6 +200,9 @@ b.HasData(
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -236,6 +239,8 @@ b.HasData(
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -478,11 +483,9 @@ b.HasData(
 
             modelBuilder.Entity("sushi_server.Models.Invoice", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AfterDiscount")
                         .HasColumnType("int");
@@ -519,7 +522,7 @@ b.HasData(
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ReservationId")
@@ -560,6 +563,8 @@ b.HasData(
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DishId");
 
                     b.HasIndex("OrderId");
 
@@ -610,7 +615,7 @@ b.HasData(
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OrderedBy")
+                    b.Property<Guid?>("OrderedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -637,14 +642,35 @@ b.HasData(
 
                     b.Property<string>("SectionName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SectionId");
 
-                    b.HasIndex("SectionName")
+                    b.ToTable("Sections");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Survey", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("Sections");
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("sushi_server.Models.TableDetail", b =>
@@ -667,10 +693,39 @@ b.HasData(
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchId", "TableNumber")
-                        .IsUnique();
-
                     b.ToTable("TableDetail");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.WorkHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ResignDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("WorkHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -730,7 +785,13 @@ b.HasData(
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
@@ -831,11 +892,19 @@ b.HasData(
 
             modelBuilder.Entity("sushi_server.Models.OrderDetail", b =>
                 {
+                    b.HasOne("sushi_server.Models.Dish", "Dish")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("sushi_server.Models.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dish");
 
                     b.Navigation("Order");
                 });
@@ -849,6 +918,59 @@ b.HasData(
                         .IsRequired();
 
                     b.Navigation("Table");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Survey", b =>
+                {
+                    b.HasOne("sushi_server.Models.Invoice", "Invoice")
+                        .WithOne("Survey")
+                        .HasForeignKey("sushi_server.Models.Survey", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.WorkHistory", b =>
+                {
+                    b.HasOne("sushi_server.Models.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sushi_server.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany("WorkHistories")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Dish", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Employee", b =>
+                {
+                    b.Navigation("WorkHistories");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Invoice", b =>
+                {
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Order", b =>

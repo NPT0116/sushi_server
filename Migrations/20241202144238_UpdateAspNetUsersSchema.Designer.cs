@@ -12,8 +12,8 @@ using sushi_server.Data;
 namespace sushi_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241127134040_AddIdentityRoles")]
-    partial class AddIdentityRoles
+    [Migration("20241202144238_UpdateAspNetUsersSchema")]
+    partial class UpdateAspNetUsersSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,27 +49,27 @@ namespace sushi_server.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles", (string)null);
 
-b.HasData(
-    new
-    {
-        Id = "5696c690-61c2-4ce7-83e2-da2e03cc49ff",
-        Name = "User",
-        NormalizedName = "USER"
-    },
-    new
-    {
-        Id = "9f7594c4-6315-4277-a07e-2b2a7a60f9f9",
-        Name = "Admin",
-        NormalizedName = "ADMIN"
-    },
-    new
-    {
-        Id = "6eaddb63-1825-45cc-aed4-c7af1057c70d",
-        Name = "Employee",
-        NormalizedName = "EMPLOYEE"
-    });
+                    b.HasData(
+                        new
+                        {
+                            Id = "09720374-cf90-4b38-83f3-feb9a2bd555b",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "c46c1b64-bda0-4241-8115-774586751a81",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "fce46e9e-e0f7-4a6e-8940-51010de96d06",
+                            Name = "Emp",
+                            NormalizedName = "EMP"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -200,6 +200,9 @@ b.HasData(
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -236,6 +239,8 @@ b.HasData(
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -478,11 +483,9 @@ b.HasData(
 
             modelBuilder.Entity("sushi_server.Models.Invoice", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AfterDiscount")
                         .HasColumnType("int");
@@ -519,7 +522,7 @@ b.HasData(
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("LastModified")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ReservationId")
@@ -560,6 +563,8 @@ b.HasData(
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DishId");
 
                     b.HasIndex("OrderId");
 
@@ -610,7 +615,7 @@ b.HasData(
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OrderedBy")
+                    b.Property<Guid?>("OrderedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -637,12 +642,9 @@ b.HasData(
 
                     b.Property<string>("SectionName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SectionId");
-
-                    b.HasIndex("SectionName")
-                        .IsUnique();
 
                     b.ToTable("Sections");
                 });
@@ -666,9 +668,6 @@ b.HasData(
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BranchId", "TableNumber")
-                        .IsUnique();
 
                     b.ToTable("TableDetail");
                 });
@@ -730,7 +729,13 @@ b.HasData(
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("sushi_server.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("sushi_server.Models.BranchDish", b =>
@@ -831,11 +836,19 @@ b.HasData(
 
             modelBuilder.Entity("sushi_server.Models.OrderDetail", b =>
                 {
+                    b.HasOne("sushi_server.Models.Dish", "Dish")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("DishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("sushi_server.Models.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dish");
 
                     b.Navigation("Order");
                 });
@@ -849,6 +862,11 @@ b.HasData(
                         .IsRequired();
 
                     b.Navigation("Table");
+                });
+
+            modelBuilder.Entity("sushi_server.Models.Dish", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("sushi_server.Models.Order", b =>
