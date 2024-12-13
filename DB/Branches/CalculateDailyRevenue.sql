@@ -38,12 +38,9 @@ BEGIN
     END CATCH;
 END;
 
+SELECT top 1 * from Branches
 
-select r.BranchId, i.DatedOn
-from Reservation r join ORDErs o on o.ReservationId = r.Id join Invoices i on i.OrderId = o.Id
-where i.Id = '8d9f04c9-79c3-4dda-8a9b-0c41e41e5ebd'
-
-exec GetDailyRevenueByBranch @BranchId = '94520723-5108-48f1-9336-5e37379912bb', @Date = '2024-11-27'
+exec GetDailyRevenueByBranch @BranchId = 'e69eff34-6b46-4036-9db9-0b66ed24339e', @Date = '2024-1-30'
 
 select * from Invoices
 

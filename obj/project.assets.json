@@ -4735,19 +4735,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
-      "projectName": "sushi_server",
-      "projectPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
-      "packagesPath": "/Users/npt/.nuget/packages/",
-      "outputPath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/",
-=======
       "projectUniqueName": "C:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
       "projectName": "sushi_server",
       "projectPath": "C:\\Users\\Admin\\Desktop\\sushi_server\\sushi_server.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Admin\\Desktop\\sushi_server\\obj\\",
->>>>>>> 8cf70b0a4db53a2f5a953ae0d8a2632102bbb25c
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4849,5 +4841,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\Admin\\Desktop\\sushi_server\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
