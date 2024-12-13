@@ -77,7 +77,7 @@ BEGIN
         SET @MaxPeople = 5 + (ABS(CHECKSUM(NEWID())) % 9)
 
         -- Insert a new TableDetail record for each table in this branch
-        INSERT INTO TableDetail (Id, BranchId, TableNumber, MaxCapacity, Status)
+        INSERT INTO TableDetail (TableId, BranchId, TableNumber, MaxPeople, Status)
         VALUES (NEWID(), @BranchId, @Counter, @MaxPeople, 0) -- Status set to false (0)
 
         -- Increment the counter for TableNumber
@@ -2448,7 +2448,7 @@ BEGIN
         SELECT @EmployeeId = Id FROM Employees WHERE BranchId = @BranchId ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
 
         -- Lấy TableId ngẫu nhiên thuộc chi nhánh này
-        SELECT @TableId = Id FROM TableDetail WHERE BranchId = @BranchId ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
+        SELECT @TableId = TableId FROM TableDetail WHERE BranchId = @BranchId ORDER BY NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
 
         -- Chọn ngày rải rác trong năm 2024 (trừ tháng 11)
         SET @DatedOn = DATEADD(DAY, (ABS(CHECKSUM(NEWID())) % 300), '2024-01-01'); -- Random ngày từ tháng 1 đến tháng 10
@@ -2597,6 +2597,7 @@ BEGIN
     DECLARE @ReservationDate DATE;  -- Biến lưu trữ ngày đặt chỗ (DatedOn từ Reservation)
     DECLARE @ReservationId UNIQUEIDENTIFIER;  -- Biến lưu trữ ReservationId
     DECLARE @TableId UNIQUEIDENTIFIER;  -- Biến lưu trữ TableId từ Reservation
+    DECLARE @BranchId UNIQUEIDENTIFIER;  -- Biến lưu trữ TableId từ Reservation
 
     -- 1. Lấy thông tin từ bảng Orders và Reservation
     SELECT 
@@ -2604,17 +2605,14 @@ BEGIN
         @Total = o.Total,
         @ReservationDate = r.DatedOn,  -- Lấy ngày đặt chỗ từ Reservation
         @ReservationId = r.Id,         -- Lấy ReservationId
-        @TableId = r.TableId           -- Lấy TableId từ Reservation
+        @TableId = r.TableId,
+        @BranchId = r.BranchId           -- Lấy TableId từ Reservation
     FROM Orders o
     JOIN Reservation r ON r.Id = o.ReservationId
     WHERE o.Id = @OrderId;
 
     -- Kiểm tra nếu không tìm thấy đơn hàng
-    IF @CustomerId IS NULL
-    BEGIN
-        RAISERROR('OrderId không tồn tại hoặc không tìm thấy khách hàng', 16, 1);
-        RETURN;
-    END
+  
 
     -- 2. Kiểm tra sự tồn tại của thẻ khách hàng và tính toán giảm giá
     IF NOT EXISTS (SELECT 1 FROM Cards c WHERE c.CustomerId = @CustomerId)
@@ -2640,8 +2638,8 @@ BEGIN
     -- 5. Tạo hóa đơn mới trong bảng Invoices
     SET @InvoiceId = NEWID();  -- Tạo InvoiceId mới
 
-    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint)
-    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint);  -- Sử dụng @ReservationDate thay vì GETDATE()
+    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint, BranchId)
+    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
 
     -- 6. Cập nhật điểm số cho thẻ khách hàng
     IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
@@ -2651,24 +2649,6 @@ BEGIN
         SET AccumulatedPoints = AccumulatedPoints + @bonusPoint
         WHERE CustomerId = @CustomerId;
     END
-
-    -- 7. Cập nhật trạng thái đơn hàng thành "Invoiced"
-    UPDATE Orders
-    SET Status = 2
-    WHERE Id = @OrderId;
-
-    -- 8. Cập nhật lại Reservation, đặt TableId thành NULL
-    UPDATE Reservation
-    SET  Status = 2  -- Cập nhật trạng thái thành "In Progress" và TableId thành NULL
-    WHERE Id = @ReservationId;
-
-    -- 9. Cập nhật lại TableDetail, đặt trạng thái của bàn về trạng thái "available" hoặc "vacant"
-    UPDATE TableDetail
-    SET Status = 0  -- Giả sử '1' là trạng thái "available" hoặc "vacant"
-    WHERE Id = @TableId;
-
-    -- 10. Trả về thông tin hóa đơn mới tạo
-    -- SELECT * FROM Invoices WHERE Id = @InvoiceId;
 END;
 
 
@@ -2707,7 +2687,39 @@ DEALLOCATE OrderCursor;
 GO
 
 
+GO
 
+CREATE OR ALTER PROCEDURE UpdatePaidInvoice
+    @InvoiceId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Kiểm tra xem hóa đơn có tồn tại không
+        IF NOT EXISTS (SELECT 1 FROM Invoices WHERE Id = @InvoiceId)
+        BEGIN
+            RAISERROR('Invoice not found.', 16, 1);
+            RETURN;
+        END
+
+        -- Cập nhật trường Paid thành 1 (đã thanh toán)
+        UPDATE Invoices
+        SET Paid = 1
+        WHERE Id = @InvoiceId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH;
+END;
+
+
+GO
 
 
 DECLARE @InvoiceId UNIQUEIDENTIFIER;
@@ -2757,3 +2769,16 @@ select count(*) as invoices from invoices
 
 
 
+-- DELETE FROM OrderDetail;
+-- DELETE FROM Orders;
+-- DELETE FROM Reservation;
+-- DELETE FROM Cards;
+-- DELETE FROM Rankings;
+-- DELETE FROM Customers;
+-- DELETE FROM Employees;
+-- DELETE FROM Departments;
+-- DELETE FROM Sections;
+-- DELETE FROM Dishes;
+-- DELETE FROM BranchDishes;
+-- DELETE FROM Branches;
+-- DELETE FROM Invoices;

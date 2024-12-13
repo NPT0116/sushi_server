@@ -1,4 +1,11 @@
 GO
+create DATABASE sushiDB
+go
+use sushiDb
+go
+
+
+GO
  CREATE TABLE [dbo].[Branches] (
     [BranchId]     UNIQUEIDENTIFIER NOT NULL,
     [ManagerId]    UNIQUEIDENTIFIER NULL,
@@ -14,6 +21,19 @@ GO
     CONSTRAINT [PK_Branches] PRIMARY KEY CLUSTERED ([BranchId] ASC)
 );
 go
+
+GO
+
+CREATE TABLE [TableDetail] (
+    [TableId] uniqueidentifier NOT NULL,
+    [BranchId] uniqueidentifier NOT NULL,
+    [TableNumber] int NOT NULL,
+    [MaxPeople] int NOT NULL,
+    [Status] bit NOT NULL,
+    CONSTRAINT [PK_TableDetail] PRIMARY KEY ([TableId]),
+    CONSTRAINT [FK_TableDetail_Branches_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [Branches] ([BranchId]) ON DELETE CASCADE
+);
+GO
 
 CREATE TABLE [dbo].[Sections] (
     [SectionId]   UNIQUEIDENTIFIER NOT NULL,
@@ -60,9 +80,9 @@ CREATE TABLE [dbo].[Customers] (
     [Name]        NVARCHAR (100)   NOT NULL,
     [DateOfBirth] DATETIME2 (7)    NULL,
     [Gender]      INT              NOT NULL,
-    [CitizenId]   NVARCHAR (20)    NOT NULL,
-    [Phone]       NVARCHAR (MAX)   NOT NULL,
-    [Email]       NVARCHAR (MAX)   NOT NULL,
+    [CitizenId]   NVARCHAR (20)    NOT NULL UNIQUE,
+    [Phone]       NVARCHAR (MAX)   NOT NULL UNIQUE,
+    [Email]       NVARCHAR (MAX)   NOT NULL UNIQUE,
     CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([CustomerId] ASC)
 );
 go
@@ -82,6 +102,10 @@ CREATE TABLE [dbo].[Employees] (
     CONSTRAINT [FK_Employees_Departments_DepartmentId] FOREIGN KEY ([DepartmentId]) REFERENCES [dbo].[Departments] ([DepartmentId]) 
 
 );
+go
+
+--add fk to branches for managerId
+alter table branches add CONSTRAINT [FK_Branches_Employees_ManagerId] FOREIGN KEY ([ManagerId]) REFERENCES [dbo].[Employees] (Id)
 go
 CREATE TABLE [dbo].[WorkHistory] (
     [Id]           UNIQUEIDENTIFIER NOT NULL,
@@ -135,7 +159,8 @@ CREATE TABLE [dbo].[Reservation] (
     [TableId]     UNIQUEIDENTIFIER NOT NULL,
     [TotalPeople] INT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Reservation] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Reservation_TableDetail_TableId] FOREIGN KEY ([TableId]) REFERENCES [dbo].[TableDetail] ([Id])
+    CONSTRAINT [FK_Reservation_TableDetail_TableId] FOREIGN KEY ([TableId]) REFERENCES [dbo].[TableDetail] ([TableId]),
+    CONSTRAINT [FK_Reservation_Branch_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [dbo].[Branches] ([BranchId])
 );
 
 go
@@ -151,7 +176,19 @@ CREATE TABLE [dbo].[Orders] (
 );
 
 
+GO
 
+CREATE TABLE [OrderDetail] (
+    [Id] uniqueidentifier NOT NULL,
+    [Status] int NOT NULL,
+    [Price] bigint NOT NULL,
+    [Quantity] bigint NOT NULL,
+    [DishId] uniqueidentifier NOT NULL,
+    [OrderId] uniqueidentifier NOT NULL,
+    CONSTRAINT [PK_OrderDetail] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_OrderDetail_Orders_OrderId] FOREIGN KEY ([OrderId]) REFERENCES [Orders] ([Id]) ON DELETE CASCADE
+);
+GO
 go
 
     CREATE TABLE [dbo].[Invoices] (
@@ -163,9 +200,12 @@ go
     [Paid]          BIT              NOT NULL,
     [DatedOn]       DATETIME2 (7)    NOT NULL,
     [OrderId]       UNIQUEIDENTIFIER NOT NULL,
+    [BranchId]      UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT [PK_Invoices] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_Invoices_Orders_OrderId] FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Orders] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Invoices_Orders_OrderId] FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Orders] ([Id]) ,
+    CONSTRAINT [FK_Invoices_Branch_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [dbo].[Branches] ([BranchId]) 
 );
+GO
 
 CREATE TABLE [dbo].[Surveys] (
     [Id]        UNIQUEIDENTIFIER NOT NULL,
@@ -176,14 +216,25 @@ CREATE TABLE [dbo].[Surveys] (
     CONSTRAINT [FK_Surveys_Invoices_InvoiceId] FOREIGN KEY ([InvoiceId]) REFERENCES [dbo].[Invoices] ([Id])
 );
 
-
+go
 CREATE TABLE [dbo].[AccessHistories] (
     [Id]         UNIQUEIDENTIFIER NOT NULL,
     [CustomerId] UNIQUEIDENTIFIER NOT NULL,
     [AccessTime] DATETIME2 (7)    NOT NULL,
     [Duration]   INT              NOT NULL,
     CONSTRAINT [PK_AccessHistories] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_AccessHistories_Customers_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([CustomerId]) ON DELETE CASCADE
+    CONSTRAINT [FK_AccessHistories_Customers_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([CustomerId])
 );
 
+CREATE TABLE Account (
+    Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),  -- Automatically generate GUIDs
+    CustomerId UNIQUEIDENTIFIER,
+    EmployeeId UNIQUEIDENTIFIER,
+    Username VARCHAR(20) NOT NULL UNIQUE,
+    Password VARCHAR(20) NOT NULL,
+    IsEmployee BIT NOT NULL,
+    CONSTRAINT PK_Account PRIMARY KEY CLUSTERED (Id ASC),
 
+    CONSTRAINT FK_Account_Customer_CustomerId FOREIGN KEY (CustomerId) REFERENCES Customers (CustomerId),
+    CONSTRAINT FK_Account_Employee_EmployeeId FOREIGN KEY (EmployeeId) REFERENCES Employees (Id)
+);

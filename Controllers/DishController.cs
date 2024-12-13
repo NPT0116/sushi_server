@@ -3,7 +3,7 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
 using sushi_server.Dto.Dish;
 using sushi_server.Helper;
 using sushi_server.Models;
@@ -16,9 +16,9 @@ namespace sushi_server.Controllers
     [ApiController]
     public class DishController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
         private readonly IMapper _mapper;
-        public DishController(ApplicationDbContext context, IMapper mapper)
+        public DishController(SushiDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

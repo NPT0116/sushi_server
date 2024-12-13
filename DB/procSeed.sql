@@ -1,4 +1,3 @@
-
 CREATE OR ALTER PROCEDURE CreateInvoiceAndUpdateCustomerCard
     @OrderId UNIQUEIDENTIFIER,
     @paymentMethod NVARCHAR(50)
@@ -23,6 +22,7 @@ BEGIN
     DECLARE @ReservationDate DATE;  -- Biến lưu trữ ngày đặt chỗ (DatedOn từ Reservation)
     DECLARE @ReservationId UNIQUEIDENTIFIER;  -- Biến lưu trữ ReservationId
     DECLARE @TableId UNIQUEIDENTIFIER;  -- Biến lưu trữ TableId từ Reservation
+    DECLARE @BranchId UNIQUEIDENTIFIER;  -- Biến lưu trữ TableId từ Reservation
 
     -- 1. Lấy thông tin từ bảng Orders và Reservation
     SELECT 
@@ -30,7 +30,8 @@ BEGIN
         @Total = o.Total,
         @ReservationDate = r.DatedOn,  -- Lấy ngày đặt chỗ từ Reservation
         @ReservationId = r.Id,         -- Lấy ReservationId
-        @TableId = r.TableId           -- Lấy TableId từ Reservation
+        @TableId = r.TableId,
+        @BranchId = r.BranchId           -- Lấy TableId từ Reservation
     FROM Orders o
     JOIN Reservation r ON r.Id = o.ReservationId
     WHERE o.Id = @OrderId;
@@ -66,8 +67,8 @@ BEGIN
     -- 5. Tạo hóa đơn mới trong bảng Invoices
     SET @InvoiceId = NEWID();  -- Tạo InvoiceId mới
 
-    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint)
-    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint);  -- Sử dụng @ReservationDate thay vì GETDATE()
+    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint, BranchId)
+    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
 
     -- 6. Cập nhật điểm số cho thẻ khách hàng
     IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
@@ -91,12 +92,11 @@ BEGIN
     -- 9. Cập nhật lại TableDetail, đặt trạng thái của bàn về trạng thái "available" hoặc "vacant"
     UPDATE TableDetail
     SET Status = 0  -- Giả sử '1' là trạng thái "available" hoặc "vacant"
-    WHERE Id = @TableId;
+    WHERE TableId = @TableId;
 
     -- 10. Trả về thông tin hóa đơn mới tạo
     SELECT * FROM Invoices WHERE Id = @InvoiceId;
 END;
-
 GO
 
 
@@ -108,15 +108,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
+  
 
         -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
         SELECT 
@@ -133,15 +125,7 @@ BEGIN
         GROUP BY 
             r.BranchId;
 
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
 END;
-
-
 
 
 
@@ -157,42 +141,21 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
-
         -- Truy vấn doanh thu theo ngày cho BranchId trong khoảng thời gian từ @StartDate đến @EndDate
         SELECT 
             CAST(i.DatedOn AS DATE) AS RevenueDate,  -- Chỉ lấy ngày
             SUM(i.AfterDiscount) AS TotalRevenue
         FROM 
             Invoices i
-        JOIN 
-            Orders o ON o.Id = i.OrderId
-        JOIN 
-            Reservation r ON r.Id = o.ReservationId
         WHERE 
             i.Paid = 1  -- Hóa đơn đã thanh toán
-            AND r.BranchId = @BranchId  -- Lọc theo BranchId
+            AND BranchId = @BranchId  -- Lọc theo BranchId
             AND CAST(i.DatedOn AS DATE) >= @StartDate  -- Lọc từ ngày bắt đầu
             AND CAST(i.DatedOn AS DATE) <= @EndDate  -- L
         GROUP BY 
-            CAST(i.DatedOn AS DATE)  -- Nhóm theo ngày
+            i.DatedOn 
         ORDER BY 
-            RevenueDate;
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
+            i.DatedOn
 END;
 
 
@@ -396,7 +359,7 @@ BEGIN
     FROM Reservation r
     LEFT JOIN Customers c ON c.CustomerId = r.CustomerId 
     LEFT JOIN Branches b ON b.BranchId = r.BranchId
-    LEFT JOIN TableDetail td ON td.Id = r.TableId  -- Sử dụng LEFT JOIN để tránh việc TableNumber không tồn tại khi TableId là NULL
+    LEFT JOIN TableDetail td ON td.TableId = r.TableId  -- Sử dụng LEFT JOIN để tránh việc TableNumber không tồn tại khi TableId là NULL
     LEFT JOIN Orders o ON o.ReservationId = r.Id  -- Liên kết với bảng Orders
     WHERE r.BranchId = @branchId 
     AND CAST(r.DatedOn AS DATE) = @dateOn  -- So sánh DatedOn đã được ép kiểu với @dateOn
@@ -421,14 +384,14 @@ BEGIN
     END
 
     -- Kiểm tra xem TableId có tồn tại trong bảng TableDetail không
-    IF NOT EXISTS (SELECT 1 FROM TableDetail WHERE Id = @TableId and status  = 0)
+    IF NOT EXISTS (SELECT 1 FROM TableDetail WHERE TableId = @TableId and status  = 0)
     BEGIN
         RAISERROR('Table not found or not available', 16, 1);
         RETURN;
     END
     update TableDetail
     set [Status] = 1
-    where Id = @TableId
+    where TableId = @TableId
     -- Cập nhật Reservation với EmployeeId (OrderBy), TableId, và Status = 1 (In Progress)
     UPDATE Reservation
     SET 

@@ -1,15 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace sushi_server.Models
+namespace sushi_server.Models;
+
+public partial class Ranking
 {
-    public class Ranking
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int RequirePoint { get; set; }
-        public int Discount { get; set; }
-        public int UpgradePoint { get; set; }
+    public int Id { get; set; }
 
-    }
+    public string Name { get; set; } = null!;
+
+    public int RequirePoint { get; set; }
+
+    public int Discount { get; set; }
+
+    public int UpgradePoint { get; set; }
+
+    public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }

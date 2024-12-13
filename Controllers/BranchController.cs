@@ -5,7 +5,7 @@ using AutoMapper.QueryableExtensions;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+using sushi_server.Models;
 using sushi_server.Dto.Branch;
 using sushi_server.Helper;
 
@@ -15,9 +15,9 @@ namespace sushi_server.Controllers;
 [ApiController]
 public class BranchController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly SushiDbContext _context;
     private readonly IMapper _mapper;
-    public BranchController(ApplicationDbContext context, IMapper mapper)
+    public BranchController(SushiDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
