@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace sushi_server.Models
+namespace sushi_server.Models;
+
+public partial class Department
 {
-    public class Department
-    {
-        [Key]
-        public Guid DepartmentId { get; set; }
-        [Required]
-        public string DepartmentName { get; set; } = string.Empty;
-        public int BaseSalary { get; set; }
-    }
+    public Guid DepartmentId { get; set; }
+
+    public string DepartmentName { get; set; } = null!;
+
+    public int BaseSalary { get; set; }
+
+    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+
+    public virtual ICollection<WorkHistory> WorkHistories { get; set; } = new List<WorkHistory>();
 }

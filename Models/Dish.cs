@@ -1,30 +1,19 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Dto.Dish;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sushi_server.Models;
 
-public class Dish
+public partial class Dish
 {
-    [Key]
     public Guid DishId { get; set; }
-    [Required]
-    public string DishName { get; set; } = string.Empty;
-    [Required]
-    public int CurrentPrice { get; set; }
-    public Guid SectionId { get; set; }
-    [ForeignKey("SectionId")]
-    public Section Section { get; set; } = null!;
-    public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-    public DishResponseDTO toResponseDTO()
-    {
-        return new DishResponseDTO
-        {
-            DishId = this.DishId,
-            DishName = this.DishName,
-            CurrentPrice = this.CurrentPrice
-        };
-    }
+    public string DishName { get; set; } = null!;
+
+    public int CurrentPrice { get; set; }
+
+    public Guid SectionId { get; set; }
+
+    public virtual ICollection<BranchDish> BranchDishes { get; set; } = new List<BranchDish>();
+
+    public virtual Section Section { get; set; } = null!;
 }

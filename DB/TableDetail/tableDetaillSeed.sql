@@ -1,3 +1,5 @@
+GO
+--table detail
 DECLARE @BranchId UNIQUEIDENTIFIER
 DECLARE @TableCount INT = 10 -- Number of tables per branch
 DECLARE @Counter INT
@@ -20,7 +22,7 @@ BEGIN
         SET @MaxPeople = 5 + (ABS(CHECKSUM(NEWID())) % 9)
 
         -- Insert a new TableDetail record for each table in this branch
-        INSERT INTO TableDetail (Id, BranchId, TableNumber, MaxCapacity, Status)
+        INSERT INTO TableDetail (TableId, BranchId, TableNumber, MaxPeople, Status)
         VALUES (NEWID(), @BranchId, @Counter, @MaxPeople, 0) -- Status set to false (0)
 
         -- Increment the counter for TableNumber
@@ -35,17 +37,6 @@ END
 CLOSE BranchCursor
 DEALLOCATE BranchCursor
 
+GO
 
-DROP TABLE IF EXISTS TableDetail;
-
-select * from TableDetail
-select count(*) from TableDetail
-
-UPDATE TableDetail
-SET MaxCapacity = CASE
-                    WHEN MaxCapacity < 5 THEN 5
-                    ELSE MaxCapacity
-                 END
-
-
-select count(*) from Reservation
+select count(*) from Orders

@@ -5,10 +5,11 @@ using Dapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
 using sushi_server.Dto.Employee;
 using sushi_server.Filters;
 using sushi_server.Helper;
+using sushi_server.Models;
 
 namespace sushi_server.Controllers;
 
@@ -16,9 +17,9 @@ namespace sushi_server.Controllers;
 [ApiController]
 public class EmployeeController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly SushiDbContext _context;
     private readonly IMapper _mapper;
-    public EmployeeController(ApplicationDbContext context, IMapper mapper)
+    public EmployeeController(SushiDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

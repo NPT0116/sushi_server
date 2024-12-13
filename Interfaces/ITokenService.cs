@@ -5,5 +5,5 @@ namespace sushi_server.Interfaces;
 
 public interface ITokenService
 {
-    public string CreateToken(AppUser appUser);
+    public string CreateToken(Account appUser);
 }
