@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using sushi_server.Data;
+ 
 using sushi_server.Models;
 using sushi_server.Dto.Survey;
 using Dapper;
@@ -12,9 +12,9 @@ namespace sushi_server.Controllers
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
 
-        public SurveyController(ApplicationDbContext context)
+        public SurveyController(SushiDbContext context)
         {
             _context = context;
         }

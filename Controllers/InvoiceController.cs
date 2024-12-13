@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using sushi_server.Models;
-using sushi_server.Data;
+ 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Dapper;
@@ -13,9 +13,9 @@ namespace sushi_server.Controllers;
 [Route("api/[controller]")]
 public class InvoiceController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly SushiDbContext _context;
 
-    public InvoiceController(ApplicationDbContext context)
+    public InvoiceController(SushiDbContext context)
     {
         _context = context;
     }

@@ -1,25 +1,27 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using sushi_server.Models.Enum;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sushi_server.Models;
 
-public class Customer
+public partial class Customer
 {
-    [Key]
     public Guid CustomerId { get; set; }
-    [Required]
-    [MaxLength(100, ErrorMessage = "Name can't exceed 100 character")]
-    public string Name { get; set; } = string.Empty;
+
+    public string Name { get; set; } = null!;
+
     public DateTime? DateOfBirth { get; set; }
-    public Gender Gender { get; set; }
-    [Required]
-    [MaxLength(20, ErrorMessage = "CitizenId can't exceed 100 character")]
-    public string CitizenId { get; set; } = string.Empty;
-    [Required]
-    [Phone]
-    public string Phone { get; set; } = string.Empty;
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; } = string.Empty;
+
+    public int Gender { get; set; }
+
+    public string CitizenId { get; set; } = null!;
+
+    public string Phone { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public virtual ICollection<AccessHistory> AccessHistories { get; set; } = new List<AccessHistory>();
+
+    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+
+    public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }

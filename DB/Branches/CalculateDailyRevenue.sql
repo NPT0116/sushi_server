@@ -1,19 +1,10 @@
+-- Before hạ chuẩn
 CREATE OR ALTER PROCEDURE GetDailyRevenueByBranch
     @BranchId UNIQUEIDENTIFIER,
     @Date DATE
 AS
 BEGIN
     SET NOCOUNT ON;
-
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
 
         -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
         SELECT 
@@ -30,20 +21,43 @@ BEGIN
         GROUP BY 
             r.BranchId;
 
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
+END;
+go
+-- after hạ chuẩn 
+CREATE OR ALTER PROCEDURE GetDailyRevenueByBranch
+    @BranchId UNIQUEIDENTIFIER,
+    @Date DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+        -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
+        SELECT 
+            SUM(CAST(i.AfterDiscount AS BIGINT)) AS TotalRevenue        FROM 
+            Invoices i
+        WHERE 
+            i.Paid = 1  -- Hóa đơn đã thanh toán
+            AND BranchId = @BranchId  -- Kiểm tra BranchId từ Reservation
+            AND CAST(i.DatedOn AS DATE) = @Date  -- Lọc theo ngày
+        GROUP BY 
+            BranchId;
+
 END;
 
 
-select r.BranchId, i.DatedOn
-from Reservation r join ORDErs o on o.ReservationId = r.Id join Invoices i on i.OrderId = o.Id
-where i.Id = '8d9f04c9-79c3-4dda-8a9b-0c41e41e5ebd'
+-- kết hợp index
 
-exec GetDailyRevenueByBranch @BranchId = '94520723-5108-48f1-9336-5e37379912bb', @Date = '2024-11-27'
+GO
+CREATE NONCLUSTERED INDEX [IDX_Invoices_Paid_BranchId_DatedOn]
+ON [dbo].[Invoices] ([Paid],[BranchId],[DatedOn])
+INCLUDE ([AfterDiscount])
+GO
+
+drop index IDX_Invoices_Paid_BranchId_DatedOn on invoices
+
+SELECT top 15 * from Branches
+
+exec GetDailyRevenueByBranch @BranchId = '40b52a5a-4a5f-4f28-addc-fc03b2e1d1f8', @Date = '2024-1-30'
 
 select * from Invoices
 

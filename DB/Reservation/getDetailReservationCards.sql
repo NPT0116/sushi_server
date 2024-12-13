@@ -37,7 +37,7 @@ END
 
 go
 
-EXEC getDetailReservationCards @branchId = '9f3142df-065d-4ca9-bf07-1017fd4eff43', @dateOn = '2024-12-01'
+EXEC getDetailReservationCards @branchId = 'e69eff34-6b46-4036-9db9-0b66ed24339e', @dateOn = '2024-1-30'
  
  select * from Branches
 GO
@@ -58,7 +58,7 @@ BEGIN
 END
 
 
-EXEC getOrderDetailsByReservationId @reservationId = 'f17aa3e7-af29-4c23-b066-a39217f7eab6';
+EXEC getOrderDetailsByReservationId @reservationId = 'f9f51d72-39d5-4adb-8adc-04a9c74487a6';
 
 
 
@@ -69,7 +69,7 @@ select top 1 * from customers
 select top 1 * from Reservation ORDER by DatedOn desc
 
 select top 1 * from Employees where BranchId = '04ef2e1d-aa27-4194-b2e5-c87cfd84cd4e'
+select top 1 * from Branches 
 
 select   * from TableDetail tb join Branches b on b.BranchId = tb.BranchId where b.BranchId = '04ef2e1d-aa27-4194-b2e5-c87cfd84cd4e' and status = 0
 
-select top 1 * from Orders where ReservationId = '1a7b42c8-209a-4c0d-af3f-10388a9e3322'

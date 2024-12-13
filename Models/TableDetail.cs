@@ -1,22 +1,21 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using sushi_server.Models.Enum;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sushi_server.Models;
 
-public class TableDetail
+public partial class TableDetail
 {
-    [Key]
-    public Guid Id { get; set; }
-    public int TableNumber { get; set; }
-    public long MaxCapacity { get; set; }
-    public TableStatus Status { get; set; }
+    public Guid TableId { get; set; }
+
     public Guid BranchId { get; set; }
 
-    // Navigation properties
-    public required ICollection<Reservation> Reservations { get; set; }
+    public int TableNumber { get; set; }
 
+    public int MaxPeople { get; set; }
 
+    public bool Status { get; set; }
+
+    public virtual Branch Branch { get; set; } = null!;
+
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

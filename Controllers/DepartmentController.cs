@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
+using sushi_server.Models;
 
 
 namespace sushi_server.Controllers
@@ -14,9 +15,9 @@ namespace sushi_server.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
         private readonly IMapper _mapper;
-        public DepartmentController(ApplicationDbContext context, IMapper mapper)
+        public DepartmentController(SushiDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

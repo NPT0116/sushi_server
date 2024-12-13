@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
 using sushi_server.Models;
 using System.Threading.Tasks;
 using System;
@@ -11,9 +11,9 @@ namespace sushi_server.Controllers
     [Route("api/[controller]")]
     public class CardController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
 
-        public CardController(ApplicationDbContext context)
+        public CardController(SushiDbContext context)
         {
             _context = context;
         }

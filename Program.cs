@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using sushi_server.Data;
 using sushi_server.Interfaces;
 using sushi_server.Mapper;
 using sushi_server.Models;
@@ -22,8 +21,8 @@ else
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 }
 
-// Add DbContext using the determined connection string
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+
+builder.Services.AddDbContext<SushiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
@@ -77,15 +76,6 @@ builder.Services.AddSwaggerGen(c =>
 
 // Add AutoMapper, Identity, JWT, etc. (Rest of your services)
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-{
-    options.Password.RequiredLength = 8;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireDigit = false;
-}).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -115,7 +105,7 @@ var app = builder.Build();
 // Ensure the database is created on startup (if not already)
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<SushiDbContext>();
     context.Database.EnsureCreated();
 }
 
