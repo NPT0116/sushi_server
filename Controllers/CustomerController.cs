@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using sushi_server.Data;
+ 
 using sushi_server.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -11,9 +11,9 @@ namespace sushi_server.Controllers
     [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
 
-        public CustomerController(ApplicationDbContext context)
+        public CustomerController(SushiDbContext context)
         {
             _context = context;
         }

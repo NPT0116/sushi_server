@@ -1,15 +1,13 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 
 namespace sushi_server.Models;
 
-public class Section
+public partial class Section
 {
-    [Key]
     public Guid SectionId { get; set; }
-    [Required]
-    public string SectionName { get; set; } = string.Empty;
 
-    public ICollection<Dish> Dishes { get; set; } = [];
+    public string SectionName { get; set; } = null!;
+
+    public virtual ICollection<Dish> Dishes { get; set; } = new List<Dish>();
 }

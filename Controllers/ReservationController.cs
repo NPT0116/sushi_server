@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using sushi_server.Data;
+ 
 using sushi_server.Dto.Reservation;
 using sushi_server.Models;
 using Microsoft.Data.SqlClient;
@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Data;
 using sushi_server.Helper;
+using sushi_server.Models;
 using sushi_server.Dto.OrderDetail;
 using Dapper;
 
@@ -16,8 +17,8 @@ namespace YourNamespace.Controllers
     [Route("api/reservation")]
     public class ReservationController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public ReservationController(ApplicationDbContext context)
+        private readonly SushiDbContext _context;
+        public ReservationController(SushiDbContext context)
         {
             _context = context;
         }

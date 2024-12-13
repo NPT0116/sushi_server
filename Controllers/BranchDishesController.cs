@@ -3,17 +3,18 @@ using AutoMapper;
 using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
 using sushi_server.Dto.BranchDishes;
+using sushi_server.Models;
 
 namespace sushi_server.Controllers;
 
 [Route("api/branch-dish")]
 public class BranchDishesController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly SushiDbContext _context;
     private readonly IMapper _mapper;
-    public BranchDishesController(ApplicationDbContext context, IMapper mapper)
+    public BranchDishesController(SushiDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

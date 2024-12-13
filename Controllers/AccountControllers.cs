@@ -4,14 +4,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+
 using sushi_server.Dto.Account;
 using sushi_server.Dto.Employee;
 using sushi_server.Helper;
 using sushi_server.Interfaces;
 using sushi_server.Models;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
+using Dapper;
+using System.Data;
+using System.Security.Claims;
 
 namespace sushi_server.Controllers
 {
@@ -19,216 +22,174 @@ namespace sushi_server.Controllers
     [ApiController]
     public class AccountControllers : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
+
         private readonly ITokenService _tokenService;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ApplicationDbContext _dbContext;
-        public AccountControllers(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager, ApplicationDbContext dbContext)
+
+        private readonly SushiDbContext _dbContext;
+        public AccountControllers( ITokenService tokenService, SushiDbContext dbContext)
         {
-            _userManager = userManager;
+
             _tokenService = tokenService;
-            _signInManager = signInManager;
+
             _dbContext = dbContext;
         }
 
-
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
             try
             {
+                if (registerDto == null)
+                {
+                return BadRequest("Invalid input data.");
+                }
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                if (await _userManager.FindByEmailAsync(userRegisterDto.Email) != null)
+                using (var connection = _dbContext.Database.GetDbConnection())
                 {
-                    return BadRequest("Email has already taken");
+                    await connection.OpenAsync();
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@Email", registerDto.Email);
+                    parameters.Add("@Password", registerDto.Password);
+                    parameters.Add("@DateOfBirth", registerDto.DateOfBirth);
+                    parameters.Add("@Phone", registerDto.Phone);
+                    parameters.Add("@Name", registerDto.Name);
+                    parameters.Add("@Gender", registerDto.Gender);
+                    parameters.Add("@CitizenId", registerDto.CitizenId);
+                    var result = await connection.ExecuteScalarAsync<string>("createAccount", parameters, commandType: CommandType.StoredProcedure);
+                    return Ok(new Helper.Response<string>(result, "Account created successfully."));
                 }
-                // tạo user mới với email là username
-                var appUser = new AppUser
-                {
-                    UserName = userRegisterDto.Email,
-                    Email = userRegisterDto.Email,
-                };
-                var result = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
-                if (!result.Succeeded)
-                {
-                    return BadRequest(result.Errors);
-                }
-                // tạo customer mới
-                var newCustomer = new Customer
-                {
-                    CustomerId = Guid.NewGuid(),
-                    Name = userRegisterDto.Name,
-                    DateOfBirth = userRegisterDto.DateOfBirth,
-                    Gender = userRegisterDto.Gender,
-                    CitizenId = userRegisterDto.CitizenId,
-                    Phone = userRegisterDto.Phone,
-                    Email = userRegisterDto.Email
-                };
-                appUser.CustomerId = newCustomer.CustomerId;
-                await _dbContext.Customers.AddAsync(newCustomer);
-                await _dbContext.SaveChangesAsync();
-                var addRoleResult = await _userManager.AddToRoleAsync(appUser, "User");
-                // check coi add role được chưa
-                if (!addRoleResult.Succeeded)
-                {
-                    return BadRequest(addRoleResult.Errors);
-                }
-                var token = _tokenService.CreateToken(appUser);
-                var newUserDto = new NewUserDto
-                {
-                    UserName = appUser.UserName,
-                    Token = token
-                };
-                return Ok(new Helper.Response<NewUserDto>(newUserDto));
-
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                return StatusCode(500, e);
+                return BadRequest(e.Message);
             }
         }
-
-[HttpPost("register-employee")]
-public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto employeeRegisterDto)
+        [HttpPost("Login")]
+public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
 {
     try
     {
+        // Validate input
+        if (loginDto == null)
+        {
+            return BadRequest("Invalid input data.");
+        }
+
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        // Find the employee by EmployeeId
-        var employee = await _dbContext.Employees
-            .Include(e => e.Branch)
-            .FirstOrDefaultAsync(e => e.Id == employeeRegisterDto.EmployeeId);
-        if (employee == null)
+        // Set up parameters for the stored procedure
+        using (var connection = _dbContext.Database.GetDbConnection())
         {
-            return BadRequest("Employee not found");
+            await connection.OpenAsync();
+            var parameters = new DynamicParameters();
+            parameters.Add("@username", loginDto.UserName);
+            parameters.Add("@password", loginDto.Password);
+
+            // Execute the stored procedure
+            var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                "loginUser", 
+                parameters, 
+                commandType: CommandType.StoredProcedure
+            );
+
+            // Handle the result
+            if (result == null || result.Message != "Login successful")
+            {
+                return Unauthorized(new Helper.Response<string>(result?.Message, "Login failed"));
+            }
+
+            // Fetch the Account object based on the username
+            var account = await _dbContext.Accounts.FirstOrDefaultAsync(a => a.Username == loginDto.UserName);
+
+            if (account == null)
+            {
+                return Unauthorized("Invalid login attempt.");
+            }
+
+            // Generate a JWT token using the Account object
+            var token = _tokenService.CreateToken(account); // Pass the Account object
+
+            return Ok(new Helper.Response<string>(token, "Login successful"));
         }
-
-        // Generate a username by concatenating employee name and branch name, and removing spaces
-        var username = Regex.Replace(employee.Name + employee.Branch.Name, @"\s+", "");
-        var email = username + "@example.com";
-
-        // Check if the email is already taken
-        if (await _userManager.FindByEmailAsync(email) != null)
-        {
-            return BadRequest("Email has already taken");
-        }
-
-        // Create a new user with the generated username and email
-        var appUser = new AppUser
-        {
-            UserName = username,
-            Email = email,
-            EmployeeId = employeeRegisterDto.EmployeeId
-        };
-
-        var result = await _userManager.CreateAsync(appUser, employeeRegisterDto.Password);
-        if (!result.Succeeded)
-        {
-            return BadRequest(result.Errors);
-        }
-
-        // Assign the "Employee" role to the user
-        var addRoleResult = await _userManager.AddToRoleAsync(appUser, "EMP");
-        if (!addRoleResult.Succeeded)
-        {
-            return BadRequest(addRoleResult.Errors);
-        }
-
-        var token = _tokenService.CreateToken(appUser);
-        var newUserDto = new NewUserDto
-        {
-            UserName = appUser.UserName,
-            Token = token
-        };
-
-        return Ok(new Helper.Response<NewUserDto>(newUserDto));
     }
     catch (Exception e)
     {
-        return StatusCode(500, new { message = e.Message });
+        return BadRequest($"Error: {e.Message}");
     }
 }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
+     [HttpGet("authorize")]
+    [CustomAuthorize()]
+    public IActionResult GetAdminData()
+    {
+        return Ok(new { message = "you are authorized" });
+    }
+  [HttpGet("me")]
+        [CustomAuthorize]
+        public async Task<IActionResult> GetMe()
         {
-            if (!ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userRole = User.FindFirstValue(ClaimTypes.Role);
+            Console.WriteLine(userId);
+            if (string.IsNullOrEmpty(userId))
             {
-                return BadRequest(ModelState);
-            }
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userLoginDto.UserName.ToLower());
-
-            if (user == null)
-            {
-                return Unauthorized("Invalid username!");
-            }
-            var result = await _signInManager.CheckPasswordSignInAsync(user, userLoginDto.Password, false);
-            if (!result.Succeeded)
-            {
-                return Unauthorized("Username not found and/or password incorrect");
+                return Unauthorized("User not found.");
             }
 
-            var newUserDto =
-                new NewUserDto
+            using (var connection = _dbContext.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", Guid.Parse(userId), DbType.Guid);
+
+                if (userRole == "Customer")
                 {
-                    UserName = userLoginDto.UserName,
-                    Token = _tokenService.CreateToken(user)
-                };
-            return Ok(new Helper.Response<NewUserDto>(newUserDto, "Chúc mừng bạn đã đăng nhập thành công"));
+                    var customer = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
+                        "SELECT u.CustomerId, u.email as Username, Name, Phone " +
+                        "FROM Customers u " +
+                        "WHERE u.CustomerId = @UserId", parameters);
+                    if (customer == null)
+                    {
+                        return NotFound("User not found.");
+                    }
 
+                    return Ok(new
+                    {
+                        customer.CustomerId,
+                        customer.UserName,
+                        customer.Name,
+                        customer.Phone
+                    });
+                }
+                else if (userRole == "Employee")
+                {
+                    var employee = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
+                        "SELECT c.CustomerId, u.UserName, c.Name, c.Phone, e.EmployeeId, e.BranchId, e.DateOfBirth " +
+                        "FROM Users u " +
+                        "JOIN Customers c ON u.CustomerId = c.CustomerId " +
+                        "JOIN Employees e ON u.EmployeeId = e.EmployeeId " +
+                        "WHERE u.Id = @UserId", parameters);
+
+                    if (employee == null)
+                    {
+                        return NotFound("User not found.");
+                    }
+
+                    return Ok(employee);
+                }
+                else
+                {
+                    return Unauthorized("Invalid role.");
+                }
+            }
         }
-        [HttpGet("test-authorize")]
-        [Authorize]
-        public IActionResult TestAuthorize()
-        {
-            return Ok("You are authorized!");
-        }
-        [HttpGet("me")]
-        [Authorize]
-public async Task<IActionResult> GetMeInformation()
-{
-    try
-    {
-        var username = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
-        if (username == null)
-        {
-            return BadRequest("Invalid token");
-        }
-
-        var user = await _userManager.Users
-            .Include(u => u.Customer)
-            .Include(u => u.Employee)
-            .ThenInclude(e => e.Branch)
-            .FirstOrDefaultAsync(u => u.UserName == username);
-
-        if (user == null)
-        {
-            return BadRequest("User not found");
-        }
-
-        var userMeDto = new UserMeDto
-        {
-            UserName = user.UserName,
-            Name = user.Customer?.Name ?? user.Employee?.Name,
-            Phone = user.Customer?.Phone,
-            CustomerId = user.CustomerId ?? Guid.Empty,
-            EmployeeId = user.EmployeeId,
-            BranchId = user.Employee?.BranchId,
-            DateOfBirth = user.Employee?.Dob
-        };
-
-        return Ok(new Helper.Response<UserMeDto>(userMeDto));
     }
-    catch (Exception e)
-    {
-        return BadRequest(e.Message);
-    }
-}
-    }
+
 }

@@ -4,9 +4,10 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using sushi_server.Data;
+ 
 using sushi_server.Dto.Section;
 using sushi_server.Helper;
+using sushi_server.Models;
 
 namespace sushi_server.Controllers
 {
@@ -14,9 +15,9 @@ namespace sushi_server.Controllers
     [ApiController]
     public class SectionController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SushiDbContext _context;
         private readonly IMapper _mapper;
-        public SectionController(ApplicationDbContext context, IMapper mapper)
+        public SectionController(SushiDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

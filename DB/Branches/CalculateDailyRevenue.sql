@@ -1,19 +1,10 @@
+-- Before hạ chuẩn
 CREATE OR ALTER PROCEDURE GetDailyRevenueByBranch
     @BranchId UNIQUEIDENTIFIER,
     @Date DATE
 AS
 BEGIN
     SET NOCOUNT ON;
-
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
 
         -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
         SELECT 
@@ -30,17 +21,43 @@ BEGIN
         GROUP BY 
             r.BranchId;
 
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
+END;
+go
+-- after hạ chuẩn 
+CREATE OR ALTER PROCEDURE GetDailyRevenueByBranch
+    @BranchId UNIQUEIDENTIFIER,
+    @Date DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+        -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
+        SELECT 
+            SUM(CAST(i.AfterDiscount AS BIGINT)) AS TotalRevenue        FROM 
+            Invoices i
+        WHERE 
+            i.Paid = 1  -- Hóa đơn đã thanh toán
+            AND BranchId = @BranchId  -- Kiểm tra BranchId từ Reservation
+            AND CAST(i.DatedOn AS DATE) = @Date  -- Lọc theo ngày
+        GROUP BY 
+            BranchId;
+
 END;
 
-SELECT top 1 * from Branches
 
-exec GetDailyRevenueByBranch @BranchId = 'e69eff34-6b46-4036-9db9-0b66ed24339e', @Date = '2024-1-30'
+-- kết hợp index
+
+GO
+CREATE NONCLUSTERED INDEX [IDX_Invoices_Paid_BranchId_DatedOn]
+ON [dbo].[Invoices] ([Paid],[BranchId],[DatedOn])
+INCLUDE ([AfterDiscount])
+GO
+
+drop index IDX_Invoices_Paid_BranchId_DatedOn on invoices
+
+SELECT top 15 * from Branches
+
+exec GetDailyRevenueByBranch @BranchId = 'ee20af0b-df4b-43c4-b721-917904c7188d', @Date = '2024-1-30'
 
 select * from Invoices
 
