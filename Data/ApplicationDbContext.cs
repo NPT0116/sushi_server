@@ -28,7 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<AppUser>
     public DbSet<WorkHistory> WorkHistories { get; set; }
     public DbSet<WorkHistory> WorkHistory { get; set; }
     public DbSet<Survey> Surveys { get; set; }
-
+    public DbSet<AccessHistory> AccessHistories { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

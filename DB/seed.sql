@@ -2752,9 +2752,8 @@ select count (*) as Cards from Cards
 select count (*) as Reservation from Reservation
 select count (*) as Orders from Orders
 select count (*) as OrderDetail from OrderDetail
-select count(*) as invoices from invoice
+select count(*) as invoices from invoices
 
--- proc and index
 
 
 
