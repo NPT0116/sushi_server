@@ -78,7 +78,7 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
         {
             return BadRequest("Invalid input data.");
         }
-
+        Console.WriteLine("Login", loginDto.UserName);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -116,7 +116,7 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
             // Generate a JWT token using the Account object
             var token = _tokenService.CreateToken(account); // Pass the Account object
 
-            return Ok(new Helper.Response<string>(token, "Login successful"));
+            return Ok(new Helper.Response<NewUserDto>(new NewUserDto {Token = token, UserName= loginDto.UserName}, "Login successful"));
         }
     }
     catch (Exception e)
@@ -130,13 +130,72 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
     {
         return Ok(new { message = "you are authorized" });
     }
-  [HttpGet("me")]
-        [CustomAuthorize]
+        [HttpGet("me")]
+        [CustomAuthorize()]
         public async Task<IActionResult> GetMe()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userRole = User.FindFirstValue(ClaimTypes.Role);
             Console.WriteLine(userId);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User not found.");
+            }
+            if (userRole == "Employee")
+            {
+                  using (var connection = _dbContext.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", Guid.Parse(userId), DbType.Guid);
+
+                var employee = await connection.QueryFirstOrDefaultAsync<EmployeeMeDto>(
+                    "SELECT e.id as EmployeeId,e.BranchId as BranchId, e.Dob as DateOfBirth  " + 
+                    "FROM Employees e " +
+                    "WHERE e.id = @UserId", parameters);
+                if (employee == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(new Helper.Response<EmployeeMeDto>(employee, "Employee found."));
+            }
+            }
+            else
+            {
+using (var connection = _dbContext.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", Guid.Parse(userId), DbType.Guid);
+
+
+
+                    var customer = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
+                        "SELECT u.CustomerId, u.email as Username, Name, Phone " +
+                        "FROM Customers u " +
+                        "WHERE u.CustomerId = @UserId", parameters);
+                    if (customer == null)
+                    {
+                        return NotFound("User not found.");
+                    }
+
+                    return Ok(new Helper.Response<UserMeDto>(customer, "User found."));
+                
+            }
+            }
+            
+        }
+
+        [HttpGet("employee/me")]
+        [CustomAuthorize("Employee")]
+        public async Task<IActionResult> GetEmployeeMe()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userRole = User.FindFirstValue(ClaimTypes.Role);
+
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized("User not found.");
@@ -149,47 +208,19 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
                 var parameters = new DynamicParameters();
                 parameters.Add("@UserId", Guid.Parse(userId), DbType.Guid);
 
-                if (userRole == "Customer")
+                var employee = await connection.QueryFirstOrDefaultAsync<EmployeeMeDto>(
+                    "SELECT e.id as EmployeeId,e.BranchId as BranchId, e.Dob as DateOfBirth  " + 
+                    "FROM Employees e " +
+                    "WHERE e.id = @UserId", parameters);
+                if (employee == null)
                 {
-                    var customer = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
-                        "SELECT u.CustomerId, u.email as Username, Name, Phone " +
-                        "FROM Customers u " +
-                        "WHERE u.CustomerId = @UserId", parameters);
-                    if (customer == null)
-                    {
-                        return NotFound("User not found.");
-                    }
-
-                    return Ok(new
-                    {
-                        customer.CustomerId,
-                        customer.UserName,
-                        customer.Name,
-                        customer.Phone
-                    });
+                    return NotFound("User not found.");
                 }
-                else if (userRole == "Employee")
-                {
-                    var employee = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
-                        "SELECT c.CustomerId, u.UserName, c.Name, c.Phone, e.EmployeeId, e.BranchId, e.DateOfBirth " +
-                        "FROM Users u " +
-                        "JOIN Customers c ON u.CustomerId = c.CustomerId " +
-                        "JOIN Employees e ON u.EmployeeId = e.EmployeeId " +
-                        "WHERE u.Id = @UserId", parameters);
 
-                    if (employee == null)
-                    {
-                        return NotFound("User not found.");
-                    }
-
-                    return Ok(employee);
-                }
-                else
-                {
-                    return Unauthorized("Invalid role.");
-                }
+                return Ok(new Helper.Response<EmployeeMeDto>(employee, "Employee found."));
             }
         }
     }
+
 
 }

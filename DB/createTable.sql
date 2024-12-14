@@ -156,7 +156,7 @@ CREATE TABLE [dbo].[Reservation] (
     [OrderedBy]   UNIQUEIDENTIFIER NULL,
     [CustomerId]  UNIQUEIDENTIFIER NOT NULL,
     [BranchId]    UNIQUEIDENTIFIER NOT NULL,
-    [TableId]     UNIQUEIDENTIFIER NOT NULL,
+    [TableId]     UNIQUEIDENTIFIER ,
     [TotalPeople] INT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Reservation] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Reservation_TableDetail_TableId] FOREIGN KEY ([TableId]) REFERENCES [dbo].[TableDetail] ([TableId]),
@@ -230,7 +230,7 @@ CREATE TABLE Account (
     Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),  -- Automatically generate GUIDs
     CustomerId UNIQUEIDENTIFIER,
     EmployeeId UNIQUEIDENTIFIER,
-    Username VARCHAR(20) NOT NULL UNIQUE,
+    Username VARCHAR(50) NOT NULL UNIQUE,
     Password VARCHAR(20) NOT NULL,
     IsEmployee BIT NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY CLUSTERED (Id ASC),

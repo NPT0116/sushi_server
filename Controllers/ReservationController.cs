@@ -167,7 +167,7 @@ namespace YourNamespace.Controllers
                     parameters.Add("@TableId", request.TableId, DbType.Guid);
 
                     var result = await connection.ExecuteScalarAsync<string>("UpdateReservationStatusAndDetails", parameters, commandType: CommandType.StoredProcedure);
-
+                    
                     return Ok(new Response<string>(result, "Updated reservation status successfully."));
                 }
             }

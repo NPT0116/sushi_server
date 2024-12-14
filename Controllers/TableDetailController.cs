@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
- 
-using sushi_server.Dto;
 using sushi_server.Dto.TableDetail;
+using sushi_server.Helper;
 using sushi_server.Models;
 
 namespace sushi_server.Controllers
@@ -24,6 +23,27 @@ namespace sushi_server.Controllers
             _mapper = mapper;
         }
 
-    
+        [HttpGet("empty-tables")]
+        public async Task<IActionResult> GetEmptyTables([FromQuery] Guid branchId)
+        {
+            try
+            {
+
+                var emptyTables = await _dbContext.TableDetails
+                    .Where(t => t.Status == false && t.BranchId == branchId)
+                    .ToListAsync();
+
+      
+                var emptyTableDtos = _mapper.Map<List<TableDetailDto>>(emptyTables);
+
+      
+
+                return Ok(emptyTableDtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { message = e.Message });
+            }
+        }
     }
 }

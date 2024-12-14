@@ -1,5 +1,5 @@
 CREATE OR ALTER PROCEDURE createAccount 
-    @password VARCHAR(15),
+    @password VARCHAR(30),
     @Name NVARCHAR(40),
     @DateOfBirth DATETIME,
     @Gender INT,

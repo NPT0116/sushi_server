@@ -295,7 +295,6 @@ END
 
 
 
-
 go
 create or alter PROC createOrderFromReservation
 @reservationId UNIQUEIDENTIFIER,
@@ -404,3 +403,41 @@ BEGIN
     -- Trả về thông báo thành công
     SELECT 'Reservation updated successfully' AS Message;
 END;
+
+
+GO
+CREATE OR ALTER PROCEDURE getOrderDetailsByReservationId
+    @reservationId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SELECT 
+        od.Id AS OrderDishId,
+        od.Price AS Price,
+        od.Quantity AS Quantity,
+        od.DishId AS DishId,
+        d.DishName AS DishName
+    FROM OrderDetail od
+    JOIN Orders o ON o.Id = od.OrderId  
+    JOIN Dishes d ON d.DishId = od.DishId
+    WHERE o.ReservationId = @reservationId;
+END
+
+
+GO
+
+create or alter proc submitSurvey
+@invoiceId UNIQUEIDENTIFIER,
+@point INT,
+@comment NVARCHAR(100)
+AS
+BEGIN
+     if not exists ( select 1 from Invoices where Id = @invoiceId)
+    BEGIN
+        RAISERROR('khong tim thay invoice', 16,1 );
+        RETURN;
+    END
+
+    INSERT INTO Surveys (Id, InvoiceId, Point, Comment)
+    VALUES (NEWID(), @InvoiceId, @Point, @Comment);
+END
+

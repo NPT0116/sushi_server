@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE loginUser
-    @password VARCHAR(20),
-    @username VARCHAR(20)
+    @password VARCHAR(30),
+    @username VARCHAR(50)
 AS
 BEGIN
     SET NOCOUNT ON;

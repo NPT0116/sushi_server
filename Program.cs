@@ -11,22 +11,14 @@ using sushi_server.Models;
 using sushi_server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+
 // Determine if the environment is macOS or Windows
-string connectionString;
-if (OperatingSystem.IsMacOS())
-{
-    connectionString = builder.Configuration.GetConnectionString("MacConnection");
-}
-else
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-}
-
-
 builder.Services.AddDbContext<SushiDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 // Add other services to the container
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
@@ -103,14 +95,6 @@ builder.Services.AddScoped<CustomAuthorize>();
 
 
 var app = builder.Build();
-
-// Ensure the database is created on startup (if not already)
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<SushiDbContext>();
-    context.Database.EnsureCreated();
-}
-
 
 
 
