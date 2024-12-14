@@ -4,28 +4,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using sushi_server.Helper;
 using sushi_server.Interfaces;
 using sushi_server.Mapper;
 using sushi_server.Models;
 using sushi_server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+
 // Determine if the environment is macOS or Windows
-string connectionString;
-if (OperatingSystem.IsMacOS())
-{
-    connectionString = builder.Configuration.GetConnectionString("MacConnection");
-}
-else
-{
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-}
-
-
 builder.Services.AddDbContext<SushiDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MacConnection")));
 
 
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 // Add other services to the container
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
@@ -98,17 +91,10 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<CustomAuthorize>();
 
 
 var app = builder.Build();
-
-// Ensure the database is created on startup (if not already)
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<SushiDbContext>();
-    context.Database.EnsureCreated();
-}
-
 
 
 

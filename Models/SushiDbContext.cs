@@ -33,6 +33,8 @@ public partial class SushiDbContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<EmployeesName> EmployeesNames { get; set; }
+
     public virtual DbSet<Invoice> Invoices { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -51,13 +53,13 @@ public partial class SushiDbContext : DbContext
 
     public virtual DbSet<WorkHistory> WorkHistories { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=DefaultConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AccessHistory>(entity =>
         {
+            entity.HasIndex(e => e.CustomerId, "IX_AccessHistories_CustomerId");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Customer).WithMany(p => p.AccessHistories)
@@ -69,7 +71,7 @@ public partial class SushiDbContext : DbContext
         {
             entity.ToTable("Account");
 
-            entity.HasIndex(e => e.Username, "UQ__Account__536C85E4181620E6").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__Account__536C85E420224382").IsUnique();
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Password)
@@ -99,6 +101,10 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<BranchDish>(entity =>
         {
+            entity.HasIndex(e => e.BranchId, "IX_BranchDishes_BranchId");
+
+            entity.HasIndex(e => e.DishId, "IX_BranchDishes_DishId");
+
             entity.Property(e => e.BranchDishId).ValueGeneratedNever();
 
             entity.HasOne(d => d.Branch).WithMany(p => p.BranchDishes)
@@ -112,6 +118,12 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<Card>(entity =>
         {
+            entity.ToTable(tb =>
+                {
+                    tb.HasTrigger("trg_DemoteCustomerCard");
+                    tb.HasTrigger("trg_UpdateCustomerCardRank");
+                });
+
             entity.HasOne(d => d.Customer).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
@@ -139,6 +151,8 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<Dish>(entity =>
         {
+            entity.HasIndex(e => e.SectionId, "IX_Dishes_SectionId");
+
             entity.Property(e => e.DishId).ValueGeneratedNever();
 
             entity.HasOne(d => d.Section).WithMany(p => p.Dishes)
@@ -148,6 +162,10 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
+            entity.HasIndex(e => e.BranchId, "IX_Employees_BranchId");
+
+            entity.HasIndex(e => e.DepartmentId, "IX_Employees_DepartmentId");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Branch).WithMany(p => p.Employees)
@@ -159,8 +177,26 @@ public partial class SushiDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
+        modelBuilder.Entity<EmployeesName>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__employee__3213E83F4C2112DB");
+
+            entity.ToTable("employeesName");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .HasColumnName("name");
+        });
+
         modelBuilder.Entity<Invoice>(entity =>
         {
+            entity.HasIndex(e => new { e.Paid, e.BranchId, e.DatedOn }, "IDX_Invoices_Paid_BranchId_DatedOn");
+
+            entity.HasIndex(e => e.OrderId, "IX_Invoices_OrderId");
+
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
             entity.HasOne(d => d.Branch).WithMany(p => p.Invoices)
@@ -175,6 +211,8 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
+            entity.HasIndex(e => e.ReservationId, "IX_Orders_ReservationId");
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Reservation).WithMany(p => p.Orders).HasForeignKey(d => d.ReservationId);
@@ -182,7 +220,9 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.ToTable("OrderDetail");
+            entity.ToTable("OrderDetail", tb => tb.HasTrigger("trg_UpdateOrderTotal"));
+
+            entity.HasIndex(e => e.OrderId, "IX_OrderDetail_OrderId");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -192,6 +232,8 @@ public partial class SushiDbContext : DbContext
         modelBuilder.Entity<Reservation>(entity =>
         {
             entity.ToTable("Reservation");
+
+            entity.HasIndex(e => new { e.DatedOn, e.BranchId }, "IX_Reservation_DatedOn_BranchId");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -212,10 +254,12 @@ public partial class SushiDbContext : DbContext
 
         modelBuilder.Entity<Survey>(entity =>
         {
+            entity.HasIndex(e => e.InvoiceId, "IX_Surveys_InvoiceId").IsUnique();
+
             entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Invoice).WithMany(p => p.Surveys)
-                .HasForeignKey(d => d.InvoiceId)
+            entity.HasOne(d => d.Invoice).WithOne(p => p.Survey)
+                .HasForeignKey<Survey>(d => d.InvoiceId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 

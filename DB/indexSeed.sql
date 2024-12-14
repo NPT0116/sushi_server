@@ -57,6 +57,9 @@ GO
 CREATE NONCLUSTERED INDEX [IX_OrderDetail_OrderId]
     ON [dbo].[OrderDetail]([OrderId] ASC);
 -- reservation
+
+
+--index cho lấy reservationCard mỗi ngày của branch
 go
 
 CREATE NONCLUSTERED INDEX [IX_Reservation_DatedOn_BranchId]
@@ -64,3 +67,10 @@ ON [dbo].[Reservation] ([DatedOn],[BranchId])
 INCLUDE ([Status],[CustomerId],[TableId],[TotalPeople])
 
 
+
+--index cho calculate daily and range date revenue
+GO
+CREATE NONCLUSTERED INDEX [IDX_Invoices_Paid_BranchId_DatedOn]
+ON [dbo].[Invoices] ([Paid],[BranchId],[DatedOn])
+INCLUDE ([AfterDiscount])
+GO

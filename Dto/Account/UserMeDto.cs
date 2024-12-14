@@ -11,7 +11,5 @@ public class UserMeDto
     public string Phone { get; set; }
 
     // Employee-specific properties
-    public Guid? EmployeeId { get; set; }
-    public Guid? BranchId { get; set; }
-    public DateTime? DateOfBirth { get; set; }
+
 }

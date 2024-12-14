@@ -57,7 +57,7 @@ drop index IDX_Invoices_Paid_BranchId_DatedOn on invoices
 
 SELECT top 15 * from Branches
 
-exec GetDailyRevenueByBranch @BranchId = '40b52a5a-4a5f-4f28-addc-fc03b2e1d1f8', @Date = '2024-1-30'
+exec GetDailyRevenueByBranch @BranchId = 'ee20af0b-df4b-43c4-b721-917904c7188d', @Date = '2024-1-30'
 
 select * from Invoices
 
