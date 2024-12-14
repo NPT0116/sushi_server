@@ -44,3 +44,8 @@ BEGIN
         SELECT 'Login successful' AS Message, @customerId AS CustomerId;
     END
 END;
+
+
+select top 1 * from Account
+
+exec loginUser @password = 'SecurePass9876!' , @username = 'thanh.le@example.com'
