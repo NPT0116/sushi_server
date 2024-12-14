@@ -80,9 +80,9 @@ CREATE TABLE [dbo].[Customers] (
     [Name]        NVARCHAR (100)   NOT NULL,
     [DateOfBirth] DATETIME2 (7)    NULL,
     [Gender]      INT              NOT NULL,
-    [CitizenId]   NVARCHAR (20)    NOT NULL,
-    [Phone]       NVARCHAR (MAX)   NOT NULL,
-    [Email]       NVARCHAR (MAX)   NOT NULL,
+    [CitizenId]   NVARCHAR (20)    NOT NULL UNIQUE,
+    [Phone]       NVARCHAR (MAX)   NOT NULL UNIQUE,
+    [Email]       NVARCHAR (MAX)   NOT NULL UNIQUE,
     CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([CustomerId] ASC)
 );
 go
@@ -156,7 +156,7 @@ CREATE TABLE [dbo].[Reservation] (
     [OrderedBy]   UNIQUEIDENTIFIER NULL,
     [CustomerId]  UNIQUEIDENTIFIER NOT NULL,
     [BranchId]    UNIQUEIDENTIFIER NOT NULL,
-    [TableId]     UNIQUEIDENTIFIER NOT NULL,
+    [TableId]     UNIQUEIDENTIFIER ,
     [TotalPeople] INT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Reservation] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Reservation_TableDetail_TableId] FOREIGN KEY ([TableId]) REFERENCES [dbo].[TableDetail] ([TableId]),
@@ -226,16 +226,19 @@ CREATE TABLE [dbo].[AccessHistories] (
     CONSTRAINT [FK_AccessHistories_Customers_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([CustomerId])
 );
 
-GO
-create table Account (
-    Id UNIQUEIDENTIFIER NOT NULL,
-    [CustomerId] UNIQUEIDENTIFIER,
-    [EmployeeId] UNIQUEIDENTIFIER,
-    [Username] VARCHAR(10)  NOT NULL UNIQUE,
-    [Password] VARCHAR(10) NOT NULL,
-    [IsEmployee] BIT NOT NULL,
-    CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([Id] ASC),
+CREATE TABLE Account (
+    Id UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),  -- Automatically generate GUIDs
+    CustomerId UNIQUEIDENTIFIER,
+    EmployeeId UNIQUEIDENTIFIER,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(20) NOT NULL,
+    IsEmployee BIT NOT NULL,
+    CONSTRAINT PK_Account PRIMARY KEY CLUSTERED (Id ASC),
 
-    CONSTRAINT FK_Account_Customer_CustomerId FOREIGN KEY (CustomerId) REFERENCES customers (CustomerId),
+    CONSTRAINT FK_Account_Customer_CustomerId FOREIGN KEY (CustomerId) REFERENCES Customers (CustomerId),
     CONSTRAINT FK_Account_Employee_EmployeeId FOREIGN KEY (EmployeeId) REFERENCES Employees (Id)
-)
+);
+
+
+
+

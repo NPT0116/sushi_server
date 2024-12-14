@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZHRiwa5tCMJhCULveXgwb3KSfrmCpW5CHCPJtu6pte7/pOEHHWeuA2lUeM2VrIQ7UP9fDX3zFzGlmQ7ON7W8aw==",
+  "dgSpecHash": "ycHAn1mvRvnuFoXRYaoA0rT4FJJaDzpXfCPdgBxXadf5l9iwKb67E5PkYMSA9FuAWfBXgKsQ1T/eyBzhev63Rg==",
   "success": true,
-  "projectFilePath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
+  "projectFilePath": "/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/sushi_server.csproj",
   "expectedPackageFiles": [
     "/Users/npt/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
     "/Users/npt/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

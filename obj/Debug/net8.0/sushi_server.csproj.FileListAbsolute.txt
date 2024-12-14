@@ -324,7 +324,6 @@ C:/Users/Admin/Desktop/sushi_server/bin/Debug/net8.0/appsettings.Production.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cs
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.MvcApplicationPartsAssemblyInfo.cache
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/obj/Debug/net8.0/sushi_server.sourcelink.json
-/Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/appsettings.Development.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/appsettings.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/appsettings.Production.json
 /Users/npt/Documents/CSDL nâng cao/sushiWeb/sushi_server/bin/Debug/net8.0/sushi_server

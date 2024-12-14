@@ -108,15 +108,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
+  
 
         -- Tính tổng doanh thu trong ngày của BranchId thông qua Reservation
         SELECT 
@@ -133,15 +125,7 @@ BEGIN
         GROUP BY 
             r.BranchId;
 
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
 END;
-
-
 
 
 
@@ -157,42 +141,21 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Kiểm tra xem có tồn tại Branch với BranchId đã cho không
-        IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @BranchId)
-        BEGIN
-            RAISERROR('BranchId does not exist.', 16, 1);
-            RETURN;
-        END
-
         -- Truy vấn doanh thu theo ngày cho BranchId trong khoảng thời gian từ @StartDate đến @EndDate
         SELECT 
             CAST(i.DatedOn AS DATE) AS RevenueDate,  -- Chỉ lấy ngày
             SUM(i.AfterDiscount) AS TotalRevenue
         FROM 
             Invoices i
-        JOIN 
-            Orders o ON o.Id = i.OrderId
-        JOIN 
-            Reservation r ON r.Id = o.ReservationId
         WHERE 
             i.Paid = 1  -- Hóa đơn đã thanh toán
-            AND r.BranchId = @BranchId  -- Lọc theo BranchId
+            AND BranchId = @BranchId  -- Lọc theo BranchId
             AND CAST(i.DatedOn AS DATE) >= @StartDate  -- Lọc từ ngày bắt đầu
             AND CAST(i.DatedOn AS DATE) <= @EndDate  -- L
         GROUP BY 
-            CAST(i.DatedOn AS DATE)  -- Nhóm theo ngày
+            i.DatedOn 
         ORDER BY 
-            RevenueDate;
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
+            i.DatedOn
 END;
 
 
@@ -332,7 +295,6 @@ END
 
 
 
-
 go
 create or alter PROC createOrderFromReservation
 @reservationId UNIQUEIDENTIFIER,
@@ -441,3 +403,21 @@ BEGIN
     -- Trả về thông báo thành công
     SELECT 'Reservation updated successfully' AS Message;
 END;
+
+
+GO
+CREATE OR ALTER PROCEDURE getOrderDetailsByReservationId
+    @reservationId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SELECT 
+        od.Id AS OrderDishId,
+        od.Price AS Price,
+        od.Quantity AS Quantity,
+        od.DishId AS DishId,
+        d.DishName AS DishName
+    FROM OrderDetail od
+    JOIN Orders o ON o.Id = od.OrderId  
+    JOIN Dishes d ON d.DishId = od.DishId
+    WHERE o.ReservationId = @reservationId;
+END

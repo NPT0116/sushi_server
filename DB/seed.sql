@@ -2769,16 +2769,16 @@ select count(*) as invoices from invoices
 
 
 
-DELETE FROM OrderDetail;
-DELETE FROM Orders;
-DELETE FROM Reservation;
-DELETE FROM Cards;
-DELETE FROM Rankings;
-DELETE FROM Customers;
-DELETE FROM Employees;
-DELETE FROM Departments;
-DELETE FROM Sections;
-DELETE FROM Dishes;
-DELETE FROM BranchDishes;
-DELETE FROM Branches;
-DELETE FROM Invoices;
+-- DELETE FROM OrderDetail;
+-- DELETE FROM Orders;
+-- DELETE FROM Reservation;
+-- DELETE FROM Cards;
+-- DELETE FROM Rankings;
+-- DELETE FROM Customers;
+-- DELETE FROM Employees;
+-- DELETE FROM Departments;
+-- DELETE FROM Sections;
+-- DELETE FROM Dishes;
+-- DELETE FROM BranchDishes;
+-- DELETE FROM Branches;
+-- DELETE FROM Invoices;

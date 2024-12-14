@@ -27,5 +27,5 @@ public partial class Invoice
 
     public virtual Order Order { get; set; } = null!;
 
-    public virtual ICollection<Survey> Surveys { get; set; } = new List<Survey>();
+    public virtual Survey? Survey { get; set; }
 }
