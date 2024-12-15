@@ -6,32 +6,48 @@
 
 
 select top 1 * from Reservation
-go
-create or alter PROCEDURE customerSubmitReservation
-@note NVARCHAR(50),
-@datedOn NVARCHAR(50),
-@customerId UNIQUEIDENTIFIER,
-@branchId UNIQUEIDENTIFIER,
-@totalPeople INT,
-@id UNIQUEIDENTIFIER OUT
+GO
+CREATE OR ALTER PROCEDURE customerSubmitReservation
+    @note NVARCHAR(50),
+    @datedOn NVARCHAR(50),  -- Input as VARCHAR, will be converted to DATETIME2
+    @customerId UNIQUEIDENTIFIER,
+    @branchId UNIQUEIDENTIFIER,
+    @totalPeople INT,
+    @id UNIQUEIDENTIFIER OUT
 AS
 BEGIN
-    if not EXISTS (select 1 from Customers where CustomerId = @customerId)
+    -- Kiểm tra xem customerId có tồn tại trong bảng Customers không
+    IF NOT EXISTS (SELECT 1 FROM Customers WHERE CustomerId = @customerId)
     BEGIN
-        RAISERROR('cant find customer id in db', 16,1 );
+        RAISERROR('Cant find customer id in db', 16, 1);
         RETURN;
     END
 
-    if not EXISTS (select 1 from Branches where BranchId = @branchId)
+    -- Kiểm tra xem branchId có tồn tại trong bảng Branches không
+    IF NOT EXISTS (SELECT 1 FROM Branches WHERE BranchId = @branchId)
     BEGIN
-        RAISERROR('cant find branch id in db', 16,1 );
+        RAISERROR('Cant find branch id in db', 16, 1);
         RETURN;
     END
-    set @id = NEWID();
-    insert into Reservation (id, Note,DatedOn, CustomerId, BranchId, TotalPeople, [Status])
-    VALUES(@id, @note, @datedOn, @customerId, @branchId , @totalPeople, 0)
 
-END
+ IF CHARINDEX('T', @datedOn) > 0 AND LEN(@datedOn) = 16
+    BEGIN
+        SET @datedOn = @datedOn + ':00';  -- Thêm ":00" vào cuối để đảm bảo phần giây
+    END
+
+    -- Chuyển đổi @datedOn từ NVARCHAR sang DATETIME2
+    DECLARE @convertedDatedOn DATETIME2;
+    SET @convertedDatedOn = CAST(@datedOn AS DATETIME2);
+
+    -- Tạo một ID mới cho Reservation
+    SET @id = NEWID();
+
+    -- Insert vào bảng Reservation
+    INSERT INTO Reservation (id, Note, DatedOn, CustomerId, BranchId, TotalPeople, [Status])
+    VALUES (@id, @note, @convertedDatedOn, @customerId, @branchId, @totalPeople, 0);
+
+END;
+
 
 
 

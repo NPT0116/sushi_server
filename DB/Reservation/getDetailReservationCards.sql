@@ -15,7 +15,7 @@ BEGIN
         r.BranchId AS BranchId,
         b.Name AS BranchName,
         r.[Status] AS Status,
-        CAST(r.DatedOn AS DATE) AS DatedOn,  -- Ép kiểu DatedOn thành DATE
+        r.DatedOn  AS DatedOn,  -- Ép kiểu DatedOn thành DATE
         td.TableNumber AS TableNumber,  -- TableNumber chỉ trả về khi có TableId
         r.TotalPeople AS TotalPeople,
         o.Total AS TotalPrice,
@@ -25,7 +25,7 @@ BEGIN
     FROM Reservation r
     LEFT JOIN Customers c ON c.CustomerId = r.CustomerId 
     LEFT JOIN Branches b ON b.BranchId = r.BranchId
-    LEFT JOIN TableDetail td ON td.Id = r.TableId  -- Sử dụng LEFT JOIN để tránh việc TableNumber không tồn tại khi TableId là NULL
+    LEFT JOIN TableDetail td ON td.TableId = r.TableId  -- Sử dụng LEFT JOIN để tránh việc TableNumber không tồn tại khi TableId là NULL
     LEFT JOIN Orders o ON o.ReservationId = r.Id  -- Liên kết với bảng Orders
     WHERE r.BranchId = @branchId 
     AND CAST(r.DatedOn AS DATE) = @dateOn  -- So sánh DatedOn đã được ép kiểu với @dateOn

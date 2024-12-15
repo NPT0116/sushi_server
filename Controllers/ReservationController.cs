@@ -77,6 +77,7 @@ namespace YourNamespace.Controllers
                     await connection.OpenAsync();
 
                     // Thực thi stored procedure customerSubmitReservation để tạo Reservation
+                    Console.WriteLine("Datedon: " + request.DatedOn);
                     var reservationParameters = new DynamicParameters();
                     reservationParameters.Add("@note", request.Note);
                     reservationParameters.Add("@datedOn", request.DatedOn);

@@ -38,8 +38,9 @@ BEGIN
 
 END;
 
-EXEC createEmployeeAccount @employeeId = 'dfdca4da-240e-4eab-8a77-00c80aa66526';
+EXEC createEmployeeAccount @employeeId = '2bcc4ba1-640c-450c-84f2-005398d42d90';
 select  * from Account
-select top 1 * from Employees e JOIN Branches b on b.BranchId = e.BranchId  where e.id = 'dfdca4da-240e-4eab-8a77-00c80aa66526'
-
+select top 1 * from Employees e JOIN Branches b on b.BranchId = e.BranchId  where b.Name = 'Branch 1'
+select top 1 * from Employees
 select top 1 * from Reservation ORDER by DatedOn DESC
+
