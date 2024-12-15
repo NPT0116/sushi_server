@@ -309,12 +309,6 @@ BEGIN
 END;
 
 
-DECLARE @id UNIQUEIDENTIFIER;
-
-EXEC customerSubmitReservation @note = 'không ăn ngọt', @datedOn = '2024-12-16T19:26' , @customerId = '0e38325a-7b2a-47a0-9629-0b4fb7cb5973',
-@branchId = 'f920a9d0-4d96-4788-b74c-3a8c9b4c2ea1', @totalPeople = 6, @id = @id OUT
-
-
 
 go
 create or alter PROC createOrderFromReservation
@@ -356,6 +350,8 @@ END
 
 
 
+
+
 GO
 CREATE OR ALTER PROCEDURE getDetailReservationCards
 @branchId UNIQUEIDENTIFIER,
@@ -369,7 +365,7 @@ BEGIN
         r.BranchId AS BranchId,
         b.Name AS BranchName,
         r.[Status] AS Status,
-        CAST(r.DatedOn AS DATE) AS DatedOn,  -- Ép kiểu DatedOn thành DATE
+        r.DatedOn  AS DatedOn,  -- Ép kiểu DatedOn thành DATE
         td.TableNumber AS TableNumber,  -- TableNumber chỉ trả về khi có TableId
         r.TotalPeople AS TotalPeople,
         o.Total AS TotalPrice,
@@ -462,3 +458,131 @@ BEGIN
     VALUES (NEWID(), @InvoiceId, @Point, @Comment);
 END
 
+GO
+
+CREATE OR ALTER PROCEDURE createAccount 
+    @password VARCHAR(30),
+    @Name NVARCHAR(40),
+    @DateOfBirth DATETIME,
+    @Gender INT,
+    @CitizenId VARCHAR(15),
+    @Phone VARCHAR(10),
+    @Email VARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Bắt đầu transaction
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        -- Tạo CustomerId mới
+        DECLARE @customerId UNIQUEIDENTIFIER = NEWID();
+
+        -- Insert vào bảng Customers
+        INSERT INTO Customers (CustomerId, Name, DateOfBirth, Gender, CitizenId, Phone, Email)
+        VALUES (@customerId, @Name, @DateOfBirth, @Gender, @CitizenId, @Phone, @Email);
+
+        -- Insert vào bảng Account
+        INSERT INTO Account (Id,CustomerId, Username, [Password], IsEmployee)
+        VALUES (NEWID(),@customerId, @Email, @password, 0);
+
+        -- Nếu không có lỗi, commit transaction
+        COMMIT TRANSACTION;
+        PRINT 'update successfully'
+    END TRY
+    BEGIN CATCH
+        -- Nếu có lỗi, rollback transaction
+        ROLLBACK TRANSACTION;
+    END CATCH
+END;
+
+
+
+GO
+CREATE OR ALTER PROCEDURE createEmployeeAccount
+    @employeeId UNIQUEIDENTIFIER
+AS
+BEGIN
+    -- Kiểm tra xem employeeId có tồn tại trong bảng Employees không
+    IF NOT EXISTS (SELECT 1 FROM Employees WHERE Id = @employeeId)
+    BEGIN
+        -- Nếu không tìm thấy employeeId, trả về lỗi
+        RAISERROR('Cant find employeeID', 16, 1);
+        RETURN;
+    END
+
+    -- Khai báo các biến để lưu thông tin của nhân viên và chi nhánh
+    DECLARE @EmployeeName NVARCHAR(100);
+    DECLARE @BranchName NVARCHAR(100);
+    DECLARE @Username NVARCHAR(200);
+    DECLARE @Password NVARCHAR(30) = '123'; -- Mật khẩu mặc định là 123
+
+    -- Lấy tên của nhân viên và tên chi nhánh
+    SELECT 
+        @EmployeeName = e.Name, 
+        @BranchName = b.Name
+    FROM 
+        Employees e
+    INNER JOIN 
+        Branches b ON e.BranchId = b.BranchId
+    WHERE 
+        e.Id = @employeeId;
+
+    -- Tạo username bằng cách kết hợp tên nhân viên và tên chi nhánh
+    SET @Username = REPLACE(@EmployeeName + @BranchName, ' ', '');
+    -- Chèn vào bảng Account
+    DECLARE @id UNIQUEIDENTIFIER = NewId();
+    INSERT INTO Account (Id, Username, [Password], EmployeeId,IsEmployee)
+    VALUES (@id, @Username, @Password, @employeeId, 1);  -- IsEmployee = 1 cho tài khoản nhân viên
+    select @id as Id , @Username as Username, @Password as password, @employeeId as EmployeeId
+
+END;
+
+GO;
+CREATE OR ALTER PROCEDURE loginUser
+    @password VARCHAR(30),
+    @username VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Declare variables to hold the results
+    DECLARE @customerId UNIQUEIDENTIFIER;
+    DECLARE @employeeId UNIQUEIDENTIFIER;
+    DECLARE @isEmployee BIT;
+    DECLARE @storedPassword VARCHAR(20);
+
+    -- Check if the username exists in the Account table
+    SELECT 
+        @customerId = CustomerId,
+        @employeeId = EmployeeId,
+        @isEmployee = IsEmployee,
+        @storedPassword = Password
+    FROM Account
+    WHERE Username = @username;
+
+    -- If no user found, return error
+    IF @customerId IS NULL AND @employeeId IS NULL
+    BEGIN
+        RAISERROR('Username not found.', 16, 1);
+        RETURN;
+    END
+
+    -- Check if the password matches
+    IF @storedPassword != @password
+    BEGIN
+        RAISERROR('Incorrect password.', 16, 1);
+        RETURN;
+    END
+
+    -- Return success and the appropriate ID based on IsEmployee flag
+    IF @isEmployee = 1
+    BEGIN
+        SELECT 'Login successful' AS Message, @employeeId AS EmployeeId;
+    END
+    ELSE
+    BEGIN
+        SELECT 'Login successful' AS Message, @customerId AS CustomerId;
+    END
+END;
