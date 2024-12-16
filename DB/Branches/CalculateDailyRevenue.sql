@@ -53,7 +53,9 @@ ON [dbo].[Invoices] ([Paid],[BranchId],[DatedOn])
 INCLUDE ([AfterDiscount])
 GO
 
-drop index IDX_Invoices_Paid_BranchId_DatedOn on invoices
+
+
+drop index [<Name of Missing Index, sysname,>] on invoices
 
 SELECT top 15 * from Branches
 

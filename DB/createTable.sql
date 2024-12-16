@@ -11,11 +11,7 @@ GO
     [ManagerId]    UNIQUEIDENTIFIER NULL,
     [Name]         NVARCHAR (100)   NOT NULL,
     [Address]      NVARCHAR (200)   NOT NULL,
-<<<<<<< HEAD
     [Phone]        NVARCHAR (30)   NOT NULL,
-=======
-    [Phone]        NVARCHAR (MAX)   NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     [OpeningTime]  TIME (7)         NOT NULL,
     [ClosingTime]  TIME (7)         NOT NULL,
     [CarParking]   BIT              NOT NULL,
@@ -25,11 +21,6 @@ GO
     CONSTRAINT [PK_Branches] PRIMARY KEY CLUSTERED ([BranchId] ASC)
 );
 go
-<<<<<<< HEAD
-select * from branches
-=======
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 GO
 
 CREATE TABLE [TableDetail] (
@@ -45,32 +36,20 @@ GO
 
 CREATE TABLE [dbo].[Sections] (
     [SectionId]   UNIQUEIDENTIFIER NOT NULL,
-<<<<<<< HEAD
     [SectionName] NVARCHAR (50)   NOT NULL,
-=======
-    [SectionName] NVARCHAR (MAX)   NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     CONSTRAINT [PK_Sections] PRIMARY KEY CLUSTERED ([SectionId] ASC)
 );
 go
 
 CREATE TABLE [dbo].[Dishes] (
     [DishId]       UNIQUEIDENTIFIER NOT NULL,
-<<<<<<< HEAD
     [DishName]     NVARCHAR (50)   NOT NULL,
-=======
-    [DishName]     NVARCHAR (MAX)   NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     [CurrentPrice] INT              NOT NULL,
     [SectionId]    UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT [PK_Dishes] PRIMARY KEY CLUSTERED ([DishId] ASC),
     CONSTRAINT [FK_Dishes_Sections_SectionId] FOREIGN KEY ([SectionId]) REFERENCES [dbo].[Sections] ([SectionId]) 
 );
 
-<<<<<<< HEAD
-select * from Dishes
-=======
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 go
 
 CREATE TABLE [dbo].[BranchDishes] (
@@ -88,11 +67,7 @@ go
 
 CREATE TABLE [dbo].[Departments] (
     [DepartmentId]   UNIQUEIDENTIFIER NOT NULL,
-<<<<<<< HEAD
     [DepartmentName] NVARCHAR (50)   NOT NULL,
-=======
-    [DepartmentName] NVARCHAR (MAX)   NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     [BaseSalary]     INT              NOT NULL,
     CONSTRAINT [PK_Departments] PRIMARY KEY CLUSTERED ([DepartmentId] ASC)
 );
@@ -104,15 +79,9 @@ CREATE TABLE [dbo].[Customers] (
     [Name]        NVARCHAR (100)   NOT NULL,
     [DateOfBirth] DATETIME2 (7)    NULL,
     [Gender]      INT              NOT NULL,
-<<<<<<< HEAD
     [CitizenId]   NVARCHAR (20)    NOT NULL ,
     [Phone]       NVARCHAR (50)   NOT NULL ,
     [Email]       NVARCHAR (50)   NOT NULL ,
-=======
-    [CitizenId]   NVARCHAR (20)    NOT NULL UNIQUE,
-    [Phone]       NVARCHAR (MAX)   NOT NULL UNIQUE,
-    [Email]       NVARCHAR (MAX)   NOT NULL UNIQUE,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([CustomerId] ASC)
 );
 go
@@ -142,11 +111,7 @@ CREATE TABLE [dbo].[WorkHistory] (
     [EmployeeId]   UNIQUEIDENTIFIER NOT NULL,
     [BranchId]     UNIQUEIDENTIFIER NOT NULL,
     [StartDate]    DATE             NOT NULL,
-<<<<<<< HEAD
     [ResignDate]   DATE              NULL,
-=======
-    [ResignDate]   DATE             NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     [DepartmentId] UNIQUEIDENTIFIER NOT NULL,
     CONSTRAINT [PK_WorkHistory] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_WorkHistory_Branches_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [dbo].[Branches] ([BranchId]) ,
@@ -174,11 +139,7 @@ CREATE TABLE [dbo].[Cards] (
     [EmployeeId]        UNIQUEIDENTIFIER NOT NULL,
     [RankingId]         INT              NOT NULL,
     [CustomerId]        UNIQUEIDENTIFIER NOT NULL,
-<<<<<<< HEAD
     [CardId]            UNIQUEIDENTIFIER  NOT NULL,
-=======
-    [CardId]            UNIQUEIDENTIFIER DEFAULT ('00000000-0000-0000-0000-000000000000') NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     CONSTRAINT [PK_Cards] PRIMARY KEY CLUSTERED ([CardId] ASC),
     CONSTRAINT [FK_Cards_Customers_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customers] ([CustomerId]) ,
     CONSTRAINT [FK_Cards_Employees_EmployeeId] FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employees] ([Id]) ,
@@ -198,17 +159,11 @@ CREATE TABLE [dbo].[Reservation] (
     [TotalPeople] INT              DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Reservation] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Reservation_TableDetail_TableId] FOREIGN KEY ([TableId]) REFERENCES [dbo].[TableDetail] ([TableId]),
-<<<<<<< HEAD
     CONSTRAINT [FK_Reservation_Branch_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [dbo].[Branches] ([BranchId]),
     CONSTRAINT [FK_Reservation_Employee_OrderedBy] FOREIGN KEY ([OrderedBy]) REFERENCES [dbo].[Employees] ([Id])
 );
 
 
-=======
-    CONSTRAINT [FK_Reservation_Branch_BranchId] FOREIGN KEY ([BranchId]) REFERENCES [dbo].[Branches] ([BranchId])
-);
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 go
 
 CREATE TABLE [dbo].[Orders] (
@@ -240,11 +195,7 @@ go
     CREATE TABLE [dbo].[Invoices] (
     [Id]            UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [Total]         BIGINT           NOT NULL,
-<<<<<<< HEAD
     [PaymentMethod] NVARCHAR (10)   NOT NULL,
-=======
-    [PaymentMethod] NVARCHAR (MAX)   NOT NULL,
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     [AfterDiscount] INT              NOT NULL,
     [BonusPoint]    INT              NOT NULL,
     [Paid]          BIT              NOT NULL,
@@ -282,21 +233,10 @@ CREATE TABLE Account (
     EmployeeId UNIQUEIDENTIFIER,
     Username VARCHAR(50) NOT NULL UNIQUE,
     Password VARCHAR(20) NOT NULL,
-<<<<<<< HEAD
     Role varchar(10) NOT NULL,
     CONSTRAINT PK_Account PRIMARY KEY CLUSTERED (Id ASC),
-=======
-    IsEmployee BIT NOT NULL,
-    CONSTRAINT PK_Account PRIMARY KEY CLUSTERED (Id ASC),
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     CONSTRAINT FK_Account_Customer_CustomerId FOREIGN KEY (CustomerId) REFERENCES Customers (CustomerId),
     CONSTRAINT FK_Account_Employee_EmployeeId FOREIGN KEY (EmployeeId) REFERENCES Employees (Id)
 );
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
