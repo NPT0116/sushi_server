@@ -2748,10 +2748,111 @@ DEALLOCATE InvoiceCursor;
 
 
 
+GO
+
+-- Declare variables
+DECLARE @BranchId UNIQUEIDENTIFIER;
+DECLARE @EmployeeId UNIQUEIDENTIFIER;
+
+-- Cursor to loop through each branch
+DECLARE BranchCursor CURSOR FOR
+SELECT BranchId FROM Branches WHERE ManagerId IS NULL;
+
+OPEN BranchCursor;
+FETCH NEXT FROM BranchCursor INTO @BranchId;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Select a random employee from the current branch
+    SELECT TOP 1 @EmployeeId = Id
+    FROM Employees
+    WHERE BranchId = @BranchId
+    ORDER BY NEWID();
+
+    -- Update the branch with the selected employee as the manager
+    UPDATE Branches
+    SET ManagerId = @EmployeeId
+    WHERE BranchId = @BranchId;
+
+    -- Fetch the next branch
+    FETCH NEXT FROM BranchCursor INTO @BranchId;
+END
+
+-- Clean up the cursor
+CLOSE BranchCursor;
+DEALLOCATE BranchCursor;
+
+GO
 
 
 
+-- Insert WorkHistory for each employee
+INSERT INTO WorkHistory (Id, EmployeeId, BranchId, StartDate, ResignDate, DepartmentId)
+SELECT 
+    NEWID() AS Id,
+    e.Id AS EmployeeId,
+    e.BranchId AS BranchId,
+    '2024-01-01' AS StartDate,
+    NULL AS ResignDate,
+    e.DepartmentId AS DepartmentId
+FROM Employees e
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM WorkHistory wh 
+    WHERE wh.EmployeeId = e.Id
+);
+GO
 
+
+GO
+
+-- Declare variables
+DECLARE @BranchId UNIQUEIDENTIFIER;
+DECLARE @EmployeeId UNIQUEIDENTIFIER;
+DECLARE @EmployeeName NVARCHAR(100);
+DECLARE @Username NVARCHAR(200);
+DECLARE @Password NVARCHAR(30) = 'admin123'; -- Default password for admin accounts
+DECLARE @Role NVARCHAR(10) = 'Admin';
+DECLARE @Salary INT;
+DECLARE @Department UNIQUEIDENTIFIER;
+Declare @BranchName NVARCHAR(100)
+-- Cursor to loop through each branch
+DECLARE BranchCursor CURSOR FOR
+SELECT BranchId FROM Branches;
+
+OPEN BranchCursor;
+FETCH NEXT FROM BranchCursor INTO @BranchId;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    -- Generate a new EmployeeId
+    SET @EmployeeId = NEWID();
+    SELect @Salary = BaseSalary, @Department = DepartmentId from Departments where DepartmentName = N'Quản lý'
+    -- Generate a random employee name
+    select @BranchName = name from Branches where BranchId = @BranchId
+    SET @EmployeeName =REPLACE( 'Admin_' + @BranchName, ' ', '');
+
+    -- Generate a username by combining the employee name and branch ID
+     PRINT @username
+    -- Insert the new employee into the Employees table
+    INSERT INTO Employees (Id, Name, Dob, Gender, Salary, StartDate, DepartmentId, BranchId)
+    VALUES (@EmployeeId, @EmployeeName, '1980-01-01', 'Male', @Salary, GETDATE(), @Department, @BranchId);
+
+    -- Insert the new account into the Account table
+    INSERT INTO Account (Id, EmployeeId, Username, [Password], Role)
+    VALUES (NEWID(), @EmployeeId, @EmployeeName, @Password, @Role);
+
+    -- Fetch the next branch
+    FETCH NEXT FROM BranchCursor INTO @BranchId;
+END
+
+-- Clean up the cursor
+CLOSE BranchCursor;
+DEALLOCATE BranchCursor;
+
+GO
+
+select count(*) from Account
 select count (*) as Branches from Branches
 select count (*) as BranchDishes from BranchDishes
 select count (*) as Dishes from Dishes
@@ -2765,8 +2866,7 @@ select count (*) as Reservation from Reservation
 select count (*) as Orders from Orders
 select count (*) as OrderDetail from OrderDetail
 select count(*) as invoices from invoices
-
-
+select * from WorkHistory
 
 
 -- DELETE FROM OrderDetail;

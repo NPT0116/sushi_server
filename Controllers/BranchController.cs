@@ -32,7 +32,7 @@ public class BranchController : ControllerBase
                 .OrderBy(b => b.Name)
                 .ProjectTo<BranchName>(_mapper.ConfigurationProvider)
                 .ToListAsync();
-
+            
             return Ok(new Response<List<BranchName>>(branches, "Retrieved branch name and branch id in alphabetical order"));
         }
         catch (Exception e)

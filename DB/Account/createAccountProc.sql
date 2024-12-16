@@ -22,8 +22,8 @@ BEGIN
         VALUES (@customerId, @Name, @DateOfBirth, @Gender, @CitizenId, @Phone, @Email);
 
         -- Insert vào bảng Account
-        INSERT INTO Account (Id,CustomerId, Username, [Password], IsEmployee)
-        VALUES (NEWID(),@customerId, @Email, @password, 0);
+        INSERT INTO Account (Id,CustomerId, Username, [Password], Role)
+        VALUES (NEWID(),@customerId, @Email, @password, 'Customer');
 
         -- Nếu không có lỗi, commit transaction
         COMMIT TRANSACTION;

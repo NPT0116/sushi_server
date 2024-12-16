@@ -141,7 +141,7 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
             {
                 return Unauthorized("User not found.");
             }
-            if (userRole == "Employee")
+            if (userRole == "Employee" || userRole == "Admin")
             {
                   using (var connection = _dbContext.Database.GetDbConnection())
             {
@@ -151,8 +151,8 @@ public async Task<IActionResult> Login([FromBody] UserLoginDto loginDto)
                 parameters.Add("@UserId", Guid.Parse(userId), DbType.Guid);
 
                 var employee = await connection.QueryFirstOrDefaultAsync<EmployeeMeDto>(
-                    "SELECT e.id as EmployeeId,e.BranchId as BranchId, e.Dob as DateOfBirth  " + 
-                    "FROM Employees e " +
+                    "SELECT e.id as EmployeeId,e.BranchId as BranchId, e.Dob as DateOfBirth, e.Name as Name, d.DepartmentName as DepartmentName, b.Name  " + 
+                    "FROM Employees e join branches b on b.branchid = e.branchid join departments d on e.departmentId = d.DepartmentId " +
                     "WHERE e.id = @UserId", parameters);
                 if (employee == null)
                 {
@@ -174,8 +174,8 @@ using (var connection = _dbContext.Database.GetDbConnection())
 
 
                     var customer = await connection.QueryFirstOrDefaultAsync<UserMeDto>(
-                        "SELECT u.CustomerId, u.email as Username, Name, Phone " +
-                        "FROM Customers u " +
+                        "SELECT u.CustomerId as CustomerId, u.email as Username, u.Name as Name, u.Phone as Phone  , r.Name as Rank, c.AccumulatedPoints as Point " +
+                    " FROM Customers u left join cards c on c.CustomerId = u.CustomerId left join Rankings r on r.Id = c.RankingId " +
                         "WHERE u.CustomerId = @UserId", parameters);
                     if (customer == null)
                     {

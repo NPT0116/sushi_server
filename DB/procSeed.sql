@@ -213,15 +213,15 @@ create or alter PROCEDURE getallemployees
 AS
 BEGIN
     SET NOCOUNT ON;
-    Select e.Id, e.Name, e.Dob, e.Gender, e.Salary
-    from Employees e 
+    Select e.Id, e.Name, e.Dob, e.Gender, e.Salary, b.BranchId as BranchId, b.Name as BranchName,  e.DepartmentId as DepartmentId, d.DepartmentName as DepartmentName
+    from Employees e join Branches b on b.BranchId = e.BranchId join Departments d on d.DepartmentId = e.DepartmentId
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
     (@Name is NULL or e.Name LIKE @Name + '%' )
-    Order by Name
+    Order by e.Name
     OFFSET (@PageNumber - 1) * @PageSize ROWS
     FETCH NEXT @PageSize ROWS ONLY;
 
-    SELECT @TotalRecord = count(1) 
+    SELECT @TotalRecord = count(*) 
     from Employees e 
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
     (@Name is NULL or e.Name LIKE @Name + '%' )
@@ -459,7 +459,6 @@ BEGIN
 END
 
 GO
-
 CREATE OR ALTER PROCEDURE createAccount 
     @password VARCHAR(30),
     @Name NVARCHAR(40),
@@ -484,8 +483,8 @@ BEGIN
         VALUES (@customerId, @Name, @DateOfBirth, @Gender, @CitizenId, @Phone, @Email);
 
         -- Insert vào bảng Account
-        INSERT INTO Account (Id,CustomerId, Username, [Password], IsEmployee)
-        VALUES (NEWID(),@customerId, @Email, @password, 0);
+        INSERT INTO Account (Id,CustomerId, Username, [Password], Role)
+        VALUES (NEWID(),@customerId, @Email, @password, 'Customer');
 
         -- Nếu không có lỗi, commit transaction
         COMMIT TRANSACTION;
@@ -499,9 +498,12 @@ END;
 
 
 
+
+
 GO
 CREATE OR ALTER PROCEDURE createEmployeeAccount
-    @employeeId UNIQUEIDENTIFIER
+    @employeeId UNIQUEIDENTIFIER,
+    @Role VARCHAR(10)
 AS
 BEGIN
     -- Kiểm tra xem employeeId có tồn tại trong bảng Employees không
@@ -533,8 +535,8 @@ BEGIN
     SET @Username = REPLACE(@EmployeeName + @BranchName, ' ', '');
     -- Chèn vào bảng Account
     DECLARE @id UNIQUEIDENTIFIER = NewId();
-    INSERT INTO Account (Id, Username, [Password], EmployeeId,IsEmployee)
-    VALUES (@id, @Username, @Password, @employeeId, 1);  -- IsEmployee = 1 cho tài khoản nhân viên
+    INSERT INTO Account (Id, Username, [Password], EmployeeId,Role)
+    VALUES (@id, @Username, @Password, @employeeId, @Role);  -- IsEmployee = 1 cho tài khoản nhân viên
     select @id as Id , @Username as Username, @Password as password, @employeeId as EmployeeId
 
 END;
@@ -550,14 +552,14 @@ BEGIN
     -- Declare variables to hold the results
     DECLARE @customerId UNIQUEIDENTIFIER;
     DECLARE @employeeId UNIQUEIDENTIFIER;
-    DECLARE @isEmployee BIT;
+    DECLARE @role VARCHAR(10);
     DECLARE @storedPassword VARCHAR(20);
 
     -- Check if the username exists in the Account table
     SELECT 
         @customerId = CustomerId,
         @employeeId = EmployeeId,
-        @isEmployee = IsEmployee,
+        @role = Role,
         @storedPassword = Password
     FROM Account
     WHERE Username = @username;
@@ -576,13 +578,19 @@ BEGIN
         RETURN;
     END
 
-    -- Return success and the appropriate ID based on IsEmployee flag
-    IF @isEmployee = 1
+    -- Return success and the appropriate ID based on Role
+    IF @role = 'Employee'
     BEGIN
         SELECT 'Login successful' AS Message, @employeeId AS EmployeeId;
     END
-    ELSE
+    ELSE IF @role = 'Customer'
     BEGIN
         SELECT 'Login successful' AS Message, @customerId AS CustomerId;
     END
+    ELSE
+    BEGIN
+        SELECT 'Login successful' AS Message, @employeeId  AS Role;
+    END
 END;
+
+

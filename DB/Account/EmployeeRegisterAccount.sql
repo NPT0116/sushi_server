@@ -1,6 +1,7 @@
 GO
 CREATE OR ALTER PROCEDURE createEmployeeAccount
-    @employeeId UNIQUEIDENTIFIER
+    @employeeId UNIQUEIDENTIFIER,
+    @Role VARCHAR(10)
 AS
 BEGIN
     -- Kiểm tra xem employeeId có tồn tại trong bảng Employees không
@@ -32,15 +33,13 @@ BEGIN
     SET @Username = REPLACE(@EmployeeName + @BranchName, ' ', '');
     -- Chèn vào bảng Account
     DECLARE @id UNIQUEIDENTIFIER = NewId();
-    INSERT INTO Account (Id, Username, [Password], EmployeeId,IsEmployee)
-    VALUES (@id, @Username, @Password, @employeeId, 1);  -- IsEmployee = 1 cho tài khoản nhân viên
+    INSERT INTO Account (Id, Username, [Password], EmployeeId,Role)
+    VALUES (@id, @Username, @Password, @employeeId, @Role);  -- IsEmployee = 1 cho tài khoản nhân viên
     select @id as Id , @Username as Username, @Password as password, @employeeId as EmployeeId
 
 END;
 
-EXEC createEmployeeAccount @employeeId = '2bcc4ba1-640c-450c-84f2-005398d42d90';
-select  * from Account
-select top 1 * from Employees e JOIN Branches b on b.BranchId = e.BranchId  where b.Name = 'Branch 1'
-select top 1 * from Employees
-select top 1 * from Reservation ORDER by DatedOn DESC
+
+
+
 

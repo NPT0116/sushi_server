@@ -8,14 +8,14 @@ BEGIN
     -- Declare variables to hold the results
     DECLARE @customerId UNIQUEIDENTIFIER;
     DECLARE @employeeId UNIQUEIDENTIFIER;
-    DECLARE @isEmployee BIT;
+    DECLARE @role VARCHAR(10);
     DECLARE @storedPassword VARCHAR(20);
 
     -- Check if the username exists in the Account table
     SELECT 
         @customerId = CustomerId,
         @employeeId = EmployeeId,
-        @isEmployee = IsEmployee,
+        @role = Role,
         @storedPassword = Password
     FROM Account
     WHERE Username = @username;
@@ -34,18 +34,18 @@ BEGIN
         RETURN;
     END
 
-    -- Return success and the appropriate ID based on IsEmployee flag
-    IF @isEmployee = 1
+    -- Return success and the appropriate ID based on Role
+    IF @role = 'Employee'
     BEGIN
         SELECT 'Login successful' AS Message, @employeeId AS EmployeeId;
     END
-    ELSE
+    ELSE IF @role = 'Customer'
     BEGIN
         SELECT 'Login successful' AS Message, @customerId AS CustomerId;
     END
+    ELSE
+    BEGIN
+        SELECT 'Login successful' AS Message, @employeeId  AS Role;
+    END
 END;
 
-
-select top 1 * from Account
-
-exec loginUser @password = 'SecurePass9876!' , @username = 'thanh.le@example.com'
