@@ -22,8 +22,13 @@ public class TokenService : ITokenService
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.UniqueName, appUser.Username),
+<<<<<<< HEAD
             new Claim(ClaimTypes.NameIdentifier,appUser.Role != "Customer" ?appUser.EmployeeId.ToString() : appUser.CustomerId.ToString()),  // Add CustomerId as a claim (if needed)
             new Claim(ClaimTypes.Role, appUser.Role) // Directly use the Role property
+=======
+            new Claim(ClaimTypes.NameIdentifier,appUser.IsEmployee ?appUser.EmployeeId.ToString() : appUser.CustomerId.ToString()),  // Add CustomerId as a claim (if needed)
+            new Claim(ClaimTypes.Role, appUser.IsEmployee ? "Employee" : "Customer") // Add role depending on IsEmployee flag
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
         };
         // hashed sigining key

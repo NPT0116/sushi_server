@@ -62,7 +62,11 @@ select * from Branches
 DECLARE @StartTime DATETIME2 = SYSDATETIME();
 
 -- Thực thi truy vấn của bạn
+<<<<<<< HEAD
 EXEC GetRevenueByDateRangeForBranch @BranchId = 'be17a130-0581-4315-bb2b-070f26292fbd', @StartDate = '2024-1-1', @EndDate = '2024-1-30';
+=======
+EXEC GetRevenueByDateRangeForBranch @BranchId = 'f490d25c-9c0b-4674-975f-53e1d1bc5366', @StartDate = '2024-1-1', @EndDate = '2024-12-30';
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 DECLARE @EndTime DATETIME2 = SYSDATETIME();
 

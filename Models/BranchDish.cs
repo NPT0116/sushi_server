@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -27,5 +28,24 @@ public partial class BranchDish
 
     [ForeignKey("DishId")]
     [InverseProperty("BranchDishes")]
+=======
+
+namespace sushi_server.Models;
+
+public partial class BranchDish
+{
+    public Guid BranchDishId { get; set; }
+
+    public Guid BranchId { get; set; }
+
+    public Guid DishId { get; set; }
+
+    public bool Status { get; set; }
+
+    public bool ShipStatus { get; set; }
+
+    public virtual Branch Branch { get; set; } = null!;
+
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     public virtual Dish Dish { get; set; } = null!;
 }

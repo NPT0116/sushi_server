@@ -213,6 +213,7 @@ create or alter PROCEDURE getallemployees
 AS
 BEGIN
     SET NOCOUNT ON;
+<<<<<<< HEAD
     Select e.Id, e.Name, e.Dob, e.Gender, e.Salary, b.BranchId as BranchId, b.Name as BranchName,  e.DepartmentId as DepartmentId, d.DepartmentName as DepartmentName
     from Employees e join Branches b on b.BranchId = e.BranchId join Departments d on d.DepartmentId = e.DepartmentId
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
@@ -222,6 +223,17 @@ BEGIN
     FETCH NEXT @PageSize ROWS ONLY;
 
     SELECT @TotalRecord = count(*) 
+=======
+    Select e.Id, e.Name, e.Dob, e.Gender, e.Salary
+    from Employees e 
+    where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
+    (@Name is NULL or e.Name LIKE @Name + '%' )
+    Order by Name
+    OFFSET (@PageNumber - 1) * @PageSize ROWS
+    FETCH NEXT @PageSize ROWS ONLY;
+
+    SELECT @TotalRecord = count(1) 
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     from Employees e 
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
     (@Name is NULL or e.Name LIKE @Name + '%' )
@@ -266,6 +278,7 @@ END;
 
 
 
+<<<<<<< HEAD
 GO
 CREATE OR ALTER PROCEDURE customerSubmitReservation
     @note NVARCHAR(50),
@@ -307,6 +320,34 @@ BEGIN
     VALUES (@id, @note, @convertedDatedOn, @customerId, @branchId, @totalPeople, 0);
 
 END;
+=======
+go
+create or alter PROCEDURE customerSubmitReservation
+@note NVARCHAR(50),
+@datedOn NVARCHAR(50),
+@customerId UNIQUEIDENTIFIER,
+@branchId UNIQUEIDENTIFIER,
+@totalPeople INT,
+@id UNIQUEIDENTIFIER OUT
+AS
+BEGIN
+    if not EXISTS (select 1 from Customers where CustomerId = @customerId)
+    BEGIN
+        RAISERROR('cant find customer id in db', 16,1 );
+        RETURN;
+    END
+
+    if not EXISTS (select 1 from Branches where BranchId = @branchId)
+    BEGIN
+        RAISERROR('cant find branch id in db', 16,1 );
+        RETURN;
+    END
+    set @id = NEWID();
+    insert into Reservation (id, Note,DatedOn, CustomerId, BranchId, TotalPeople, [Status])
+    VALUES(@id, @note, @datedOn, @customerId, @branchId , @totalPeople, 0)
+
+END
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 
 
@@ -350,8 +391,11 @@ END
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 GO
 CREATE OR ALTER PROCEDURE getDetailReservationCards
 @branchId UNIQUEIDENTIFIER,
@@ -365,7 +409,11 @@ BEGIN
         r.BranchId AS BranchId,
         b.Name AS BranchName,
         r.[Status] AS Status,
+<<<<<<< HEAD
         r.DatedOn  AS DatedOn,  -- Ép kiểu DatedOn thành DATE
+=======
+        CAST(r.DatedOn AS DATE) AS DatedOn,  -- Ép kiểu DatedOn thành DATE
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
         td.TableNumber AS TableNumber,  -- TableNumber chỉ trả về khi có TableId
         r.TotalPeople AS TotalPeople,
         o.Total AS TotalPrice,
@@ -437,6 +485,7 @@ BEGIN
     JOIN Orders o ON o.Id = od.OrderId  
     JOIN Dishes d ON d.DishId = od.DishId
     WHERE o.ReservationId = @reservationId;
+<<<<<<< HEAD
 END
 
 
@@ -594,3 +643,6 @@ BEGIN
 END;
 
 
+=======
+END
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e

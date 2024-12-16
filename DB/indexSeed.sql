@@ -29,6 +29,13 @@ CREATE NONCLUSTERED INDEX [IX_Employees_DepartmentId]
 
 --index orders
 
+<<<<<<< HEAD
+=======
+GO
+CREATE NONCLUSTERED INDEX [IX_Orders_ReservationId]
+    ON [dbo].[Orders]([ReservationId] ASC);
+
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 --index invoices
 
@@ -70,9 +77,12 @@ CREATE NONCLUSTERED INDEX [IDX_Invoices_Paid_BranchId_DatedOn]
 ON [dbo].[Invoices] ([Paid],[BranchId],[DatedOn])
 INCLUDE ([AfterDiscount])
 GO
+<<<<<<< HEAD
 
 
 GO
 CREATE NONCLUSTERED INDEX [IX_Orders_ReservationId]
     ON [dbo].[Orders]([ReservationId] ASC)
     INCLUDE (total)
+=======
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e

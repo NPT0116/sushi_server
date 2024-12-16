@@ -71,12 +71,20 @@ BEGIN
     VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
 
     -- 6. Cập nhật điểm số cho thẻ khách hàng
+<<<<<<< HEAD
     IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId and Valid = 1)
+=======
+    IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     BEGIN
         -- Cập nhật thẻ khách hàng
         UPDATE Cards
         SET AccumulatedPoints = AccumulatedPoints + @bonusPoint
+<<<<<<< HEAD
         WHERE CustomerId = @CustomerId and Valid = 1;
+=======
+        WHERE CustomerId = @CustomerId;
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     END
 
     -- 7. Cập nhật trạng thái đơn hàng thành "Invoiced"

@@ -2748,6 +2748,7 @@ DEALLOCATE InvoiceCursor;
 
 
 
+<<<<<<< HEAD
 GO
 
 -- Declare variables
@@ -2853,6 +2854,12 @@ DEALLOCATE BranchCursor;
 GO
 
 select count(*) from Account
+=======
+
+
+
+
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 select count (*) as Branches from Branches
 select count (*) as BranchDishes from BranchDishes
 select count (*) as Dishes from Dishes
@@ -2866,7 +2873,12 @@ select count (*) as Reservation from Reservation
 select count (*) as Orders from Orders
 select count (*) as OrderDetail from OrderDetail
 select count(*) as invoices from invoices
+<<<<<<< HEAD
 select * from WorkHistory
+=======
+
+
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 
 -- DELETE FROM OrderDetail;

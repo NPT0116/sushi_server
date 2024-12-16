@@ -6,6 +6,7 @@
 
 
 select top 1 * from Reservation
+<<<<<<< HEAD
 GO
 CREATE OR ALTER PROCEDURE customerSubmitReservation
     @note NVARCHAR(50),
@@ -48,6 +49,34 @@ BEGIN
 
 END;
 
+=======
+go
+create or alter PROCEDURE customerSubmitReservation
+@note NVARCHAR(50),
+@datedOn NVARCHAR(50),
+@customerId UNIQUEIDENTIFIER,
+@branchId UNIQUEIDENTIFIER,
+@totalPeople INT,
+@id UNIQUEIDENTIFIER OUT
+AS
+BEGIN
+    if not EXISTS (select 1 from Customers where CustomerId = @customerId)
+    BEGIN
+        RAISERROR('cant find customer id in db', 16,1 );
+        RETURN;
+    END
+
+    if not EXISTS (select 1 from Branches where BranchId = @branchId)
+    BEGIN
+        RAISERROR('cant find branch id in db', 16,1 );
+        RETURN;
+    END
+    set @id = NEWID();
+    insert into Reservation (id, Note,DatedOn, CustomerId, BranchId, TotalPeople, [Status])
+    VALUES(@id, @note, @datedOn, @customerId, @branchId , @totalPeople, 0)
+
+END
+>>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 
 
