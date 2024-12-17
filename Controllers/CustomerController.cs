@@ -1,39 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
- 
-using sushi_server.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
+using Dapper;
+using sushi_server.Models;
+using sushi_server.Helper;
 
 namespace sushi_server.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
         private readonly SushiDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CustomerController(SushiDbContext context)
+        public CustomerController(SushiDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        // API lấy thông tin khách hàng theo customerId
-        [HttpGet("{customerId}")]
-        public async Task<IActionResult> GetCustomer(Guid customerId)
+            [HttpGet("all")]
+        public async Task<IActionResult> GetCustomersWithSingleActiveCard([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] string phoneNumber = null)
         {
-            // Tìm khách hàng trong cơ sở dữ liệu
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.CustomerId == customerId);
-
-            // Nếu không tìm thấy khách hàng
-            if (customer == null)
+           using (var connection = _context.Database.GetDbConnection())
             {
-                return NotFound($"Customer with ID {customerId} not found.");
-            }
+                await connection.OpenAsync();
+                var parameters = new DynamicParameters();
+                parameters.Add("@PageNumber", pageNumber);
+                parameters.Add("@PageSize", pageSize);
+                parameters.Add("@PhoneNumber", phoneNumber);
 
-            // Trả về thông tin khách hàng
-            return Ok(customer);
+                var customers = await connection.QueryAsync<CustomerWithCardDto>(
+                    "getCustomersWithSingleActiveCard", 
+                    parameters,
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                return Ok(new PagedResponse<List<CustomerWithCardDto>>(customers.ToList(), pageNumber, pageSize, "Retrieved data", null, true));
+            }
         }
+    }
+
+    public class CustomerWithCardDto
+    {
+        public Guid CustomerId { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string CitizenId { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string Email { get; set; }
+        public string Gender { get; set; }
+        public Guid CardId { get; set; }
+        public float AccumulatedPoints { get; set; }
+        public DateTime? AccumulatedDate { get; set; }
+        public bool Valid { get; set; }
+        public string RankName { get; set; }
     }
 }

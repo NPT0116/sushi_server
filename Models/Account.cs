@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -36,26 +35,5 @@ public partial class Account
 
     [ForeignKey("EmployeeId")]
     [InverseProperty("Accounts")]
-=======
-
-namespace sushi_server.Models;
-
-public partial class Account
-{
-    public Guid Id { get; set; }
-
-    public Guid? CustomerId { get; set; }
-
-    public Guid? EmployeeId { get; set; }
-
-    public string Username { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
-    public bool IsEmployee { get; set; }
-
-    public virtual Customer? Customer { get; set; }
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     public virtual Employee? Employee { get; set; }
 }

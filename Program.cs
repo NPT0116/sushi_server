@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,12 @@ builder.Services.AddDbContext<SushiDbContext>(options =>
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 // Add other services to the container
 builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64; // Increase the maximum depth if needed
+    });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>

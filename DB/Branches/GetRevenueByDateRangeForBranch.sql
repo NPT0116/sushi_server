@@ -62,7 +62,7 @@ select * from Branches
 DECLARE @StartTime DATETIME2 = SYSDATETIME();
 
 -- Thực thi truy vấn của bạn
-EXEC GetRevenueByDateRangeForBranch @BranchId = 'be17a130-0581-4315-bb2b-070f26292fbd', @StartDate = '2024-1-1', @EndDate = '2024-1-30';
+EXEC GetRevenueByDateRangeForBranch @BranchId = 'be17a130-0581-4315-bb2b-070f26292fbd', @StartDate = '2024-1-1', @EndDate = '2024-12-30';
 
 DECLARE @EndTime DATETIME2 = SYSDATETIME();
 
@@ -70,3 +70,4 @@ DECLARE @EndTime DATETIME2 = SYSDATETIME();
 SELECT DATEDIFF(MILLISECOND, @StartTime, @EndTime) AS ExecutionTimeMs;
 
 
+select * from Account

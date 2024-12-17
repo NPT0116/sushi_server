@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using sushi_server.Dto.Branch;
 using sushi_server.Dto.BranchDishes;
+using sushi_server.Dto.Customers;
 using sushi_server.Dto.Dish;
 using sushi_server.Dto.Section;
 using sushi_server.Dto.TableDetail;

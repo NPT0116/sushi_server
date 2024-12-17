@@ -37,11 +37,7 @@ namespace sushi_server.Helper
             }
 
             var token = authorizationHeaderValue.Substring("Bearer ".Length).Trim();
-<<<<<<< HEAD
             Console.WriteLine(token);
-=======
-
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
             if (string.IsNullOrEmpty(token))
             {
                 context.Result = new UnauthorizedResult();

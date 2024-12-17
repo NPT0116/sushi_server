@@ -36,26 +36,3 @@ END
 -- lấy về những reservation mà của cái chi nhánh đó trong ngày đó
 
 go
-
-
-
-GO
-CREATE NONCLUSTERED INDEX [IX_Orders_ReservationId]
-    ON [dbo].[Orders]([ReservationId] ASC)
-    INCLUDE (total)
-
-drop index IX_Orders_ReservationId on orders
-drop index IX_Reservation_DatedOn_BranchId on reservation
-DECLARE @StartTime DATETIME = GETDATE();
-
--- Thực thi truy vấn của bạn
-EXEC getDetailReservationCards @branchId = 'be17a130-0581-4315-bb2b-070f26292fbd', @dateOn = '2024-1-30'
-
-DECLARE @EndTime DATETIME = GETDATE();
-
--- Tính toán và hiển thị thời gian thực thi
-SELECT DATEDIFF(MILLISECOND, @StartTime, @EndTime) AS ExecutionTimeMs;
-
-EXEC getOrderDetailsByReservationId @reservationId = 'f9f51d72-39d5-4adb-8adc-04a9c74487a6';
-
-

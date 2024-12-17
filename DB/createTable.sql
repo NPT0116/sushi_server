@@ -177,6 +177,8 @@ CREATE TABLE [dbo].[Orders] (
 );
 
 
+
+
 GO
 
 CREATE TABLE [OrderDetail] (

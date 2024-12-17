@@ -71,20 +71,12 @@ BEGIN
     VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
 
     -- 6. Cập nhật điểm số cho thẻ khách hàng
-<<<<<<< HEAD
     IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId and Valid = 1)
-=======
-    IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     BEGIN
         -- Cập nhật thẻ khách hàng
         UPDATE Cards
         SET AccumulatedPoints = AccumulatedPoints + @bonusPoint
-<<<<<<< HEAD
         WHERE CustomerId = @CustomerId and Valid = 1;
-=======
-        WHERE CustomerId = @CustomerId;
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     END
 
     -- 7. Cập nhật trạng thái đơn hàng thành "Invoiced"
@@ -107,10 +99,10 @@ BEGIN
 END;
 
 
+select   * from Orders where ReservationId = 'db3d5d2a-2592-4ec2-9669-1a0b1a0c7626'
 
-
-EXEC CreateInvoiceAndUpdateCustomerCard @OrderId ='fc9e1562-2755-4e2e-8da1-128f148d15dd', @paymentMethod = 'Cash'
-
+EXEC CreateInvoiceAndUpdateCustomerCard @OrderId ='b5d0794c-80fd-479f-ba21-c154335dae4f', @paymentMethod = 'Cash'
+exec UpdatePaidInvoice @InvoiceId = '25ada479-f666-43ef-9769-fefdb0e8a990'
 select  count(*) from Orders  o   join Invoices i  on i.OrderId = o.Id join Reservation r on r.Id = o.ReservationId
 select count(*) from Invoices
 

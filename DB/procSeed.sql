@@ -213,7 +213,6 @@ create or alter PROCEDURE getallemployees
 AS
 BEGIN
     SET NOCOUNT ON;
-<<<<<<< HEAD
     Select e.Id, e.Name, e.Dob, e.Gender, e.Salary, b.BranchId as BranchId, b.Name as BranchName,  e.DepartmentId as DepartmentId, d.DepartmentName as DepartmentName
     from Employees e join Branches b on b.BranchId = e.BranchId join Departments d on d.DepartmentId = e.DepartmentId
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
@@ -223,17 +222,6 @@ BEGIN
     FETCH NEXT @PageSize ROWS ONLY;
 
     SELECT @TotalRecord = count(*) 
-=======
-    Select e.Id, e.Name, e.Dob, e.Gender, e.Salary
-    from Employees e 
-    where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
-    (@Name is NULL or e.Name LIKE @Name + '%' )
-    Order by Name
-    OFFSET (@PageNumber - 1) * @PageSize ROWS
-    FETCH NEXT @PageSize ROWS ONLY;
-
-    SELECT @TotalRecord = count(1) 
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
     from Employees e 
     where (@BranchId is Null OR @BranchId = e.BranchId ) and (@DepartmentId is null or @DepartmentId = e.DepartmentId) AND
     (@Name is NULL or e.Name LIKE @Name + '%' )
@@ -278,7 +266,6 @@ END;
 
 
 
-<<<<<<< HEAD
 GO
 CREATE OR ALTER PROCEDURE customerSubmitReservation
     @note NVARCHAR(50),
@@ -320,34 +307,6 @@ BEGIN
     VALUES (@id, @note, @convertedDatedOn, @customerId, @branchId, @totalPeople, 0);
 
 END;
-=======
-go
-create or alter PROCEDURE customerSubmitReservation
-@note NVARCHAR(50),
-@datedOn NVARCHAR(50),
-@customerId UNIQUEIDENTIFIER,
-@branchId UNIQUEIDENTIFIER,
-@totalPeople INT,
-@id UNIQUEIDENTIFIER OUT
-AS
-BEGIN
-    if not EXISTS (select 1 from Customers where CustomerId = @customerId)
-    BEGIN
-        RAISERROR('cant find customer id in db', 16,1 );
-        RETURN;
-    END
-
-    if not EXISTS (select 1 from Branches where BranchId = @branchId)
-    BEGIN
-        RAISERROR('cant find branch id in db', 16,1 );
-        RETURN;
-    END
-    set @id = NEWID();
-    insert into Reservation (id, Note,DatedOn, CustomerId, BranchId, TotalPeople, [Status])
-    VALUES(@id, @note, @datedOn, @customerId, @branchId , @totalPeople, 0)
-
-END
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
 
 
@@ -391,11 +350,8 @@ END
 
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 GO
 CREATE OR ALTER PROCEDURE getDetailReservationCards
 @branchId UNIQUEIDENTIFIER,
@@ -409,11 +365,7 @@ BEGIN
         r.BranchId AS BranchId,
         b.Name AS BranchName,
         r.[Status] AS Status,
-<<<<<<< HEAD
         r.DatedOn  AS DatedOn,  -- Ép kiểu DatedOn thành DATE
-=======
-        CAST(r.DatedOn AS DATE) AS DatedOn,  -- Ép kiểu DatedOn thành DATE
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
         td.TableNumber AS TableNumber,  -- TableNumber chỉ trả về khi có TableId
         r.TotalPeople AS TotalPeople,
         o.Total AS TotalPrice,
@@ -485,7 +437,6 @@ BEGIN
     JOIN Orders o ON o.Id = od.OrderId  
     JOIN Dishes d ON d.DishId = od.DishId
     WHERE o.ReservationId = @reservationId;
-<<<<<<< HEAD
 END
 
 
@@ -643,6 +594,74 @@ BEGIN
 END;
 
 
-=======
-END
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
+GO
+CREATE OR ALTER PROCEDURE createCardForCustomer
+    @CustomerId UNIQUEIDENTIFIER,
+    @EmployeeId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Check if the customer already has a card
+    IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId)
+    BEGIN
+        RAISERROR('Customer already has a card.', 16, 1);
+        RETURN;
+    END
+
+    -- Generate a new CardId
+    DECLARE @CardId UNIQUEIDENTIFIER = NEWID();
+
+    -- Insert the new card into the Cards table
+    INSERT INTO Cards (CardId, CustomerId, EmployeeId, RankingId, StartDate, AccumulatedPoints, Valid, AccumulatedDate)
+    VALUES (@CardId, @CustomerId, @EmployeeId, 1, GETDATE(), 0, 1, GETDATE());
+
+    -- Return the new CardId
+    SELECT @CardId AS CardId;
+END;
+GO
+USE sushiDB;
+GO
+
+USE sushiDB;
+GO
+
+USE sushiDB;
+GO
+
+CREATE OR ALTER PROCEDURE getCustomersWithSingleActiveCard
+    @PageNumber INT,
+    @PageSize INT,
+    @PhoneNumber NVARCHAR(20) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    WITH CustomerCTE AS (
+        SELECT 
+            c.CustomerId,
+            c.Name,
+            c.Phone,
+            c.CitizenId,
+            c.DateOfBirth,
+            c.Email,
+            c.Gender,
+            cd.CardId,
+            cd.AccumulatedPoints,
+            cd.AccumulatedDate,
+            cd.Valid,
+            r.Name AS RankName,
+            ROW_NUMBER() OVER (ORDER BY c.CustomerId) AS RowNum
+        FROM Customers c
+        JOIN Cards cd ON c.CustomerId = cd.CustomerId
+        JOIN Rankings r ON cd.RankingId = r.Id
+        WHERE cd.Valid = 1
+        AND (@PhoneNumber IS NULL OR c.Phone = @PhoneNumber)
+        GROUP BY c.CustomerId, c.Name, c.Phone, cd.CardId, cd.Valid, r.Name, c.CitizenId, c.Email, c.Gender, cd.CardId, cd.AccumulatedDate, cd.AccumulatedPoints, c.DateOfBirth
+        HAVING COUNT(cd.CardId) = 1
+    )
+    SELECT *
+    FROM CustomerCTE
+    WHERE RowNum BETWEEN (@PageNumber - 1) * @PageSize + 1 AND @PageNumber * @PageSize;
+END;
+GO
