@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
- 
+using sushi_server.Department;
 using sushi_server.Models;
 
 
@@ -29,7 +29,8 @@ namespace sushi_server.Controllers
             try
             {
                 var departments = await _context.Departments.ToListAsync();
-                return Ok(departments);
+                var departmentsDto = _mapper.Map<List<DepartmentDto>>(departments);
+                return Ok(departmentsDto);
             }
             catch (Exception ex)
             {

@@ -665,3 +665,137 @@ BEGIN
     WHERE RowNum BETWEEN (@PageNumber - 1) * @PageSize + 1 AND @PageNumber * @PageSize;
 END;
 GO
+
+
+
+-- PROCEDURE
+GO
+CREATE OR ALTER PROCEDURE PD_DISH_STATISTICS
+    @branchId UNIQUEIDENTIFIER,
+    @startDate DATE,
+    @endDate DATE,
+    @mode INT
+AS
+BEGIN
+    -- CHECKING
+    IF @endDate < @startDate
+    BEGIN
+        RAISERROR('ERROR: Start-Date must be greater than End-Date', 16, 1)
+        RETURN;
+    END
+    -- READ
+    -- RETURN TOP 5 BEST SALER
+    IF @mode = 1
+    BEGIN
+        SELECT TOP 5 D.DishName, COUNT(I.Id) AS TotalOrders
+        FROM Invoices I
+            JOIN Orders O ON O.Id = I.OrderId
+            JOIN OrderDetail OD ON OD.OrderId = O.Id
+            JOIN Dishes D ON D.DishId = OD.DishId
+        WHERE @startDate <= CONVERT(DATE, I.DatedOn) AND CONVERT(DATE, I.DatedOn) <= @endDate AND I.BranchId = @branchId
+        GROUP BY D.DishID, D.DishName
+        ORDER BY TotalOrders DESC
+    END
+    -- RETURN TOP 5 WORST SALER
+    IF @mode = 2
+    BEGIN
+        SELECT TOP 5 D.DishName, COUNT(I.Id) AS TotalOrders
+        FROM Invoices I
+            JOIN Orders O ON O.Id = I.OrderId
+            JOIN OrderDetail OD ON OD.OrderId = O.Id
+            JOIN Dishes D ON D.DishId = OD.DishId
+        WHERE @startDate <= CONVERT(DATE, I.DatedOn) AND CONVERT(DATE, I.DatedOn) <= @endDate AND I.BranchId = @branchId
+        GROUP BY D.DishID, D.DishName
+        ORDER BY TotalOrders ASC
+    END
+END
+
+GO
+CREATE OR ALTER PROCEDURE PD_CHANGE_EMPLOYEE_BRANCH
+    @employeeID UNIQUEIDENTIFIER,
+    @newBranchId UNIQUEIDENTIFIER,
+    @newStartDate Date
+AS
+BEGIN
+    -- A. CHECKING
+    -- CHECK IF EMPLOYEE ID EXIST
+    IF NOT EXISTS(
+        SELECT E.Id FROM Employees E
+        WHERE E.Id = @employeeID
+    )
+    BEGIN
+        RAISERROR('ERROR: EmployeeID is wrong or not exists', 16, 1);
+        RETURN;
+    END
+    -- CHECK IF EMPLOYEE ID STILL WORK OR NOT
+    IF EXISTS(
+        SELECT E.Id FROM Employees E
+        WHERE E.Id = @employeeID AND E.ResignedDate IS NOT NULL
+    )
+    BEGIN
+        RAISERROR('ERROR: Employee Resigned', 16, 1);
+        RETURN;
+    END
+    -- CHECK IF BRANCH ID EXIST
+    IF NOT EXISTS(
+        SELECT B.BranchId
+        FROM Branches B WHERE B.BranchId = @newBranchId
+    )
+    BEGIN
+        RAISERROR('ERROR: BranchID not found', 16 ,1);
+        RETURN;
+    END
+    -- CHECK IF NEW BRANCH IS OLD BRANCH OR NOT
+    DECLARE @oldBranchId UNIQUEIDENTIFIER
+    SELECT @oldBranchId = BranchId 
+    FROM Employees E
+    WHERE E.Id = @employeeID
+    IF @oldBranchId = @newBranchId
+    BEGIN   
+        RAISERROR('ERROR: New-BranchID is the same as Old-BranchID', 16, 1);
+        RETURN;
+    END
+    -- CHECK NEW-START-DATE MUST BE GREATER THAN OLD-START-DATE IN WORK HISTORY
+    DECLARE @oldStartDate DATE
+    SELECT TOP 1 @oldStartDate = WH.StartDate
+    FROM WorkHistory WH
+    WHERE WH.EmployeeId = @employeeID 
+    ORDER BY StartDate DESC
+
+    IF @oldStartDate > @newStartDate
+    BEGIN
+        RAISERROR('ERROR: New-Start-Date must be greater than old-Start-Date', 16, 1);
+        RETURN;
+    END
+    SELECT @oldStartDate -- DEBUG
+
+    -- B. UPDATING --
+    -- UPDATE BranchId in Employees
+    UPDATE Employees 
+    SET BranchId = @newBranchId
+    WHERE Id = @employeeID
+    -- UPDATE WORKHISTORY, SET RESIGNDATE OF CURRENT WORKING BRANCH TO NEW START DATE
+    UPDATE WorkHistory
+    SET ResignDate = @newStartDate
+    WHERE Id = (
+        SELECT TOP 1 Id
+        FROM WorkHistory
+        WHERE EmployeeId = @employeeID
+        ORDER BY StartDate DESC
+    )
+    -- INSERT INTO WORK HISTORY
+    DECLARE @Id UNIQUEIDENTIFIER
+    SET @Id = NEWID();
+
+    DECLARE @currentDepartmentID UNIQUEIDENTIFIER
+    SELECT @currentDepartmentID = DepartmentID
+    FROM Employees E WHERE E.Id = @employeeID
+    INSERT INTO WorkHistory (Id, EmployeeId, BranchId, StartDate, ResignDate, DepartmentID)
+    VALUES (@Id, @employeeID, @newBranchId, @newStartDate, NULL, @currentDepartmentID)
+
+    -- SUCCESSFULLY INSERT
+    PRINT 'Employee branch updated successfully !'
+END
+
+
+

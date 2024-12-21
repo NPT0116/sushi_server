@@ -37,3 +37,15 @@ BEGIN
     WHERE RowNum BETWEEN (@PageNumber - 1) * @PageSize + 1 AND @PageNumber * @PageSize;
 END;
 GO
+
+SET STATISTICS TIME ON;
+SET STATISTICS IO ON;
+
+exec getCustomersWithSingleActiveCard 1 , 10 ;
+
+
+ SET STATISTICS TIME OFF;
+SET STATISTICS IO OFF;
+
+
+

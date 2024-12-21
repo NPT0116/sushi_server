@@ -10,13 +10,20 @@ using sushi_server.Interfaces;
 using sushi_server.Mapper;
 using sushi_server.Models;
 using sushi_server.Services;
+using System.Runtime.InteropServices;
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
 
 // Determine if the environment is macOS or Windows
+string connectionString = RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+    ? builder.Configuration.GetConnectionString("MacConnection")  // Use MacConnection for macOS
+    : builder.Configuration.GetConnectionString("DefaultConnection");  // Use DefaultConnection for Windows
+
+// Register the DbContext with the appropriate connection string
 builder.Services.AddDbContext<SushiDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddControllersWithViews();
 
 
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
@@ -127,6 +134,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Apply the CORS policy
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<RequestTimingMiddleware>();
 
 app.MapControllers();
 
