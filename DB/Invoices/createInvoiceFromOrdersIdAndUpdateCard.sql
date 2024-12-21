@@ -98,14 +98,3 @@ BEGIN
     SELECT * FROM Invoices WHERE Id = @InvoiceId;
 END;
 
-
-select   * from Orders where ReservationId = 'db3d5d2a-2592-4ec2-9669-1a0b1a0c7626'
-
-EXEC CreateInvoiceAndUpdateCustomerCard @OrderId ='b5d0794c-80fd-479f-ba21-c154335dae4f', @paymentMethod = 'Cash'
-exec UpdatePaidInvoice @InvoiceId = '25ada479-f666-43ef-9769-fefdb0e8a990'
-select  count(*) from Orders  o   join Invoices i  on i.OrderId = o.Id join Reservation r on r.Id = o.ReservationId
-select count(*) from Invoices
-
--- Chuyển chuỗi '2024-30-10' thành kiểu DATETIME
-
-select top 1 * from Branches
