@@ -65,5 +65,57 @@ namespace sushi_server.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("TopDishes")]
+        public async Task<IActionResult> GetTopDishes([FromQuery] TopDishBodyRequestDto topDishBodyRequestDto)
+        {
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@BranchId", topDishBodyRequestDto.BranchId, DbType.Guid);
+                    parameters.Add("@StartDate", topDishBodyRequestDto.StartDate, DbType.Date);
+                    parameters.Add("@EndDate", topDishBodyRequestDto.EndDate, DbType.Date);
+                    parameters.Add("@mode", 1, DbType.Int16);
+                    var dishes = await connection.QueryAsync<TopDishDto>(
+                          "PD_DISH_STATISTICS",
+                            parameters,
+                          commandType: CommandType.StoredProcedure
+                      );
+                    return Ok(new Response<List<TopDishDto>>(dishes.ToList(), "Top Dishes"));
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+              [HttpGet("WorstDishes")]
+        public async Task<IActionResult> WorstDishes([FromQuery] TopDishBodyRequestDto topDishBodyRequestDto)
+        {
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@BranchId", topDishBodyRequestDto.BranchId, DbType.Guid);
+                    parameters.Add("@StartDate", topDishBodyRequestDto.StartDate, DbType.Date);
+                    parameters.Add("@EndDate", topDishBodyRequestDto.EndDate, DbType.Date);
+                    parameters.Add("@mode", 2, DbType.Int16);
+                    var dishes = await connection.QueryAsync<TopDishDto>(
+                          "PD_DISH_STATISTICS",
+                            parameters,
+                          commandType: CommandType.StoredProcedure
+                      );
+                    return Ok(new Response<List<TopDishDto>>(dishes.ToList(), "Top Dishes"));
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

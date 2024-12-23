@@ -2786,6 +2786,7 @@ GO
 
 
 
+
 -- Insert WorkHistory for each employee
 INSERT INTO WorkHistory (Id, EmployeeId, BranchId, StartDate, ResignDate, DepartmentId)
 SELECT 

@@ -65,4 +65,38 @@ public class EmployeeController : ControllerBase
         }
     }
 
+     [HttpPost("changeEmployeeBranch")]
+        public async Task<IActionResult> ChangeEmployeeBranch([FromQuery] Guid employeeID, [FromQuery] Guid newBranchId)
+        {
+            if (employeeID == Guid.Empty || newBranchId == Guid.Empty )
+            {
+                return BadRequest("EmployeeID, NewBranchId, and NewStartDate are required.");
+            }
+
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@employeeID", employeeID, DbType.Guid);
+                    parameters.Add("@newBranchId", newBranchId, DbType.Guid);
+
+                    await connection.ExecuteAsync(
+                        "PD_CHANGE_EMPLOYEE_BRANCH",
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    return Ok(new { Message = "Employee branch updated successfully!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 }

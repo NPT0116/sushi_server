@@ -53,9 +53,6 @@ public partial class SushiDbContext : DbContext
 
     public virtual DbSet<WorkHistory> WorkHistories { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=DefaultConnection");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AccessHistory>(entity =>

@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using sushi_server.Department;
 using sushi_server.Dto.Branch;
 using sushi_server.Dto.BranchDishes;
 using sushi_server.Dto.Customers;
@@ -22,6 +23,7 @@ public class MappingProfile : Profile
         CreateMap<Branch, BranchDetail>();
         CreateMap<BranchDish, BranchDishesDto>();
         CreateMap<TableDetail, TableDetailDto>();
+        CreateMap<Models.Department, DepartmentDto>();
 
     }
 }
