@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using sushi_server.Models;
 using sushi_server.Helper;
+using System.Data;
 
 namespace sushi_server.Controllers
 {
@@ -32,13 +33,18 @@ namespace sushi_server.Controllers
                 parameters.Add("@PageNumber", pageNumber);
                 parameters.Add("@PageSize", pageSize);
                 parameters.Add("@PhoneNumber", phoneNumber);
+                parameters.Add("@TotalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 var customers = await connection.QueryAsync<CustomerWithCardDto>(
                     "getCustomersWithSingleActiveCard", 
                     parameters,
                     commandType: System.Data.CommandType.StoredProcedure);
+                var totalRecords = parameters.Get<int>("@TotalRecord");
 
-                return Ok(new PagedResponse<List<CustomerWithCardDto>>(customers.ToList(), pageNumber, pageSize, "Retrieved data", null, true));
+                return Ok(new PagedResponse<List<CustomerWithCardDto>>(customers.ToList(), pageNumber, pageSize, "Retrieved data", null, true){
+                    TotalRecords = totalRecords
+
+                });
             }
         }
     }

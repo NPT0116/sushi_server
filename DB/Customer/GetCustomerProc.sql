@@ -4,10 +4,17 @@ GO
 CREATE OR ALTER PROCEDURE getCustomersWithSingleActiveCard
     @PageNumber INT,
     @PageSize INT,
-    @PhoneNumber NVARCHAR(20) = NULL
+    @PhoneNumber NVARCHAR(20) = NULL,
+    @TotalRecord INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
+
+    -- Calculate the total number of records
+    SELECT @TotalRecord = COUNT(*)
+    FROM Customers c
+    LEFT JOIN Cards cd ON c.CustomerId = cd.CustomerId
+    WHERE (@PhoneNumber IS NULL OR c.Phone LIKE @PhoneNumber + '%');
 
     WITH CustomerCTE AS (
         SELECT 
@@ -25,12 +32,10 @@ BEGIN
             r.Name AS RankName,
             ROW_NUMBER() OVER (ORDER BY c.CustomerId) AS RowNum
         FROM Customers c
-        JOIN Cards cd ON c.CustomerId = cd.CustomerId
-        JOIN Rankings r ON cd.RankingId = r.Id
-        WHERE cd.Valid = 1
-        AND (@PhoneNumber IS NULL OR c.Phone = @PhoneNumber)
+        LEFT JOIN Cards cd ON c.CustomerId = cd.CustomerId AND cd.Valid = 1
+        LEFT JOIN Rankings r ON cd.RankingId = r.Id
+        WHERE (@PhoneNumber IS NULL OR c.Phone LIKE @PhoneNumber + '%')
         GROUP BY c.CustomerId, c.Name, c.Phone, cd.CardId, cd.Valid, r.Name, c.CitizenId, c.Email, c.Gender, cd.CardId, cd.AccumulatedDate, cd.AccumulatedPoints, c.DateOfBirth
-        HAVING COUNT(cd.CardId) = 1
     )
     SELECT *
     FROM CustomerCTE
@@ -38,14 +43,14 @@ BEGIN
 END;
 GO
 
-SET STATISTICS TIME ON;
-SET STATISTICS IO ON;
-
-exec getCustomersWithSingleActiveCard 1 , 10 ;
-
-
- SET STATISTICS TIME OFF;
-SET STATISTICS IO OFF;
 
 
 
+DECLARE @out INT
+EXEC getCustomersWithSingleActiveCard 1, 10, @TotalRecord = @out out, @PhoneNumber = '0915361071';
+
+print @out
+
+
+
+select * from Account

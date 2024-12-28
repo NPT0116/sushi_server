@@ -28,7 +28,6 @@ END
 
 GO
 
-DECLARE @Output INT;
 
 EXEC getallemployees 
     @BranchId = NULL, 
@@ -40,3 +39,21 @@ EXEC getallemployees
 
 -- Display the output value
 PRINT(@Output)
+
+DBCC FREEPROCCACHE;
+
+DECLARE @StartTime DATETIME2 = SYSDATETIME();
+DECLARE @Output INT;
+
+-- Thực thi truy vấn của bạn
+EXEC getallemployees 
+    @BranchId = NULL, 
+    @DepartmentId = NULL, 
+    @Name = '', 
+    @PageNumber = 1, 
+    @PageSize = 10, 
+    @TotalRecord = @Output OUTPUT;
+DECLARE @EndTime DATETIME2 = SYSDATETIME();
+
+-- Tính toán và hiển thị thời gian thực thi
+SELECT DATEDIFF(MILLISECOND, @StartTime, @EndTime) AS ExecutionTimeMs;
