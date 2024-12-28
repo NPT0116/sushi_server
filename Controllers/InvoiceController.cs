@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using sushi_server.Models;
- 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
 using sushi_server.Helper;
 using Dto.Invoice;
+using sushi_server.Dto.OrderDetail;
 
 namespace sushi_server.Controllers;
 
@@ -20,26 +20,6 @@ public class InvoiceController : ControllerBase
     {
         _context = context;
     }
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> getInvoice(string id) {
-    //     Invoice newInvoice = await _context.Invoices
-    //             .Include(i => i.Order)
-    //             .ThenInclude(o => o.OrderDetails)
-    //             .ThenInclude(od => od.Dish)
-    //             .FirstOrDefaultAsync(i => i.Id == Guid.Parse(id));
-    //     if (newInvoice == null) {
-    //         return NotFound();
-    //     }
-    //     return Ok(newInvoice.toInvoiceResponseDTO());
-    // }
-    // [HttpPatch("{id}/paid")]
-    // public async Task<IActionResult> setPaid(string id) {
-    //     Invoice invoice = await _context.Invoices.FindAsync(Guid.Parse(id));
-    //     invoice.Paid = true;
-    //     _context.SaveChanges();
-    //     return Ok();
-    // }
-
 
     [HttpPost("createInvoice")]
     public async Task<IActionResult> CreateInvoice([FromQuery] Guid orderId, [FromQuery] string paymentMethod)
@@ -124,8 +104,109 @@ public class InvoiceController : ControllerBase
     }
 
     [HttpGet("query")]
-        public async Task<IActionResult> QueryInvoices(Guid? branchId, DateTime startDate, DateTime endDate, string? phone)
+    public async Task<IActionResult> QueryInvoices(Guid? branchId, DateTime startDate, DateTime endDate, string? phone)
+    {
+        try
         {
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@BranchId", branchId, DbType.Guid);
+                parameters.Add("@StartDate", startDate, DbType.DateTime);
+                parameters.Add("@EndDate", endDate, DbType.DateTime);
+                parameters.Add("@Phone", phone, DbType.String);
+
+                var invoices = await connection.QueryAsync<InvoiceResponseDTO>(
+                    "QueryInvoicesByBranchAndDateWithPartition2", // Stored procedure name
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return Ok(new Response<IEnumerable<InvoiceResponseDTO>>(invoices, "Invoices retrieved successfully."));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("latestInvoicesByCustomer")]
+    public async Task<IActionResult> GetLatestInvoicesByCustomer([FromQuery] Guid customerId)
+    {
+        if (customerId == Guid.Empty)
+        {
+            return BadRequest("CustomerId is required.");
+        }
+
+        try
+        {
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@CustomerId", customerId, DbType.Guid);
+
+                var invoices = await connection.QueryAsync<Invoice>(
+                    "GetLatestInvoicesByCustomer", // Stored procedure name
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return Ok(new Response<IEnumerable<Invoice>>(invoices, "Latest invoices retrieved successfully."));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("latestInvoicesByOrder")]
+    public async Task<IActionResult> GetLatestInvoicesByOrder([FromQuery] Guid orderId)
+    {
+        if (orderId == Guid.Empty)
+        {
+            return BadRequest("OrderId is required.");
+        }
+
+        try
+        {
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@OrderId", orderId, DbType.Guid);
+
+                var invoices = await connection.QueryAsync<Invoice>(
+                    "GetLatestInvoicesByOrder", // Stored procedure name
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return Ok(new Response<IEnumerable<Invoice>>(invoices, "Latest invoices retrieved successfully."));
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+      [HttpGet("{invoiceId}/dishes")]
+        public async Task<IActionResult> GetDishesFromInvoiceId(Guid invoiceId)
+        {
+            if (invoiceId == Guid.Empty)
+            {
+                return BadRequest("InvoiceId is required.");
+            }
+
             try
             {
                 using (var connection = _context.Database.GetDbConnection())
@@ -133,18 +214,15 @@ public class InvoiceController : ControllerBase
                     await connection.OpenAsync();
 
                     var parameters = new DynamicParameters();
-                    parameters.Add("@BranchId", branchId, DbType.Guid);
-                    parameters.Add("@StartDate", startDate, DbType.DateTime);
-                    parameters.Add("@EndDate", endDate, DbType.DateTime);
-                    parameters.Add("@Phone", phone, DbType.String);
+                    parameters.Add("@InvoiceId", invoiceId, DbType.Guid);
 
-                    var invoices = await connection.QueryAsync<InvoiceResponseDTO>(
-                        "QueryInvoicesByBranchAndDateWithPartition2", // Stored procedure name
+                    var dishes = await connection.QueryAsync<OrderDetailDishDto>(
+                        "getDishesFromInvoiceId", // Stored procedure name
                         parameters,
                         commandType: CommandType.StoredProcedure
                     );
 
-                    return Ok(new Response<IEnumerable<InvoiceResponseDTO>>(invoices, "Invoices retrieved successfully."));
+                    return Ok(new Response<IEnumerable<OrderDetailDishDto>>(dishes, "Dishes retrieved successfully."));
                 }
             }
             catch (Exception ex)

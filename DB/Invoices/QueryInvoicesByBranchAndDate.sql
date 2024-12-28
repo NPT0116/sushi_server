@@ -236,6 +236,11 @@ BEGIN
     AND (i.DatedOn BETWEEN @StartDate AND @EndDate)
 END
 
+
+
+INSERT INTO Invoices_Partition_2
+SELECT * FROM Invoices
+
 SET STATISTICS TIME ON;
 SET STATISTICS IO ON;
 DECLARE @StartTime DATETIME, @EndTime DATETIME;
@@ -247,3 +252,5 @@ SET @EndTime = SYSDATETIME();
 SELECT DATEDIFF(MILLISECOND, @StartTime, @EndTime) AS [Execution Time for Invoices];
 SET STATISTICS TIME OFF;
 SET STATISTICS IO OFF;
+
+select * from Account

@@ -14,8 +14,8 @@ BEGIN
 
     -- Khai báo biến
     DECLARE @CustomerId UNIQUEIDENTIFIER;
-    DECLARE @Total DECIMAL(18, 2);
-    DECLARE @AfterDiscount DECIMAL(18, 2);
+    DECLARE @Total BIGINT;
+    DECLARE @AfterDiscount BIGINT;
     DECLARE @InvoiceId UNIQUEIDENTIFIER;
     DECLARE @bonusPoint INT;
     DECLARE @Discount INT;
@@ -63,14 +63,6 @@ BEGIN
 
     -- 4. Tính điểm thưởng
     SET @bonusPoint = FLOOR(@AfterDiscount / 100000);  -- Quy đổi 100.000 VND = 1 điểm
-
-    -- 5. Tạo hóa đơn mới trong bảng Invoices
-    SET @InvoiceId = NEWID();  -- Tạo InvoiceId mới
-
-    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint, BranchId)
-    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
-
-    -- 6. Cập nhật điểm số cho thẻ khách hàng
     IF EXISTS (SELECT 1 FROM Cards WHERE CustomerId = @CustomerId and Valid = 1)
     BEGIN
         -- Cập nhật thẻ khách hàng
@@ -78,6 +70,18 @@ BEGIN
         SET AccumulatedPoints = AccumulatedPoints + @bonusPoint
         WHERE CustomerId = @CustomerId and Valid = 1;
     END
+    ELSE
+    BEGIN
+    SET @bonusPoint = 0
+    END
+    -- 5. Tạo hóa đơn mới trong bảng Invoices
+    SET @InvoiceId = NEWID();  -- Tạo InvoiceId mới
+
+    INSERT INTO Invoices (Id, OrderId, DatedOn, Total, PaymentMethod, Paid, AfterDiscount, BonusPoint, BranchId)
+    VALUES (@InvoiceId, @OrderId, @ReservationDate, @Total, @paymentMethod, 0, @AfterDiscount, @bonusPoint, @BranchId);  -- Sử dụng @ReservationDate thay vì GETDATE()
+
+    -- 6. Cập nhật điểm số cho thẻ khách hàng
+
 
     -- 7. Cập nhật trạng thái đơn hàng thành "Invoiced"
     UPDATE Orders
@@ -97,4 +101,5 @@ BEGIN
     -- 10. Trả về thông tin hóa đơn mới tạo
     SELECT * FROM Invoices WHERE Id = @InvoiceId;
 END;
+
 

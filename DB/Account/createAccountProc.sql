@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE createAccount
     @Gender INT,
     @CitizenId VARCHAR(15),
     @Phone VARCHAR(10),
-    @Email VARCHAR(20)
+    @Email VARCHAR(50)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -22,13 +22,8 @@ BEGIN
         VALUES (@customerId, @Name, @DateOfBirth, @Gender, @CitizenId, @Phone, @Email);
 
         -- Insert vào bảng Account
-<<<<<<< HEAD
         INSERT INTO Account (Id,CustomerId, Username, [Password], Role)
         VALUES (NEWID(),@customerId, @Email, @password, 'Customer');
-=======
-        INSERT INTO Account (Id,CustomerId, Username, [Password], IsEmployee)
-        VALUES (NEWID(),@customerId, @Email, @password, 0);
->>>>>>> 6391f7d9672413a1dd0fece5e89d71524114e14e
 
         -- Nếu không có lỗi, commit transaction
         COMMIT TRANSACTION;

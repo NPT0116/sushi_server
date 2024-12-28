@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 
 namespace sushi_server.Models;
@@ -17,7 +18,7 @@ public partial class Invoice
 
     public string PaymentMethod { get; set; } = null!;
 
-    public int AfterDiscount { get; set; }
+    public long AfterDiscount { get; set; }
 
     public int BonusPoint { get; set; }
 
