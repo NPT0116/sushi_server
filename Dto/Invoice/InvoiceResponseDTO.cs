@@ -13,4 +13,6 @@ public class InvoiceResponseDTO
     public required string Paid { get; set; }
     public DateTime DatedOn { get; set; }
     public OrderResponseDTO Order { get; set; }
+    public string? Name { get; set; }
+    public string? Phone { get; set; }
 }

@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using System.Data;
 using sushi_server.Helper;
+using Dto.Invoice;
 
 namespace sushi_server.Controllers;
 
@@ -121,4 +122,35 @@ public class InvoiceController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
+
+    [HttpGet("query")]
+        public async Task<IActionResult> QueryInvoices(Guid? branchId, DateTime startDate, DateTime endDate, string? phone)
+        {
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@BranchId", branchId, DbType.Guid);
+                    parameters.Add("@StartDate", startDate, DbType.DateTime);
+                    parameters.Add("@EndDate", endDate, DbType.DateTime);
+                    parameters.Add("@Phone", phone, DbType.String);
+
+                    var invoices = await connection.QueryAsync<InvoiceResponseDTO>(
+                        "QueryInvoicesByBranchAndDateWithPartition2", // Stored procedure name
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    return Ok(new Response<IEnumerable<InvoiceResponseDTO>>(invoices, "Invoices retrieved successfully."));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
 }
