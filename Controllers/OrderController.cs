@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using sushi_server.Dto.Order;
 using sushi_server.Models;
 using sushi_server.Models.Enum;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers
 {

@@ -7,6 +7,8 @@ using System.Data;
 using sushi_server.Helper;
 using Dto.Invoice;
 using sushi_server.Dto.OrderDetail;
+using sushi_server.Dto.Invoice;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers;
 
@@ -151,13 +153,13 @@ public class InvoiceController : ControllerBase
                 var parameters = new DynamicParameters();
                 parameters.Add("@CustomerId", customerId, DbType.Guid);
 
-                var invoices = await connection.QueryAsync<Invoice>(
+                var invoices = await connection.QueryAsync<InvoicesDto>(
                     "GetLatestInvoicesByCustomer", // Stored procedure name
                     parameters,
                     commandType: CommandType.StoredProcedure
                 );
 
-                return Ok(new Response<IEnumerable<Invoice>>(invoices, "Latest invoices retrieved successfully."));
+                return Ok(new Response<IEnumerable<InvoicesDto>>(invoices, "Latest invoices retrieved successfully."));
             }
         }
         catch (Exception ex)

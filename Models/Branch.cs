@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace sushi_server.Models;
 
 public partial class Branch
 {
-    [Key]
     public Guid BranchId { get; set; }
 
     public Guid? ManagerId { get; set; }
 
-    [StringLength(100)]
     public string Name { get; set; } = null!;
 
-    [StringLength(200)]
     public string Address { get; set; } = null!;
 
     public string Phone { get; set; } = null!;
@@ -33,25 +27,19 @@ public partial class Branch
 
     public int TotalTable { get; set; }
 
-    [InverseProperty("Branch")]
     public virtual ICollection<BranchDish> BranchDishes { get; set; } = new List<BranchDish>();
 
-    [InverseProperty("Branch")]
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    [InverseProperty("Branch")]
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
-    [ForeignKey("ManagerId")]
-    [InverseProperty("Branches")]
+    public virtual ICollection<Invoices_Partition_2> Invoices_Partition_2s { get; set; } = new List<Invoices_Partition_2>();
+
     public virtual Employee? Manager { get; set; }
 
-    [InverseProperty("Branch")]
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
-    [InverseProperty("Branch")]
     public virtual ICollection<TableDetail> TableDetails { get; set; } = new List<TableDetail>();
 
-    [InverseProperty("Branch")]
     public virtual ICollection<WorkHistory> WorkHistories { get; set; } = new List<WorkHistory>();
 }

@@ -5,6 +5,7 @@ using sushi_server.Dto.Survey;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers
 {

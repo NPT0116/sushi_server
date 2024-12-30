@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace sushi_server.Models;
 
-[Table("employeesName")]
-public partial class EmployeesName
+public partial class employeesName
 {
-    [Key]
-    [Column("id")]
-    public Guid Id { get; set; }
+    public Guid id { get; set; }
 
-    [Column("name")]
-    [StringLength(50)]
-    public string? Name { get; set; }
+    public string? name { get; set; }
 }

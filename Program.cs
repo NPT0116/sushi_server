@@ -11,6 +11,7 @@ using sushi_server.Mapper;
 using sushi_server.Models;
 using sushi_server.Services;
 using System.Runtime.InteropServices;
+using sushi_server.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 

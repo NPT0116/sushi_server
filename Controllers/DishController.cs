@@ -9,6 +9,7 @@ using sushi_server.Helper;
 using sushi_server.Models;
 using sushi_server.Filters;
 using System.Data;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers
 {

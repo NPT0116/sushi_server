@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using sushi_server.Dto.TableDetail;
 using sushi_server.Helper;
 using sushi_server.Models;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers
 {

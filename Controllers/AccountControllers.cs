@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Dapper;
 using System.Data;
 using System.Security.Claims;
+using sushi_server.Data;
 
 namespace sushi_server.Controllers
 {

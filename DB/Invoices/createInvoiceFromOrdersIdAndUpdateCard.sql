@@ -99,7 +99,19 @@ BEGIN
     WHERE TableId = @TableId;
 
     -- 10. Trả về thông tin hóa đơn mới tạo
-    SELECT * FROM Invoices WHERE Id = @InvoiceId;
+    SELECT 
+        CAST(Id AS UNIQUEIDENTIFIER) AS Id,
+        CAST(OrderId AS UNIQUEIDENTIFIER) AS OrderId,
+        CAST(DatedOn AS DATETIME2) AS DatedOn,
+        CAST(Total AS BIGINT) AS Total,
+        CAST(PaymentMethod AS NVARCHAR(MAX)) AS PaymentMethod,
+        CAST(Paid AS BIT) AS Paid,
+        CAST(AfterDiscount AS BIGINT) AS AfterDiscount,
+        CAST(BonusPoint AS INT) AS BonusPoint,
+        CAST(BranchId AS UNIQUEIDENTIFIER) AS BranchId
+    FROM Invoices 
+    WHERE Id = @InvoiceId;
+    
 END;
 
 

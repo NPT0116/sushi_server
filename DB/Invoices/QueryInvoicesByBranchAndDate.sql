@@ -227,17 +227,17 @@ CREATE OR ALTER PROCEDURE QueryInvoicesByBranchAndDateWithPartition2
 AS
 BEGIN
     SELECT i.Id, i.Total, i.PaymentMethod, i.AfterDiscount, i.BonusPoint, i.Paid, i.DatedOn, c.Name, c.Phone
-    FROM Invoices_Partition_2 i
+    FROM Invoices i
 	join Orders o on o.Id = i.OrderId
 	join Reservation r on r.Id = o.ReservationId
     join Customers c on c.CustomerId = r.CustomerId
     WHERE (@BranchId IS NULL OR i.BranchId = @BranchId)
     AND (@Phone is NULL OR @Phone = c.Phone)
-    AND (i.DatedOn BETWEEN @StartDate AND @EndDate)
+    and i.DatedOn >= @StartDate and i.DatedOn <  DATEADD(DAY, 1, @endDate);
 END
 
 
-
+EXEC QueryInvoicesByBranchAndDateWithPartition2 'f920a9d0-4d96-4788-b74c-3a8c9b4c2ea1', '2024-12-21', '2024-12-28', '0915361077'
 INSERT INTO Invoices_Partition_2
 SELECT * FROM Invoices
 
