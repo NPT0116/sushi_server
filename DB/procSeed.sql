@@ -100,14 +100,14 @@ BEGIN
 
     -- 10. Trả về thông tin hóa đơn mới tạo
     SELECT 
-        CAST(Id AS UNIQUEIDENTIFIER) AS Id,
-        CAST(OrderId AS UNIQUEIDENTIFIER) AS OrderId,
-        CAST(DatedOn AS DATETIME2) AS DatedOn,
         CAST(Total AS BIGINT) AS Total,
         CAST(PaymentMethod AS NVARCHAR(MAX)) AS PaymentMethod,
-        CAST(Paid AS BIT) AS Paid,
+        CAST(Id AS UNIQUEIDENTIFIER) AS Id,
         CAST(AfterDiscount AS BIGINT) AS AfterDiscount,
         CAST(BonusPoint AS INT) AS BonusPoint,
+        CAST(Paid AS BIT) AS Paid,
+        CAST(DatedOn AS DATETIME2) AS DatedOn,
+        CAST(OrderId AS UNIQUEIDENTIFIER) AS OrderId,
         CAST(BranchId AS UNIQUEIDENTIFIER) AS BranchId
     FROM Invoices 
     WHERE Id = @InvoiceId;
@@ -141,7 +141,6 @@ BEGIN
             r.BranchId;
 
 END;
-
 
 
 
@@ -811,3 +810,14 @@ BEGIN
     PRINT 'Employee branch updated successfully !'
 END
 GO
+
+
+
+
+
+exec CreateInvoiceAndUpdateCustomerCard @
+
+
+select top 1 * from Orders where Id = '1f8b0076-156e-4a7c-a0ad-35e1a2aed525'
+
+select * from Invoices where id = '95dded23-1dec-4d2a-9286-db504fe4b67e'

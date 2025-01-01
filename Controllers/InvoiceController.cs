@@ -24,46 +24,40 @@ public class InvoiceController : ControllerBase
     }
 
     [HttpPost("createInvoice")]
-    public async Task<IActionResult> CreateInvoice([FromQuery] Guid orderId, [FromQuery] string paymentMethod)
-    {
-        if (orderId == Guid.Empty || string.IsNullOrEmpty(paymentMethod))
+     public async Task<IActionResult> CreateInvoice([FromQuery] Guid orderId, [FromQuery] string paymentMethod)
         {
-            return BadRequest("OrderId and PaymentMethod are required.");
-        }
-
-        try
-        {
-            using (var connection = _context.Database.GetDbConnection())
+            if (orderId == Guid.Empty || string.IsNullOrEmpty(paymentMethod))
             {
-                await connection.OpenAsync();
+                return BadRequest("OrderId and PaymentMethod are required.");
+            }
 
-                var parameters = new DynamicParameters();
-                parameters.Add("@OrderId", orderId, DbType.Guid);
-                parameters.Add("@paymentMethod", paymentMethod, DbType.String);
+            try
+            {
+                var orderIdParam = new SqlParameter("@OrderId", orderId);
+                var paymentMethodParam = new SqlParameter("@paymentMethod", paymentMethod);
 
-                // Gọi stored procedure để tạo hóa đơn và cập nhật thẻ khách hàng
-                var invoice = await connection.QueryFirstOrDefaultAsync<Invoice>(
-                    "CreateInvoiceAndUpdateCustomerCard", // Tên stored procedure
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
+                // Execute the stored procedure
+                await _context.Database.ExecuteSqlRawAsync("EXEC CreateInvoiceAndUpdateCustomerCard @OrderId, @paymentMethod", orderIdParam, paymentMethodParam);
 
-                // Nếu không có kết quả thì có lỗi xảy ra
+                // Retrieve the created invoice
+                var invoice = await _context.Invoices
+                    .FromSqlRaw("SELECT * FROM Invoices WHERE OrderId = @OrderId", orderIdParam)
+                      .FirstOrDefaultAsync();
+
+
                 if (invoice == null)
                 {
                     return StatusCode(500, "Error occurred while creating the invoice.");
                 }
 
-                // Trả về thông tin hóa đơn mới tạo
                 return Ok(new Response<Invoice>(invoice, "Invoice created successfully."));
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            return StatusCode(500, "Internal server error");
-        }
-    }
 
     [HttpPatch("updatePaidInvoice/{invoiceId}")]
     public async Task<IActionResult> UpdatePaidInvoice(Guid invoiceId)

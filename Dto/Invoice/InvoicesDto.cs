@@ -7,12 +7,12 @@ namespace sushi_server.Dto.Invoice
 {
     public class InvoicesDto
     {
-    public Guid Id { get; set; }
 
-    public long? Total { get; set; }
 
     public string PaymentMethod { get; set; } = null!;
+    public long? Total { get; set; }
 
+    public Guid Id { get; set; }
     public long? AfterDiscount { get; set; }
 
     public int BonusPoint { get; set; }
